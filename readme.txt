@@ -23,7 +23,7 @@ This plugin is very light and includes scripts and CSS only if and when required
 
 The dashboard widget is very easy to set up: you simply add as many plugins as you want in the admin page and they become visible in your dashboard. Fields are added on-the-fly and are sortable via drag-and-drop.
 
-[CHECK OUT THE DEMO](http://b-website.com/SOON... "Try It!")
+[CHECK OUT THE DEMO](http://b-website.com/wp-plugin-info-card-for-wordpress "Try It!")
 
 Please ask for help or report bugs if anything goes wrong. It is the best way to make the community benefit !
 
