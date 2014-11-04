@@ -3,9 +3,9 @@
  * Plugin Name: WP Plugin Info Card by b*web
  * Plugin URI: http://b-website.com/
  * Description: WP Plugin Info Card allow you to display plugins identity cards in a beautiful box with a smooth 3D rotation effect. It uses Wordpress.org Plugin API.
- * Author: Brice CAPOBIANCO - b*web
+ * Author: Brice CAPOBIANCO
  * Author URI: http://b-website.com/
- * Version: 1.0
+ * Version: 1.01
  * Text Domain: wppic-translate
  */
 
