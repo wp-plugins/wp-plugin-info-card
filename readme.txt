@@ -92,6 +92,7 @@ Yes, it is compatible with most recent browsers, except for Opera (but IE10+ wor
 = 1.01 =
 * Typo fix.
 * Add link to admin page
+* Update readme.txt
 
 = 1.0 =
 * First release.
