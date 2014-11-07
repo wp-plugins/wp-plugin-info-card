@@ -4,13 +4,13 @@
  ***************************************************************/
 	
 function wppic_admin_scripts() {
-    	wp_enqueue_script( 'wppic-admin-js', WPPIC_URL . 'js/wppic-admin-script.js', array( 'jquery' ),  NULL);
-    	wp_enqueue_script( 'wppic-js', WPPIC_URL . 'js/wppic-script.js', array( 'jquery' ),  NULL);
-    	wp_enqueue_script( 'jquery-ui-sortable', WPPIC_URL . '/wp-includes/js/jquery/ui/jquery.ui.sortable.min.js', array( 'jquery' ),  NULL);
+	wp_enqueue_script( 'wppic-admin-js', WPPIC_URL . 'js/wppic-admin-script.js', array( 'jquery' ),  NULL);
+	wp_enqueue_script( 'wppic-js', WPPIC_URL . 'js/wppic-script.js', array( 'jquery' ),  NULL);
+	wp_enqueue_script( 'jquery-ui-sortable', WPPIC_URL . '/wp-includes/js/jquery/ui/jquery.ui.sortable.min.js', array( 'jquery' ),  NULL);
 }
 function wppic_admin_css() {
-    	wp_enqueue_style( 'dashicons' );
-		wp_enqueue_style( 'wppic-admin-css', WPPIC_URL . 'css/wppic-admin-style.css', array(), NULL, NULL);
+	wp_enqueue_style( 'dashicons' );
+	wp_enqueue_style( 'wppic-admin-css', WPPIC_URL . 'css/wppic-admin-style.css', array(), NULL, NULL);
 }
 /***************************************************************
  * Create admin page menu
@@ -82,7 +82,7 @@ function wppic_settings_page() {
 				<div id="wppic-shortcode" class="postbox">
 					<h3 class="hndle"><span>' . __('How to use WP Plugin Info Card shortcodes?', 'wppic-translate') . '</span></h3>
 					<div class="inside">
-						' . wppic_shortcode_function( array ( "slug"=>"adblock-notify-by-bweb", "image"=>"", "logo"=>"svg", "banner"=>"png", "align"=>"right", "margin"=>"0 0 0 20px"  ) ) . '
+						' . wppic_shortcode_function( array ( "slug"=>"adblock-notify-by-bweb", "image"=>"", "logo"=>"svg", "banner"=>"png", "align"=>"right", "margin"=>"0 0 0 20px", "expiration"=>"10"  ) ) . '
 						
 						
 						<h3>' . __('How does it work?', 'wppic-translate') . '</h3>
@@ -171,11 +171,16 @@ function wppic_list_widget() {
 	$content = '';
 	$wppicSettings = get_option('wppic_settings');
 	$content .= '<td>';
-		$content .= '<input type="checkbox" id="wppic-widget" name="wppic_settings[widget]"  value="1" ' . checked( 1, $wppicSettings['widget'], false ) . '/>';
+		$content .= '<input type="checkbox" id="wppic-widget" name="wppic_settings[widget]"  value="1" ';
+		if( !empty($wppicSettings) ) { 
+			$content .= checked( 1, $wppicSettings['widget'], false );
+		};
+		$content .= '/>';
 		$content .= '<label for="wppic-widget">' . __('Help: Don\'t forget to open the dashboard option panel (top right) to insert it on your dashboard.', 'wppic-translate') . '</label>';
 	$content .= '</td>';
 	echo $content;
 }
+
 
 /***************************************************************
  * Dashoboard widget plugin list
@@ -205,13 +210,14 @@ function wppic_validate($input) {
 	if(!empty($input['list'])){
 		foreach($input['list'] as $key=>$item){
 			if(!preg_match('/^[a-z][-a-z0-9]*$/', $item)) {
-				
-				add_settings_error(
-					'wppic-admin-notice',
-					'',
-					'<i>"' . $item . '"</i> ' . __('is not a valid plugin name format. This key has been deleted.', 'wppic-translate'),
-					'error'
-				);
+				if(!empty ($item)){
+					add_settings_error(
+						'wppic-admin-notice',
+						'',
+						'<i>"' . $item . '"</i> ' . __('is not a valid plugin name format. This key has been deleted.', 'wppic-translate'),
+						'error'
+					);
+				}
 				unset($input['list'][$key]);
 			}
 		}

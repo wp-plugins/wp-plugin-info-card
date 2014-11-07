@@ -3,9 +3,13 @@
  * Dashoboard widget plugin list
  ***************************************************************/
 if (!function_exists('WP_Plugin_API_Parser')) {
-	function WP_Plugin_API_Parser($pluginName){
+	function WP_Plugin_API_Parser($pluginName, $expiration=10){
 		$wppic_plugin_data = get_transient( 'wppic_'.preg_replace('/\-/', '_', $pluginName) );
-
+		
+		//check if expiration is numeric, only digit char
+		if(empty($expiration) || !ctype_digit($expiration))
+			$expiration = 10;
+			
 		if ( false === $wppic_plugin_data) {
 
 			$args = (object) array( 'slug' => $pluginName );
@@ -29,7 +33,7 @@ if (!function_exists('WP_Plugin_API_Parser')) {
 			);
 			
 			//Transient duration 5min
-			set_transient( 'wppic_'.preg_replace('/\-/', '_', $pluginName ), $wppic_plugin_data, 10*60);
+			set_transient( 'wppic_'.preg_replace('/\-/', '_', $pluginName ), $wppic_plugin_data, $expiration*60);
 		}
 		
 		return $wppic_plugin_data;

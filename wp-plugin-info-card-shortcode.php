@@ -2,18 +2,21 @@
 /***************************************************************
  * Enqueue custom CSS
  ***************************************************************/
-if (!function_exists('wppic_enqueue_custom_style')) {
-	function wppic_enqueue_custom_style() {
-		global $post;
-		if(function_exists('has_shortcode')) {
-			if(isset($post->post_content) AND has_shortcode( $post->post_content, 'wp-pic')) { 
-				wp_enqueue_style( 'wppic-css', plugins_url('css/wp-plugin-info-card.css', __FILE__ ), NULL, NULL);
-				wp_enqueue_script( 'wppic-js', WPPIC_URL . 'js/wppic-script.js', array( 'jquery' ),  NULL, true);
-			}
-		}
-	}
-	add_action( 'wp_enqueue_scripts', 'wppic_enqueue_custom_style');
+//Enqueue custom CSS
+function wppic_register_sripts() {
+	wp_register_style( 'wppic-style', plugins_url('css/wp-plugin-info-card.css', __FILE__ ), NULL, NULL);
+	wp_register_script( 'wppic-script', WPPIC_URL . 'js/wppic-script.js', array( 'jquery' ),  NULL, true);
 }
+function wppic_print_sripts() {
+	global $wppicSripts;
+	if ( ! $wppicSripts )
+		return;
+
+	wp_print_styles('wppic-style');
+	wp_print_scripts('wppic-script');
+}
+add_action('init', 'wppic_register_sripts');
+add_action('wp_footer', 'wppic_print_sripts');
 
 
 /***************************************************************
@@ -22,6 +25,9 @@ if (!function_exists('wppic_enqueue_custom_style')) {
 if (!function_exists('wppic_shortcode_function')) {
 	function wppic_shortcode_function( $atts, $content="" ) {
 		
+		global $wppicSripts;
+		$wppicSripts = true;
+				
 		//Retrieve & extract shorcode parameters
 		extract(shortcode_atts(array(  
 			"slug" => '',  			//plugin slug name
@@ -32,11 +38,12 @@ if (!function_exists('wppic_shortcode_function')) {
 			"containerid" => '',  	//custom Div ID (could be use for anchor)
 			"margin" => '',  		//custom container margin - eg: "15px 0"
 			"clear" => '',  		//clear float before or after the card: before|after
+			"expiration" => '',  	//transient duration in minutes - 0 for never expires
 			"custom" => '',  		//value to print : url|name|version|author|requires|rating|num_ratings|downloaded|last_updated|download_link
 		), $atts));
 		
 		$slug = trim($slug);
-		$wppic_plugin_data = wp_Plugin_API_Parser($slug);
+		$wppic_plugin_data = wp_Plugin_API_Parser($slug, $expiration);
 		
 		//Fix for requiered version with extra info : WP 3.9, BP 2.1+
 		if(is_numeric($wppic_plugin_data->requires)){
