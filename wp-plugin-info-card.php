@@ -2,10 +2,10 @@
 /**
  * Plugin Name: WP Plugin Info Card by b*web
  * Plugin URI: http://b-website.com/
- * Description: WP Plugin Info Card allow you to display plugins identity cards in a beautiful box with a smooth 3D rotation effect. It uses Wordpress.org Plugin API.
- * Author: Brice CAPOBIANCO - b*web
+ * Description: WP Plugin Info Card displays plugins identity cards in a beautiful box with a smooth rotation effect using WP Plugin API. Dashboard widget included.
+ * Author: Brice CAPOBIANCO
  * Author URI: http://b-website.com/
- * Version: 1.0
+ * Version: 1.1
  * Text Domain: wppic-translate
  */
 
@@ -61,7 +61,7 @@ require_once( WPPIC_PATH . 'wp-plugin-info-card-widget.php' );
  ***************************************************************/
 if (!function_exists('wppic_load_textdomain')) {
 	function wppic_load_textdomain() {
-		$path = dirname(plugin_basename( __FILE__ )) . '/languages/';
+		$path = dirname(plugin_basename( __FILE__ )) . '/langs/';
 		$loaded = load_plugin_textdomain( 'wppic-translate', false, $path);
 	}
 	add_action('init', 'wppic_load_textdomain');
@@ -93,7 +93,7 @@ add_action('admin_head', 'wppic_add_favicon');
 
 
 /***************************************************************
- * Purge all plugin transients
+ * Purge all plugin transients function
  ***************************************************************/
 function wppic_delete_transients(){
 	global $wpdb;
@@ -110,15 +110,33 @@ function wppic_delete_transients(){
 
 
 /***************************************************************
+ * Cron to purge all plugin transients every day
+ * If user has installed the plugin before cron was added, he should 
+ * deactivate it then reactivate it.
+ ***************************************************************/
+function wppic_cron_activation() {
+	wp_schedule_event( current_time( 'timestamp' ), 'daily', 'wppic_daily_cron');
+}
+add_action('wppic_daily_cron', 'wppic_delete_transients');
+
+
+/***************************************************************
  * Remove Plugin settings from DB on uninstallation (= plugin deletion) 
  ***************************************************************/
-//Hooks for install
-if (function_exists('register_uninstall_hook')) {
-	register_uninstall_hook(__FILE__, 'wppic_uninstall');
-}
 function wppic_uninstall() {
-	//Pürge transients
+	//deactivate cron
+	wp_clear_scheduled_hook('wppic_daily_cron');
+	//Purge transients
 	wppic_delete_transients();
 	// Remove option from DB
 	delete_option( 'wppic_settings' );
+}
+
+
+//Hooks for install
+if (function_exists('register_uninstall_hook')) {
+	register_activation_hook(__FILE__, 'wppic_cron_activation');
+	
+	register_uninstall_hook(__FILE__, 'wppic_uninstall');
+	register_uninstall_hook(__FILE__, 'wppic_cron_deactivation');
 }

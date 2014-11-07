@@ -90,11 +90,12 @@ input.wppic-add {
 .wppic-button.wppic-pluginSupport:before {
     content: "\f223";
 }
+.wppic-button.wppic-pluginRate:before {
+    content: "\f155";
+}
 .wppic-button.wppic-pluginContact:before {
     content: "\f130";
 }
-
-
 #wppic-liste li.wppic-dd:before {
     cursor: move;
 	top: 0px;
@@ -103,12 +104,49 @@ input.wppic-add {
 	width: 24px;
     content: "\f156";
 }
-#wppic-liste li.wppic-dd:first-child:before {
-
-}
 #wppic-liste li.wppic-dd .wppic-remove-field:after {
 	left: auto;
 	width: 24px;
 	height: 24px;
     content: "\f335";
+}
+#dashboard-widgets #wppic-dashboard-widget.postbox .inside {
+	margin: 0;
+	padding: 0;
+}
+#wppic-dashboard-widget div.wp-pic-loading {
+	background-position: center center;
+	background-size: 16px 16px;
+	background-repeat:no-repeat;
+	min-height: 30px;
+	width: 100%;
+}
+
+#wppic-dashboard-widget div.wp-pic-item,
+#wppic-dashboard-widget p.wp-pic-widget-empty {
+	margin: -1px 0 0;
+	padding: 11px;
+	border-top: 1px solid #eee;
+}
+#wppic-dashboard-widget .wp-pic-widget-name {
+	display: block;
+}
+#wppic-dashboard-widget .wp-pic-widget-rating,
+#wppic-dashboard-widget .wp-pic-widget-downloaded,
+#wppic-dashboard-widget .wp-pic-widget-updated,
+#wppic-dashboard-widget .wp-pic-widget-empty {
+	display: inline-block;
+	padding-right: 15px;
+	color: #777;
+	font-weight: bold;
+}
+#wppic-dashboard-widget .wp-pic-widget-rating span,
+#wppic-dashboard-widget .wp-pic-widget-downloaded span,
+#wppic-dashboard-widget .wp-pic-widget-updated{
+	font-weight: normal;
+}
+#wppic-dashboard-widget .wp-pic-widget-updated,
+#wppic-dashboard-widget .wp-pic-widget-empty {
+	margin: 0;
+	font-style: italic;
 }
