@@ -3,6 +3,8 @@
  * Author: Brice CAPOBIANCO - b*web
  */
 jQuery(document).ready(function($) {
+
+	//Creat fields on the fly and reorder via drag & drop
 	var wrapper         = $("#wppic-liste"); 		//Fields wrapper
 	var add_button      = $(".wppic-add-fields"); 	//Add button ID
 	var add_input     	= $(".wppic-add"); 			//Fields list
@@ -32,19 +34,16 @@ jQuery(document).ready(function($) {
         return $();
     };
 	wrapper.liveDraggable()
+	
+	//Widget ajax load
+	if ($('#wppic-dashboard-widget').length > 0){
+		var data = {
+			'action': 'wppic_ajax_widget',
+			'wppic-list': $('.wp-pic-list .wp-pic-loading').data('list')
+		};
+		$.post(ajaxurl, data, function(response) {
+			$('.wp-pic-list').html(response);
+		});
+	}
 				
 });
-
-	
-	/*wrapper.sortable({
-		handle: fields, 
-		opacity: 0.8,
-		update: function() {
-			$(fields, wrapper).each(function(index, elem) {
-				 var $listItem = $(elem),
-					 newIndex = $listItem.index();
-
-				 // Persist the new indices.
-			});
-		}
-	});*/
