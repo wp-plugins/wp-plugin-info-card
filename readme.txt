@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: API, plugin, card, blog, developper, design, dashboard, shortcode
 Requires at least: 3.7
 Tested up to: 4.0
-Stable tag: 1.1
+Stable tag: 1.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -47,7 +47,7 @@ The dashboard widget is very easy to set up: you simply add as many plugins as y
 * **custom:** value to output : url, name, version, author, requires, rating, num_ratings, downloaded, last_updated, download_link (default: empty)
  
 
-Caches (transients) are purged everyday (since 1.1) thanks to a cron job to help you keeping your DB clean. If you set the parameter **expiration** to 0 (no expire), the corresponding cache will actually be removed in the next 24 hours.
+Caches (transients) are purged everyday (since 1.5) thanks to a cron job to help you keeping your DB clean. If you set the parameter **expiration** to 0 (no expire), the corresponding cache will actually be removed in the next 24 hours.
 
 
 = Basic example =
@@ -99,7 +99,7 @@ Yes, it is compatible with most recent browsers, except for Opera (but IE10+ wor
 
 == Changelog ==
 
-= 1.1 =
+= 1.5 =
 * Shortcode can now be displayed everywhere in the page (content/widget) because JS & CSS are loaded via a global var.
 * Ajaxify dashboard widget.
 * Fix bug on saving empty plugin list with deactivated dashboard widget
@@ -130,8 +130,8 @@ Yes, it is compatible with most recent browsers, except for Opera (but IE10+ wor
 
 == Upgrade Notice ==
 
-= 1.1 =
-* If you have installed the plugin before version 1.1 you have to deactivate it then reactivate it to register the cron job which will purge the plugin's transients everyday.
+= 1.5 =
+* If you have installed the plugin before version 1.5 you have to deactivate it then reactivate it to register the cron job which will purge the plugin's transients everyday.
 
 = 1.0 =
 * First release.
