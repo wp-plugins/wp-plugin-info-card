@@ -4,31 +4,64 @@
  */
 jQuery(document).ready(function($) {
 	
-	$('.wp-pic-flip').each(function(){
-		var timeoutFlip;
-		var $this = $(this);
-		$this.hover(function() {
-			clearTimeout(timeoutFlip);
-		}, function() {
-			timeoutFlip = setTimeout( function () {
-				$this.removeClass('wp-pic-flipped');
-			 }, 2000);
+	// fadeIn on page load (prevent css
+	$('.wp-pic .wp-pic-flip').fadeIn(500);
+	
+	$('.wp-pic').delegate('.wp-pic-flip', 'mouseover', function() {
+		$('.wp-pic-flip').each(function(){
+			var timeoutFlip;
+			var $this = $(this);
+			$this.on('mouseenter', function() {
+				clearTimeout(timeoutFlip);
+			}).on('mouseleave', function() {
+				timeoutFlip = setTimeout( function () {
+					$this.removeClass('wp-pic-flipped');
+				 }, 2000);
+			});
 		});
 	});
-	
-	$('.wp-pic-download').click(function(){
+
+	$('.wp-pic').on('click','.wp-pic-download', function(){
 		$(this).closest('.wp-pic-flip').addClass('wp-pic-flipped');
 		return true;
 	});
 
-	$('.wp-pic-goback').click(function(){
+	$('.wp-pic').on('click','.wp-pic-goback', function(){
 		$(this).closest('.wp-pic-flip').removeClass('wp-pic-flipped');
 		return true;
 	});
 
-	$('.wp-pic-dl-ico, .wp-pic-dl-link').click(function(){
-		$('.wp-pic-dl-ico').addClass('wp-pic-dl-effet');
+	$('.wp-pic').on('click','.wp-pic-dl-ico, .wp-pic-dl-link', function(){
+		$(this).closest('.wp-pic-back').find('.wp-pic-dl-ico').addClass('wp-pic-dl-effet');
+		setTimeout( function () {
+			$('.wp-pic-dl-ico.wp-pic-dl-effet').removeClass('wp-pic-dl-effet');
+		}, 1200);
 		return true;
 	});
-	
+
+
+	//Widget ajax load
+	if ($('.wp-pic.wp-pic-ajax').length > 0){
+
+		//ajax request and callback
+		$('.wp-pic.wp-pic-ajax').each(function(){
+			var $this = $(this);
+			var data = {
+				'action': 'async_wppic_shortcode_content',
+				'slug': $this.data('slug'),
+				'image': $this.data('image'),
+				'logo': $this.data('logo'),
+				'banner': $this.data('banner'),
+				'expiration': $this.data('expiration'),
+			};
+			$.post(wppicAjax.ajaxurl, data, function(response) {
+				$this.append(response);
+				$this.find('.wp-pic-flip').fadeIn(600, function() {
+					$this.find('.wp-pic-body-loading').remove();
+				});
+			});
+		});
+		
+	}
+
 });

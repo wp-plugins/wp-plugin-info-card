@@ -2,11 +2,11 @@
  * Plugin Name: WP Plugin Info Card by b*web
  * Author: Brice CAPOBIANCO - b*web
  */
- .wp-pic-center {
+.wp-pic-center {
  	text-align: center;
 	clear: both;
- }
- .wp-pic * {
+}
+.wp-pic * {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
@@ -17,9 +17,9 @@
 	height: 420px;
 	position: relative;
 	display:inline-block;
-
 }
 .wp-pic .wp-pic-flip {
+	display: none;
 	width: 100%;
 	height: 100%;
 	top:0;
@@ -30,6 +30,16 @@
 	-moz-perspective: 5000;
 	-ms-perspective: 5000;
 	-o-perspective: 5000;
+}
+.wp-pic .wp-pic-no-plugin {
+	position: absolute;
+	left:0;
+	width: 100%;
+	font-size: 18px;
+	text-align: center;
+	margin: 20% 0;
+	padding: 10%;
+	color: #79808a;
 }
 .wp-pic .wp-pic-flip .wp-pic-face {
 	position: absolute;
@@ -275,7 +285,6 @@
 	display: inline-block;
 	text-align: left;
 }
-
 .wp-pic .wp-pic-dl-effet {
 	-webkit-animation-duration: 0.75s;
 	-moz-animation-duration: 0.75s;
@@ -390,4 +399,234 @@
     transform-origin: 50% 50%;
     transform: scale(1, 1);
   }
+}
+/*AJAX Call*/
+.wp-pic-body-loading {
+	position:absolute;
+	height: 100%;
+	width: 100%;
+	-webkit-border-radius: 15px 15px 15px 15px;
+	border-radius: 15px 15px 15px 15px;
+	-webkit-box-shadow: 0 0 30px 1px rgba(0,0,0,0.02);
+	box-shadow: 0 0 30px 1px rgba(0,0,0,0.02);
+	overflow:hidden;
+	background:#fff;
+}
+/* Spinner by http://codepen.io/cayoub88/*/
+.wp-pic-body-loading .signal {
+    border:3px solid #21759b;
+    border-radius:30px;
+    height:30px;
+    left:50%;
+    margin:-15px 0 0 -15px;
+    opacity:0;
+    position:absolute;
+    top:50%;
+    width:30px;
+	-webkit-animation: wppicpulsate 1s ease-out;
+	animation: wppicpulsate 1s ease-out;
+	-webkit-animation-iteration-count:infinite;
+	animation-iteration-count:infinite;
+}
+@-webkit-keyframes wppicpulsate {
+    0% {
+		-webkit-transform:scale(.1);
+		transform:scale(.1);
+		opacity: 0.0;
+    }
+    50% {
+      opacity:1;
+    }
+    100% {
+		-webkit-transform:scale(1.2);
+		transform:scale(1.2);
+		opacity:0;
+    }
+}
+@keyframes wppicpulsate {
+    0% {
+		-webkit-transform:scale(.1);
+		transform:scale(.1);
+		opacity: 0.0;
+    }
+    50% {
+      opacity:1;
+    }
+    100% {
+		-webkit-transform:scale(1.2);
+		transform:scale(1.2);
+		opacity:0;
+    }
+}
+/* Monster by http://codepen.io/totya24/*/
+.monster-wrapper{
+	position: absolute;
+	bottom: 0;
+	left: 50%;
+	z-index: 99;
+	margin-left: -75px;
+	width: 150px;
+	height: 175px;
+	border-radius: 50% 50% 0 0 / 40% 40% 0 0;
+	background: #d54e21;
+}
+.monster-wrapper:before,
+.monster-wrapper:after {
+	position: absolute;
+	top: 5px;
+	left: 11px;
+	z-index: 9;
+	display: block;
+	overflow: hidden;
+	width: 30px;
+	height: 30px;
+	border-radius: 50%;
+	background:#d54e21;
+	content: '';
+}
+.monster-wrapper:after {
+	left: 108px;
+}
+.monster-wrapper .arm-left,
+.monster-wrapper .arm-right {
+	position: absolute;
+	top: 45px;
+	z-index: 7;
+	overflow: hidden;
+	width: 30px;
+	height: 125px;
+	border-radius: 50% 50% 0 0/ 13% 13% 0 0;
+	background: #d54e21;
+}
+.monster-wrapper .arm-left {
+	left: -32px;
+	-webkit-transform:rotate(-30deg);
+	-ms-transform:rotate(-30deg);
+	transform:rotate(-30deg);
+}
+.monster-wrapper .arm-right {
+	right: -32px;
+	-webkit-transform:rotate(30deg);
+	-ms-transform:rotate(30deg);
+	transform:rotate(30deg);
+}
+.monster-wrapper .arm-left:before,
+.monster-wrapper .arm-right:before {
+	position: absolute;
+	top: 50px;
+	left: -5px;
+	display: block;
+	width: 10px;
+	height: 10px;
+	border-radius: 50%;
+	background: #ae3e19;
+	content: '';
+}
+.monster-wrapper .arm-left:before {
+	top: 0;
+	left: 0;
+	width: 8px;
+	height: 8px;
+}
+.monster-wrapper .eye-left,
+.monster-wrapper .eye-right {
+	position: absolute;
+	top: 50px;
+	z-index: 11;
+	width: 40px;
+	height: 40px;
+	border-radius: 50%;
+	background: #fff;
+}
+.monster-wrapper .eye-left:before,
+.monster-wrapper .eye-right:before {
+	position: absolute;
+	top: 12px;
+	left: 12px;
+	display: block;
+	width: 15px;
+	height: 15px;
+	border-radius: 50%;
+	background: #333;
+	content: '';
+}
+.monster-wrapper .eye-left:after,
+.monster-wrapper .eye-right:after {
+	position: absolute;
+	top: 16px;
+	left: 22px;
+	display: block;
+	width: 3px;
+	height: 3px;
+	border-radius: 50%;
+	background: #fff;
+	content: '';
+}
+.monster-wrapper .eye-left {
+	left: 25px;
+}
+.monster-wrapper .eye-right {
+	left: 85px;
+}
+.monster-wrapper .mouth {
+	position: absolute;
+	bottom: 0;
+	left: 35px;
+	z-index: 11;
+	overflow: hidden;
+	width: 80px;
+	height: 60px;
+	border-radius: 120% 120% 0 0 / 180% 180% 0 0;
+	background: #333;
+}
+.monster-wrapper .tooth-left,
+.monster-wrapper .tooth-right {
+	position:absolute;
+	top: 0;
+	width: 10px;
+	height: 20px;
+	border-radius: 0 0 50% 50% / 0 0 20% 20%;
+	background: #fff;
+}
+.monster-wrapper .tooth-left::before,
+.monster-wrapper .tooth-right::before {
+	position:absolute;
+	top: 0;
+	display: block;
+	width: 10px;
+	height: 25px;
+	border-radius: 0 0 50% 50% / 0 0 20% 20%;
+	background: #fff;
+	content: '';
+}
+.monster-wrapper .tooth-left {
+	left: 27px;
+}
+.monster-wrapper .tooth-right {
+	left: 39px;
+}
+.monster-wrapper .tooth-left::before {
+	left: 24px;
+}
+.monster-wrapper .tooth-right::before {
+	left: -24px;
+}
+.monster-wrapper .dots,
+.monster-wrapper .dots:before,
+.monster-wrapper .dots:after {
+	position: absolute;
+	top: 15px;
+	left: 50px;
+	display: block;
+	width: 8px;
+	height: 8px;
+	border-radius: 50%;
+	background: #ae3e19;
+	content: '';
+}
+.monster-wrapper .dots:before {
+	top: 10px;
+	left: 10px;
+	width: 5px;
+	height: 5px;
 }
