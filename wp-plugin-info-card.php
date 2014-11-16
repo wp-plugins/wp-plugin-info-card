@@ -1,11 +1,11 @@
 <?php
 /**
  * Plugin Name: WP Plugin Info Card by b*web
- * Plugin URI: http://b-website.com/
+ * Plugin URI: http://b-website.com/wp-plugin-info-card-for-wordpress
  * Description: WP Plugin Info Card displays plugins identity cards in a beautiful box with a smooth rotation effect using WP Plugin API. Dashboard widget included.
  * Author: Brice CAPOBIANCO
  * Author URI: http://b-website.com/
- * Version: 1.5
+ * Version: 1.6
  * Text Domain: wppic-translate
  */
 
@@ -50,10 +50,10 @@ if ( !defined('WPPIC_ID') ) {
 /***************************************************************
  * Load plugin files
  ***************************************************************/
-require_once( WPPIC_PATH . 'wp-plugin-info-card-api.php' );
-require_once( WPPIC_PATH . 'wp-plugin-info-card-shortcode.php' );
-require_once( WPPIC_PATH . 'wp-plugin-info-card-template.php' );
-require_once( WPPIC_PATH . 'wp-plugin-info-card-widget.php' );
+$wppicFiles = array('api','shortcode','template','widget','ui');
+foreach($wppicFiles as $wppicFile){
+	require_once( WPPIC_PATH . 'wp-plugin-info-card-' . $wppicFile . '.php' );
+}
 
 
 /***************************************************************
@@ -66,6 +66,7 @@ if (!function_exists('wppic_load_textdomain')) {
 	}
 	add_action('init', 'wppic_load_textdomain');
 }
+
 
 /***************************************************************
  * Add settings link on extentions page

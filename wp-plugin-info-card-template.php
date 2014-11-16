@@ -2,16 +2,17 @@
 /***************************************************************
  * Back-End Scripts & Styles enqueueing
  ***************************************************************/
-	
 function wppic_admin_scripts() {
 	wp_enqueue_script( 'wppic-admin-js', WPPIC_URL . 'js/wppic-admin-script.js', array( 'jquery' ),  NULL);
-	wp_enqueue_script( 'wppic-js', WPPIC_URL . 'js/wppic-script.js', array( 'jquery' ),  NULL);
+	wp_enqueue_script( 'wppic-js', WPPIC_URL . 'js/wppic-script.min.js', array( 'jquery' ),  NULL);
 	wp_enqueue_script( 'jquery-ui-sortable', WPPIC_URL . '/wp-includes/js/jquery/ui/jquery.ui.sortable.min.js', array( 'jquery' ),  NULL);
 }
 function wppic_admin_css() {
 	wp_enqueue_style( 'dashicons' );
 	wp_enqueue_style( 'wppic-admin-css', WPPIC_URL . 'css/wppic-admin-style.css', array(), NULL, NULL);
 }
+
+
 /***************************************************************
  * Create admin page menu
  ***************************************************************/
@@ -24,6 +25,7 @@ function wppic_create_menu() {
 	
 }
 add_action('admin_menu', 'wppic_create_menu');
+
 
 /***************************************************************
  * Register plugin settings 
@@ -48,6 +50,13 @@ function wppic_register_settings() {
 		'wppic_list'
 	);
 	add_settings_field(
+		'wppic-list-ajax',
+		__('Ajaxify dashboard widget', 'wppic-translate'), 
+		'wppic_list_ajax',
+		WPPIC_ID,
+		'wppic_list'
+	);
+	add_settings_field(
 		'wppic-list-form',
 		__('List of plugin to display', 'wppic-translate'), 
 		'wppic_list_form',
@@ -56,6 +65,7 @@ function wppic_register_settings() {
 	);
 }
 add_action( 'admin_init', 'wppic_register_settings' );
+
 
 /***************************************************************
  * Admin Notice
@@ -101,8 +111,11 @@ function wppic_settings_page() {
 							<li><strong>logo:</strong> ' . __('128x128.jpg, 256x256.jpg, 128x128.png, 256x256.png, svg, no (default: svg)', 'wppic-translate') . '</li>
 							<li><strong>banner:</strong> ' . __('jpg, png, no (default:empty)', 'wppic-translate') . '</li>
 							<li><strong>align:</strong> ' . __('center, left, right (default: empty)', 'wppic-translate') . '</li>
-							<li><strong>containerid:</strong> ' . __('Custom div id, may be used for anchor (default: wp-pic-PLUGIN-NAME)', 'wppic-translate') . '</li>
-							<li><strong>margin:</strong> ' . __('Custom container margin - eg: "15px 0" (default: empty)', 'wppic-translate') . '</li>
+							<li><strong>containerid:</strong> ' . __('custom div id, may be used for anchor (default: wp-pic-PLUGIN-NAME)', 'wppic-translate') . '</li>
+							<li><strong>margin:</strong> ' . __('custom container margin - eg: "15px 0" (default: empty)', 'wppic-translate') . '</li>
+							<li><strong>clear:</strong> ' . __('clear float before or after the card: before, after (default: empty', 'wppic-translate') . '</li>
+							<li><strong>expiration:</strong> ' . __('cache duration in minutes - numeric format only (default: 10)', 'wppic-translate') . '</li>
+							<li><strong>ajax: (BETA)</strong> ' . __('load the plugin data asynchronously with AJAX: yes, no (default: no)', 'wppic-translate') . '</li>
 							<li><strong>custom:</strong> ' . __('value to print : url, name, version, author, requires, rating, num_ratings, downloaded, last_updated, download_link (default: empty)', 'wppic-translate') . '</li>
 						</ul>
 						
@@ -117,7 +130,7 @@ function wppic_settings_page() {
 						<h3>' . __('Advanced examples', 'wppic-translate') . '</h3>
 						
 						<p>' . __('If the plugin has a WordPress logo (new feature on wp), you may specify its extension (jpg, png or svg) and whether it is a JPG or PNG file, its dimensions (128x128 or 256x256). If not, set "logo" to "no" to avoid a 404 error in the console log (see explanation below).', 'wppic-translate') . '
-							<pre> [wp-pic slug="theme-check" logo="128x128.png" align="right" banner="jpg"] </pre><br/>
+							<pre> [wp-pic slug="theme-check" logo="128x128.png" align="right" banner="jpg" ajax="yes"] </pre><br/>
 						</p>
 
 						<p>' . __('You may provide a custom image URL for the front rounded image (175px X 175px), it will supplant the "logo" parameter if specified. If you know the banner extension (image displaying on the top of the plugin page), you may provide it to avoid a 404 error in the console log (see explanation below).', 'wppic-translate') . '
@@ -183,6 +196,24 @@ function wppic_list_widget() {
 
 
 /***************************************************************
+ * Dashboard widget Ajaxify
+ ***************************************************************/
+function wppic_list_ajax() {
+	$content = '';
+	$wppicSettings = get_option('wppic_settings');
+	$content .= '<td>';
+		$content .= '<input type="checkbox" id="wppic-ajax" name="wppic_settings[ajax]"  value="1" ';
+		if( !empty($wppicSettings) ) { 
+			$content .= checked( 1, $wppicSettings['ajax'], false );
+		};
+		$content .= '/>';
+		$content .= '<label for="wppic-ajax">' . __('Will load the data asynchronously with AJAX.', 'wppic-translate') . '</label>';
+	$content .= '</td>';
+	echo $content;
+}
+
+
+/***************************************************************
  * Dashoboard widget plugin list
  ***************************************************************/
 function wppic_list_form() {
@@ -208,6 +239,9 @@ function wppic_list_form() {
  ***************************************************************/
 function wppic_validate($input) {
 	if(!empty($input['list'])){
+		//remove duplicate 
+		$input['list'] = array_unique($input['list']);
+
 		foreach($input['list'] as $key=>$item){
 			if(!preg_match('/^[a-z][-a-z0-9]*$/', $item)) {
 				if(!empty ($item)){

@@ -32,15 +32,29 @@ add_action('wp_dashboard_setup', 'wppic_add_dashboard_widgets');
  ***************************************************************/  
 if (!function_exists('wppic_widgets')) {
 	function wppic_widgets() {
-	
-		$wppicSettings = get_option('wppic_settings');
+		$ajaxClass = '';
 		
-		$content .= '<div class="wp-pic-list">';
+		$wppicSettings = get_option('wppic_settings');
+		if($wppicSettings['ajax'] == true){
+				$ajaxClass = 'ajax-call';
+		}
+		
+		$content .= '<div class="wp-pic-list ' . $ajaxClass . '">';
 		
 		if(!empty($wppicSettings['list'])){
-			$content .= '<div class="wp-pic-loading" style="background-image: url(' . admin_url() . 'images/wpspin_light.gif);" data-list="' . htmlspecialchars(json_encode($wppicSettings['list']), ENT_QUOTES, 'UTF-8') . '"></div>';
+			
+			if($wppicSettings['ajax'] == true){
+				$content .= '<div class="wp-pic-loading" style="background-image: url(' . admin_url() . 'images/spinner-2x.gif);" data-list="' . htmlspecialchars(json_encode($wppicSettings['list']), ENT_QUOTES, 'UTF-8') . '"></div>';
+			} else {
+				 $content .= wppic_ajax_widget($wppicSettings['list']);
+			}
+			
 		} else {
-			$content .= '<p class="wp-pic-widget-empty"><span>' . __('No plugin found', 'wppic-translate') . '</span></p>';
+	
+			$content .= '<div class="wp-pic-item ' . $slug . '" style="display:block;">';
+				$content .= '<span class="wp-pic-no-plugin">' . __('No plugin found', 'wppic-translate') . '</span>';
+			$content .= '</div>';
+			
 		}
 
 		$content .= '</div>';
@@ -54,31 +68,44 @@ if (!function_exists('wppic_widgets')) {
 /***************************************************************
  * Widget Ajax callback 
  ***************************************************************/  
-function wppic_ajax_widget(){
-	if(!empty($_POST['wppic-list'])) {
+function wppic_ajax_widget($slugs=NULL){
 
-		$wppicList = $_POST['wppic-list'];
-		
-		foreach($wppicList as $slug){
-		
+	if(!empty($_POST['wppic-list'])){
+		$slugs = array($_POST['wppic-list']);
+	} 
+	
+	if(!empty($slugs)) {
+		foreach($slugs as $slug){
 			$wppic_plugin_data = wp_Plugin_API_Parser($slug);
-			
+
 			if(!empty($wppic_plugin_data->name)){
-				$content .= '<div class="wp-pic-item">';
+				$content .= '<div class="wp-pic-item ' . $slug . '">';
 					$content .= '<a class="wp-pic-widget-name" href="' . $wppic_plugin_data->url . '" target="_blank" title="' . __('WordPress.org Plugin Page', 'wppic-translate') . '">' . $wppic_plugin_data->name .'</a>';
 					$content .= '<span class="wp-pic-widget-rating"><span>' . __('Ratings:', 'wppic-translate') . '</span> ' . $wppic_plugin_data->rating .'% (' . $wppic_plugin_data->num_ratings . ' votes)</span>';
 					$content .= '<span class="wp-pic-widget-downloaded"><span>' . __('Downloads:', 'wppic-translate') . '</span> ' . number_format($wppic_plugin_data->downloaded, 0, ',', ',') .'</span>';
 					$content .= '<p class="wp-pic-widget-updated"><span>' . __('Last Updated:', 'wppic-translate') . '</span> ' . date(get_option( 'date_format' ), strtotime($wppic_plugin_data->last_updated)) .' (v.' . $wppic_plugin_data->version .')</p>';
 				$content .= '</div>';
+			
+			} else {
+				
+				$content .= '<div class="wp-pic-item ' . $slug . '">';
+					$content .= '<span class="wp-pic-no-plugin">' . __('Plugin not found:', 'wppic-translate') . ' "' . $slug . '" ' . __('does not exist.', 'wppic-translate') . '</span>';
+				$content .= '</div>';
 				
 			}
 		}
-	
+		
 	} else {
-			$content .= '<p class="wp-pic-widget-empty"><span>' . __('No plugin found', 'wppic-translate') . '</span></p>';
+
+		$content .= '<div class="wp-pic-item ' . $slug . '">';
+			$content .= '<span class="wp-pic-no-plugin">' . __('No plugin found', 'wppic-translate') . '</span>';
+		$content .= '</div>';
+		
 	}
 	
 	echo $content;
+	
+	if(!empty($_POST['wppic-list']))
 	die();
 	
 }

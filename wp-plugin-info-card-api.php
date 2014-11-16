@@ -1,9 +1,10 @@
 <?php
 /***************************************************************
- * Dashoboard widget plugin list
+ * Fetching plugin data through WordPress Plugin API
  ***************************************************************/
 if (!function_exists('WP_Plugin_API_Parser')) {
 	function WP_Plugin_API_Parser($pluginName, $expiration=10){
+		
 		$wppic_plugin_data = get_transient( 'wppic_'.preg_replace('/\-/', '_', $pluginName) );
 		
 		//check if expiration is numeric, only digit char
