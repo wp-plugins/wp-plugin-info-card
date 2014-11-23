@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: API, plugin, card, blog, developper, design, dashboard, shortcode, ajax
 Requires at least: 3.7
 Tested up to: 4.0
-Stable tag: 1.6.1.2
+Stable tag: 1.6.1.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -91,10 +91,6 @@ Yes, it is compatible with most recent browsers, except for Opera (but IE10+ wor
 
 
 == Changelog ==
-
-= 1.6.1.2 =
-* Logo on plugin directory list
-* Remove unnecessary files from trunk
 
 = 1.6.1.1 =
 * Logo on plugin directory list
