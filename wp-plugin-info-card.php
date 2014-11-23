@@ -5,7 +5,7 @@
  * Description: WP Plugin Info Card displays plugins identity cards in a beautiful box with a smooth rotation effect using WP Plugin API. Dashboard widget included.
  * Author: Brice CAPOBIANCO
  * Author URI: http://b-website.com/
- * Version: 1.6
+ * Version: 1.6.1
  * Text Domain: wppic-translate
  */
 
@@ -80,6 +80,23 @@ add_filter("plugin_action_links_".WPPIC_BASE, 'wppic_settings_link' );
 
 
 /***************************************************************
+ * Add custom meta link on plugin list page
+ ***************************************************************/
+if ( ! function_exists( 'wppic_meta_links' ) ) {
+	function wppic_meta_links( $links, $file ) {
+		if ( strpos( $file, 'wp-plugin-info-card.php' ) !== false ) {
+			$links[0] = '<a href="http://b-website.com/" target="_blank"><img src="' . AN_URL . 'img/icon-bweb.png" style="margin-bottom: -4px;" alt="b*web"/></a>&nbsp;&nbsp;'. $links[0];
+			$links = array_merge( $links, array( '<a href="http://b-website.com/wp-plugin-info-card-for-wordpress" target="_blank" title="'. __( 'Documentation and examples', 'an-translate' ) .'"><strong style="color:#db3939">'. __( 'Documentation and examples', 'an-translate' ) .'</strong></a>' ) );
+			$links = array_merge( $links, array( '<a href="http://b-website.com/category/plugins" target="_blank" title="'. __( 'More b*web Plugins', 'an-translate' ) .'">'. __( 'More b*web Plugins', 'an-translate' ) .'</a>' ) );
+			$links = array_merge( $links, array( '<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=7Z6YVM63739Y8" target="_blank" title="'. __( 'Donate', 'an-translate' ) .'"><strong>'. __( 'Donate', 'an-translate' ) .'</strong></a>' ) );
+		}
+		return $links;
+	}
+	add_filter( 'plugin_row_meta', 'wppic_meta_links', 10, 2 );
+}
+
+
+/***************************************************************
  * Admin Panel Favico
  ***************************************************************/
 function wppic_add_favicon() {
@@ -87,7 +104,7 @@ function wppic_add_favicon() {
 	if ( $screen->id != 'toplevel_page_'. WPPIC_ID )
 		return;
 	
-	$favicon_url = WPPIC_URL . 'img/icon_bweb.png';
+	$favicon_url = WPPIC_URL . 'img/wppic.svg';
 	echo '<link rel="shortcut icon" href="' . $favicon_url . '" />';
 }
 add_action('admin_head', 'wppic_add_favicon');

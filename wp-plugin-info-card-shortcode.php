@@ -3,7 +3,7 @@
  * Enqueue custom CSS
  ***************************************************************/
 function wppic_register_sripts() {
-	wp_register_style( 'wppic-style', plugins_url('css/wppic-style.min.css', __FILE__ ), NULL, NULL);
+	wp_register_style( 'wppic-style', WPPIC_URL . 'css/wppic-style.min.css', NULL, NULL);
 	wp_register_script( 'wppic-script', WPPIC_URL . 'js/wppic-script.min.js', array( 'jquery' ),  NULL, true);
 }
 function wppic_print_sripts() {
@@ -83,7 +83,7 @@ if (!function_exists('wppic_shortcode_function')) {
 			$ajaxClass = '';
 			$ajaxData = '';
 			if($ajax == 'yes'){
-				$ajaxClass = 'wp-pic-ajax';
+				$ajaxClass = ' wp-pic-ajax';
 				$ajaxData = 'data-slug="' . $slug . '" data-image="' . $image . '" data-logo="' . $logo . '" data-banner="' . $banner . '"  data-expiration="' . $expiration . '" ';
 			}
 
@@ -120,7 +120,7 @@ if (!function_exists('wppic_shortcode_function')) {
 			$content .= '<div style="clear:both"></div>';
 			if($alignCenter)
 			$content .= '<div class="wp-pic-center">';
-			$content .= '<div class="wp-pic ' . $ajaxClass . '" ' . $containerid . $style . $ajaxData .' >';
+			$content .= '<div class="wp-pic' . $ajaxClass . '" ' . $containerid . $style . $ajaxData .' >';
 
 			if($ajax != 'yes'){
 				$content .= wppic_shortcode_content( $slug, $image, $logo, $banner, $expiration);

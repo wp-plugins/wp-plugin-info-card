@@ -19,7 +19,7 @@ if (!function_exists('wppic_dashboard_widgets')) {
 	function wppic_add_dashboard_widgets() {
 		$wppicSettings = get_option('wppic_settings');
 		if($wppicSettings['widget'] == true){
-			wp_add_dashboard_widget('wppic-dashboard-widget', WPPIC_NAME .' board', 'wppic_widgets');
+			wp_add_dashboard_widget('wppic-dashboard-widget','<img src="' . WPPIC_URL . 'img/wppic.svg" class="wppic-logo" alt="b*web"/>&nbsp;&nbsp;' . WPPIC_NAME . ' board', 'wppic_widgets');
 			add_action( 'admin_enqueue_scripts', 'wppic_widget_enqueue' );
 		}
 	}

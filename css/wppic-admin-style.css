@@ -4,10 +4,16 @@
  */
 @import url("./wppic-style.min.css");
 i.mce-i-wppic-icon {
-  background-image: url('../img/icon.svg');
+  background-image: url('../img/wppic.svg');
 }
 #wppic-admin-page #post-body-content .postbox .inside{
 	line-height: 1em;
+}
+#wppic-admin-page .documentation a {
+	font-weight: bold;
+	color: #db3939;
+	font-size: 14px;
+	text-decoration: none;
 }
 #wppic-admin-page pre {
 	display: block;
@@ -112,6 +118,13 @@ input.wppic-add {
 	width: 24px;
 	height: 24px;
     content: "\f335";
+}
+
+/*Dashboard Widget*/
+#dashboard-widgets #wppic-dashboard-widget img.wppic-logo{
+	display: inline-block;
+	margin-bottom: -3px;
+	height: 18px;
 }
 #dashboard-widgets #wppic-dashboard-widget.postbox .inside {
 	margin: 0;

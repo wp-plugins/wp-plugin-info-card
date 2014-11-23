@@ -17,7 +17,7 @@ function wppic_admin_css() {
  * Create admin page menu
  ***************************************************************/
 function wppic_create_menu() {
-	$admin_page = add_menu_page(WPPIC_NAME_FULL, WPPIC_NAME, 'manage_options', WPPIC_ID, 'wppic_settings_page',WPPIC_URL . 'img/icon_bweb.png');
+	$admin_page = add_menu_page(WPPIC_NAME_FULL, WPPIC_NAME, 'manage_options', WPPIC_ID, 'wppic_settings_page',WPPIC_URL . 'img/icon-wppic.png');
 	
 	//Enqueue sripts and style
 	add_action( 'admin_print_scripts-' . $admin_page, 'wppic_admin_scripts' );
@@ -93,16 +93,6 @@ function wppic_settings_page() {
 					<h3 class="hndle"><span>' . __('How to use WP Plugin Info Card shortcodes?', 'wppic-translate') . '</span></h3>
 					<div class="inside">
 						' . wppic_shortcode_function( array ( "slug"=>"adblock-notify-by-bweb", "image"=>"", "logo"=>"svg", "banner"=>"png", "align"=>"right", "margin"=>"0 0 0 20px", "expiration"=>"10"  ) ) . '
-						
-						
-						<h3>' . __('How does it work?', 'wppic-translate') . '</h3>
-						
-						<p>' . __('WP Plugin Info Card allows you to display plugins identity cards in a beautiful box with a smooth 3D rotation effect.', 'wppic-translate') . '</p>
-						<p>' . __('It uses Wordpress.org plugin API to fetch data. All you need to do is provide a valid plugin ID (slug name), and then insert the shortcode in any page to make it work at once!', 'wppic-translate') . '</p>
-						<p>' . __('This plugin is very light and includes scripts and CSS only if and when required. For technical reason (it is a choice), the plugin will only works in your body content, not in your sidebar (widget area).', 'wppic-translate') . '</p> 
-						<p>' . __('It also uses Wordpress transients to store data returned by the API for 10 minutes, so your page loading time will not be increased due to too many requests.', 'wppic-translate') . '</p>
-						
-						<p>&nbsp;</p>
 						<h3 class="wp-pic-title">' . __('Shortcode parameters', 'wppic-translate') . '</h3>
 						
 						<ul>
@@ -118,34 +108,11 @@ function wppic_settings_page() {
 							<li><strong>ajax: (BETA)</strong> ' . __('load the plugin data asynchronously with AJAX: yes, no (default: no)', 'wppic-translate') . '</li>
 							<li><strong>custom:</strong> ' . __('value to print : url, name, version, author, requires, rating, num_ratings, downloaded, last_updated, download_link (default: empty)', 'wppic-translate') . '</li>
 						</ul>
-						
 						<p>&nbsp;</p>
-						<h3>' . __('Basic example', 'wppic-translate') . '</h3>
-						
-						<p>' . __('The slug is the only required parameter.', 'wppic-translate') . '
-							<pre> [wp-pic slug="wordpress-seo"] </pre><br/>
+						<p>
+							<pre> [wp-pic slug="adblock-notify-by-bweb" logo="svg"  align="right" margin="0 0 0 20px" banner="png" containerid="download-sexion" ajax="yes"] </pre>
 						</p>
-						
-						
-						<h3>' . __('Advanced examples', 'wppic-translate') . '</h3>
-						
-						<p>' . __('If the plugin has a WordPress logo (new feature on wp), you may specify its extension (jpg, png or svg) and whether it is a JPG or PNG file, its dimensions (128x128 or 256x256). If not, set "logo" to "no" to avoid a 404 error in the console log (see explanation below).', 'wppic-translate') . '
-							<pre> [wp-pic slug="theme-check" logo="128x128.png" align="right" banner="jpg" ajax="yes"] </pre><br/>
-						</p>
-
-						<p>' . __('You may provide a custom image URL for the front rounded image (175px X 175px), it will supplant the "logo" parameter if specified. If you know the banner extension (image displaying on the top of the plugin page), you may provide it to avoid a 404 error in the console log (see explanation below).', 'wppic-translate') . '
-							<pre> [wp-pic slug="wordpress-seo" image="http//www.mywebsite/custom-image.jpg" align="right" margin="0 0 0 20px" banner="png" containerid="download-sexion"] </pre><br/>	
-						</p>							
-						
-						<p>' . __('The custom parameter supplants the others (except the "slug") and only returns the value you required.', 'wppic-translate') . '
-							<pre> [wp-pic slug="wordpress-seo" custom="downloaded"] </pre><br/>
-						</p>
-
-						<h3>' . __('Known issues', 'wppic-translate') . '</h3>
-						<p>' . __('WordPress.org does not currently include a banner nor plugin logo in the API. As explained in the Developper Center, banners are located in the assets folder of the plugin repository (allowed format are JPG or PNG) and they are named banner-772x250.', 'wppic-translate') . '</p>
-						<p>' . __('It would be nice to test if banner-772x250.jpg or banner-772x250.png exists, but WordPress does not accept HTTP request to their servers, so requests are blocked due to Cross-Origin restriction. It is the same issue for the plugin SVG, JPG or PNG logo.', 'wppic-translate') . '</p>
-						<p>' . __('The workaround is to use CSS backgound fallback, but it gives a 404 server response. To avoid those errors, please specify the "logo" and "banner" parameters. In any case, 404 is not really an "error", but a simple server response.', 'wppic-translate') . '</p>
-						</p>
+						<p class="documentation"><a href="http://b-website.com/wp-plugin-info-card-for-wordpress" target="_blank" title="'. __( 'Documentation and examples', 'an-translate' ) .'">'. __( 'Documentation and examples', 'an-translate' ) .' <span class="dashicons dashicons-external"></span></a></p>
 					 </div>
 				</div>
 			</div>
