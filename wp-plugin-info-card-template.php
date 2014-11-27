@@ -112,7 +112,7 @@ function wppic_settings_page() {
 						<p>
 							<pre> [wp-pic slug="adblock-notify-by-bweb" logo="svg"  align="right" margin="0 0 0 20px" banner="png" containerid="download-sexion" ajax="yes"] </pre>
 						</p>
-						<p class="documentation"><a href="http://b-website.com/wp-plugin-info-card-for-wordpress" target="_blank" title="'. __( 'Documentation and examples', 'an-translate' ) .'">'. __( 'Documentation and examples', 'an-translate' ) .' <span class="dashicons dashicons-external"></span></a></p>
+						<p class="documentation"><a href="http://b-website.com/wp-plugin-info-card-for-wordpress" target="_blank" title="'. __( 'Documentation and examples', 'wppic-translate' ) .'">'. __( 'Documentation and examples', 'an-translate' ) .' <span class="dashicons dashicons-external"></span></a></p>
 					 </div>
 				</div>
 			</div>
