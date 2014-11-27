@@ -1,10 +1,10 @@
 === WP Plugin Info Card ===
 Contributors: briKou
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=7Z6YVM63739Y8
-Tags: API, plugin, card, blog, developper, design, dashboard, shortcode, ajax
+Tags: API, plugin, card, blog, developper, design, dashboard, shortcode, ajax, WordPress, plugin API, CSS, rotate, flip card, awesome, UX, ui
 Requires at least: 3.7
 Tested up to: 4.0
-Stable tag: 1.6.1.1
+Stable tag: 1.6.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -64,6 +64,7 @@ The slug is the only required parameter.
 
 * English
 * French
+* Polish [Kuba Mikita](http://www.wpart.pl/ "Kuba Mikita")
 * Spanish (Soon)
 
 Become a translator and send me you translation! [Contact-me](http://b-website.com/contact "Contact")
@@ -91,6 +92,11 @@ Yes, it is compatible with most recent browsers, except for Opera (but IE10+ wor
 
 
 == Changelog ==
+
+= 1.6.2 =
+* Polish translation by [Kuba Mikita](http://www.wpart.pl/ "Kuba Mikita")
+* Widget UI translation
+* Plugin meta translation
 
 = 1.6.1.1 =
 * Logo on plugin directory list
