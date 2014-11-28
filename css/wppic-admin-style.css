@@ -35,6 +35,10 @@ h3.wp-pic-title {
 #wppic-form h3.hndle {
 	margin: 0;
 	padding: 8px 0 8px 12px;
+	cursor:default;
+}
+#wppic-form label {
+	padding-left: 15px;
 }
 input.wppic-add {
 	min-width: 50%;

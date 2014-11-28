@@ -39,7 +39,7 @@
 						{
 							type: 'listbox',
 							name: 'banner',
-							label: 'Specify banner format',
+							label: editor.getLang('wppic_tinymce_plugin.banner'),
 							'values': [
 								{text: editor.getLang('wppic_tinymce_plugin.default'), value: ''},
 								{text: editor.getLang('wppic_tinymce_plugin.no_banner'), value: 'no'},
@@ -50,7 +50,7 @@
 						{
 							type: 'listbox',
 							name: 'align',
-							label: 'Card\'s align',
+							label: editor.getLang('wppic_tinymce_plugin.align'),
 							'values': [
 								{text: editor.getLang('wppic_tinymce_plugin.default'), value: ''},
 								{text: editor.getLang('wppic_tinymce_plugin.center'), value: 'center'},

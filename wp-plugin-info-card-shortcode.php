@@ -45,6 +45,7 @@ if (!function_exists('wppic_shortcode_function')) {
 			"clear" => '',  		//clear float before or after the card: before|after
 			"expiration" => '',  	//transient duration in minutes - 0 for never expires
 			"ajax" => '',  			//load plugin data async whith ajax: yes|no (default: no)
+			"scheme" => '',			//color scheme : default|scheme1->scheme10 (default: empty)
 			"custom" => '',  		//value to print : url|name|version|author|requires|rating|num_ratings|downloaded|last_updated|download_link
 		), $atts));
 		
@@ -115,12 +116,21 @@ if (!function_exists('wppic_shortcode_function')) {
 				$style = 'style="' . $align . $margin . '"';
 			}
 
+			//Color scheme
+			if(empty($scheme)){
+				$wppicSettings = get_option('wppic_settings');
+				$scheme = $wppicSettings['colorscheme'];
+				if(	$scheme == 'default'){
+					$scheme = '';
+				}
+			}
+
 			//Output
 			if($clear == 'before')
 			$content .= '<div style="clear:both"></div>';
 			if($alignCenter)
 			$content .= '<div class="wp-pic-center">';
-			$content .= '<div class="wp-pic' . $ajaxClass . '" ' . $containerid . $style . $ajaxData .' >';
+			$content .= '<div class="wp-pic ' . $scheme . ' ' . $ajaxClass . '" ' . $containerid . $style . $ajaxData .' >';
 
 			if($ajax != 'yes'){
 				$content .= wppic_shortcode_content( $slug, $image, $logo, $banner, $expiration);

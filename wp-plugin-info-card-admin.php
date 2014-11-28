@@ -37,30 +37,44 @@ function wppic_register_settings() {
 		'wppic_validate'
 	);
 	add_settings_section(
+		'wppic_options',
+		'', 
+		'',
+		WPPIC_ID . 'options'
+	);
+	add_settings_field(
+		'wppic-list-widget',
+		__('Color scheme', 'wppic-translate'), 
+		'wppic_color_scheme',
+		WPPIC_ID . 'options',
+		'wppic_options'
+	);
+
+	add_settings_section(
 		'wppic_list',
 		'', 
 		'',
-		WPPIC_ID
+		WPPIC_ID . 'widget'
 	);
 	add_settings_field(
 		'wppic-list-widget',
 		__('Enable dashboard widget', 'wppic-translate'), 
 		'wppic_list_widget',
-		WPPIC_ID,
+		WPPIC_ID . 'widget',
 		'wppic_list'
 	);
 	add_settings_field(
 		'wppic-list-ajax',
 		__('Ajaxify dashboard widget', 'wppic-translate'), 
 		'wppic_list_ajax',
-		WPPIC_ID,
+		WPPIC_ID . 'widget',
 		'wppic_list'
 	);
 	add_settings_field(
 		'wppic-list-form',
 		__('List of plugin to display', 'wppic-translate'), 
 		'wppic_list_form',
-		WPPIC_ID,
+		WPPIC_ID . 'widget',
 		'wppic_list'
 	);
 }
@@ -80,21 +94,18 @@ add_action( 'admin_notices', 'wppic_notices_action' );
  * Admin page structure	
  ***************************************************************/
 function wppic_settings_page() {
+		
 	echo '
 	<div class="wrap">
 		<h2>' . WPPIC_NAME_FULL . '</h2>
-
 		<div id="post-body-content">
-			
 			' . wppic_plugins_about() . '
-
 			<div id="wppic-admin-page" class="meta-box-sortabless">
 				<div id="wppic-shortcode" class="postbox">
 					<h3 class="hndle"><span>' . __('How to use WP Plugin Info Card shortcodes?', 'wppic-translate') . '</span></h3>
 					<div class="inside">
 						' . wppic_shortcode_function( array ( "slug"=>"adblock-notify-by-bweb", "image"=>"", "logo"=>"svg", "banner"=>"png", "align"=>"right", "margin"=>"0 0 0 20px", "expiration"=>"10"  ) ) . '
 						<h3 class="wp-pic-title">' . __('Shortcode parameters', 'wppic-translate') . '</h3>
-						
 						<ul>
 							<li><strong>slug:</strong> ' . __('plugin slug name - Please refer to the plugin URL on wordpress.org to determine its slug: https://wordpress.org/plugins/THE-SLUG/', 'wppic-translate') . '</li>
 							<li><strong>image:</strong> ' . __('image url to replace WP logo (default: empty)', 'wppic-translate') . '</li>
@@ -115,32 +126,67 @@ function wppic_settings_page() {
 						<p class="documentation"><a href="http://b-website.com/wp-plugin-info-card-for-wordpress" target="_blank" title="'. __( 'Documentation and examples', 'wppic-translate' ) .'">'. __( 'Documentation and examples', 'an-translate' ) .' <span class="dashicons dashicons-external"></span></a></p>
 					 </div>
 				</div>
-			</div>
-			
-			<div class="meta-box-sortabless">
-				<div id="wppic-form" class="postbox">
-					<h3 class="hndle"><span>' . __('Dashboard Widget Settings', 'wppic-translate') . '</span></h3>
-					<div class="inside">';
-	?>
-	
-						<form method="post" id="wppic_settings" action="options.php" style="display: inline-block;">
-							<table class="form-table">
-								<tr valign="top">
-									<?php settings_fields('wppic_settings') ?>
-									<?php do_settings_sections(WPPIC_ID) ?>
-								</tr>
-							</table>
-							<?php submit_button() ?>
-						</form> 
-	
-	<?php
-	echo '			</div>
+			</div>';
+		?>
+			<form method="post" id="wppic_settings" action="options.php">
+				<?php settings_fields('wppic_settings') ?>
+				<div class="meta-box-sortabless">
+					<div id="wppic-form" class="postbox">
+						<h3 class="hndle"><span><?php  _e('Shortcode options', 'wppic-translate') ?></span></h3>
+						<div class="inside">
+                            <table class="form-table">
+                                <tr valign="top">
+                                    <?php do_settings_sections(WPPIC_ID . 'options') ?>
+                                </tr>
+                            </table>
+                            <?php submit_button() ?>
+						</div>
+					</div>
 				</div>
-			</div>
-			
+				<div class="meta-box-sortabless">
+					<div id="wppic-form" class="postbox">
+						<h3 class="hndle"><span><?php  _e('Dashboard Widget Settings', 'wppic-translate') ?></span></h3>
+						<div class="inside">
+                            <table class="form-table">
+                                <tr valign="top">
+                                    <?php do_settings_sections(WPPIC_ID . 'widget') ?>
+                                </tr>
+                            </table>
+                            <?php submit_button() ?>
+						</div>
+					</div>
+				</div>
+			</form> 
 		</div>
-		
-	</div>';
+    </div>
+<?php
+}
+
+
+/***************************************************************
+ * Dashboard widget activation
+ ***************************************************************/
+function wppic_color_scheme() {
+	$wppicSettings = get_option('wppic_settings');
+	$scheme = $wppicSettings['colorscheme'];
+	
+	$content .= '<td>';
+		$content .= '<select id="wppic-color-scheme" name="wppic_settings[colorscheme]">';
+		$content .= '<option value="default"  '. selected( $scheme, 'default', FALSE ) . ' >Default</option>';
+		$content .= '<option value="scheme1"  '. selected( $scheme, 'scheme1', FALSE ) . ' >Color scheme 1</option>';
+		$content .= '<option value="scheme2"  '. selected( $scheme, 'scheme2', FALSE ) . ' >Color scheme 2</option>';
+		$content .= '<option value="scheme3"  '. selected( $scheme, 'scheme3', FALSE ) . ' >Color scheme 3</option>';
+		$content .= '<option value="scheme4"  '. selected( $scheme, 'scheme4', FALSE ) . ' >Color scheme 4</option>';
+		$content .= '<option value="scheme5"  '. selected( $scheme, 'scheme5', FALSE ) . ' >Color scheme 5</option>';
+		$content .= '<option value="scheme6"  '. selected( $scheme, 'scheme6', FALSE ) . ' >Color scheme 6</option>';
+		$content .= '<option value="scheme7"  '. selected( $scheme, 'scheme7', FALSE ) . ' >Color scheme 7</option>';
+		$content .= '<option value="scheme8"  '. selected( $scheme, 'scheme8', FALSE ) . ' >Color scheme 8</option>';
+		$content .= '<option value="scheme9"  '. selected( $scheme, 'scheme9', FALSE ) . ' >Color scheme 9</option>';
+		$content .= '<option value="scheme10" '. selected( $scheme, 'scheme10', FALSE ) . '>Color scheme 10</option>';
+		$content .= '</select>';
+		$content .= '<label for="wppic-color-scheme">' . __('Default color scheme for your cards.', 'wppic-translate') . '</label>';
+	$content .= '</td>';
+	echo $content;
 }
 
 
@@ -148,7 +194,6 @@ function wppic_settings_page() {
  * Dashboard widget activation
  ***************************************************************/
 function wppic_list_widget() {
-	$content = '';
 	$wppicSettings = get_option('wppic_settings');
 	$content .= '<td>';
 		$content .= '<input type="checkbox" id="wppic-widget" name="wppic_settings[widget]"  value="1" ';
@@ -166,7 +211,6 @@ function wppic_list_widget() {
  * Dashboard widget Ajaxify
  ***************************************************************/
 function wppic_list_ajax() {
-	$content = '';
 	$wppicSettings = get_option('wppic_settings');
 	$content .= '<td>';
 		$content .= '<input type="checkbox" id="wppic-ajax" name="wppic_settings[ajax]"  value="1" ';
@@ -184,7 +228,6 @@ function wppic_list_ajax() {
  * Dashoboard widget plugin list
  ***************************************************************/
 function wppic_list_form() {
-	$content = '';
 	$wppicSettings = get_option('wppic_settings');
         $content .= '<td>';
             $content .= '<button class="wppic-add-fields">' . __('Add a plugin', 'wppic-translate') . '</button><input type="text" name="wppic-add" class="wppic-add"  value="">';

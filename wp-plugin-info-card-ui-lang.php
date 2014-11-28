@@ -34,7 +34,7 @@ function wppic_tinymce_translation() {
     $locale = _WP_Editors::$mce_locale;
     $translated = 'tinyMCE.addI18n("' . $locale . '.wppic_tinymce_plugin", ' . json_encode( $strings ) . ");\n";
 
-     return $translated;
+    return $translated;
 }
 
 $strings = wppic_tinymce_translation();
