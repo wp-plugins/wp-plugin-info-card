@@ -4,6 +4,12 @@
  */
 jQuery(document).ready(function($) {
 
+	//Color scheme preview
+	$('select#wppic-color-scheme').on('change', function() {
+		$('.wp-pic').attr('class', 'wp-pic ' + $(this).val() );
+	});
+
+
 	//Creat fields on the fly and reorder via drag & drop
 	var wrapper         = $("#wppic-liste"); 		//Fields wrapper
 	var add_button      = $(".wppic-add-fields"); 	//Add button ID

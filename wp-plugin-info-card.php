@@ -5,7 +5,8 @@
  * Description: WP Plugin Info Card displays plugins identity cards in a beautiful box with a smooth rotation effect using WP Plugin API. Dashboard widget included.
  * Author: Brice CAPOBIANCO
  * Author URI: http://b-website.com/
- * Version: 1.6.1.1
+ * Version: 1.7
+ * Domain Path: /langs
  * Text Domain: wppic-translate
  */
 
@@ -50,7 +51,7 @@ if ( !defined('WPPIC_ID') ) {
 /***************************************************************
  * Load plugin files
  ***************************************************************/
-$wppicFiles = array('api','shortcode','template','widget','ui');
+$wppicFiles = array('api','shortcode','admin','widget','ui');
 foreach($wppicFiles as $wppicFile){
 	require_once( WPPIC_PATH . 'wp-plugin-info-card-' . $wppicFile . '.php' );
 }
@@ -86,9 +87,9 @@ if ( ! function_exists( 'wppic_meta_links' ) ) {
 	function wppic_meta_links( $links, $file ) {
 		if ( strpos( $file, 'wp-plugin-info-card.php' ) !== false ) {
 			$links[0] = '<a href="http://b-website.com/" target="_blank"><img src="' . WPPIC_URL . 'img/icon-bweb.png" style="margin-bottom: -4px;" alt="b*web"/></a>&nbsp;&nbsp;'. $links[0];
-			$links = array_merge( $links, array( '<a href="http://b-website.com/wp-plugin-info-card-for-wordpress" target="_blank" title="'. __( 'Documentation and examples', 'an-translate' ) .'"><strong style="color:#db3939">'. __( 'Documentation and examples', 'an-translate' ) .'</strong></a>' ) );
-			$links = array_merge( $links, array( '<a href="http://b-website.com/category/plugins" target="_blank" title="'. __( 'More b*web Plugins', 'an-translate' ) .'">'. __( 'More b*web Plugins', 'an-translate' ) .'</a>' ) );
-			$links = array_merge( $links, array( '<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=7Z6YVM63739Y8" target="_blank" title="'. __( 'Donate', 'an-translate' ) .'"><strong>'. __( 'Donate', 'an-translate' ) .'</strong></a>' ) );
+			$links = array_merge( $links, array( '<a href="http://b-website.com/wp-plugin-info-card-for-wordpress" target="_blank" title="'. __( 'Documentation and examples', 'wppic-translate' ) .'"><strong style="color:#db3939">'. __( 'Documentation and examples', 'wppic-translate' ) .'</strong></a>' ) );
+			$links = array_merge( $links, array( '<a href="http://b-website.com/category/plugins" target="_blank" title="'. __( 'More b*web Plugins', 'wppic-translate' ) .'">'. __( 'More b*web Plugins', 'wppic-translate' ) .'</a>' ) );
+			$links = array_merge( $links, array( '<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=7Z6YVM63739Y8" target="_blank" title="'. __( 'Donate', 'wppic-translate' ) .'"><strong>'. __( 'Donate', 'wppic-translate' ) .'</strong></a>' ) );
 		}
 		return $links;
 	}

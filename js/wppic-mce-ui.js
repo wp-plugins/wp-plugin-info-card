@@ -8,27 +8,27 @@
 			icon: 'wppic-icon',
 			onclick: function() {
 				editor.windowManager.open( {
-					title: 'Insert WP Plugin Info Card Shortcode',
+					title: editor.getLang('wppic_tinymce_plugin.title'),
 					body: [
 						{
 							type: 'textbox',
 							name: 'slug',
-							label: 'The Slug',
+							label: editor.getLang('wppic_tinymce_plugin.slug'),
 							value: ''
 						},
 						{
 							type: 'textbox',
 							name: 'image',
-							label: 'Custom logo URL',
+							label: editor.getLang('wppic_tinymce_plugin.image'),
 							value: ''
 						},
 						{
 							type: 'listbox',
 							name: 'logo',
-							label: 'Specify logo format',
+							label: editor.getLang('wppic_tinymce_plugin.logo'),
 							'values': [
-								{text: 'Do not specify', value: ''},
-								{text: 'No logo', value: 'no'},
+								{text: editor.getLang('wppic_tinymce_plugin.default'), value: ''},
+								{text: editor.getLang('wppic_tinymce_plugin.no_logo'), value: 'no'},
 								{text: 'svg', value: 'svg'},
 								{text: '128×128.jpg', value: '128×128.jpg'},
 								{text: '256×256.jpg', value: '256×256.jpg'},
@@ -39,10 +39,10 @@
 						{
 							type: 'listbox',
 							name: 'banner',
-							label: 'Specify banner format',
+							label: editor.getLang('wppic_tinymce_plugin.banner'),
 							'values': [
-								{text: 'Do not specify', value: ''},
-								{text: 'No banner', value: 'no'},
+								{text: editor.getLang('wppic_tinymce_plugin.default'), value: ''},
+								{text: editor.getLang('wppic_tinymce_plugin.no_banner'), value: 'no'},
 								{text: 'jpg', value: 'jpg'},
 								{text: 'png', value: 'png'}
 							]
@@ -50,58 +50,58 @@
 						{
 							type: 'listbox',
 							name: 'align',
-							label: 'Card\'s align',
+							label: editor.getLang('wppic_tinymce_plugin.align'),
 							'values': [
-								{text: 'Do not specify', value: ''},
-								{text: 'center', value: 'center'},
-								{text: 'left', value: 'left'},
-								{text: 'right', value: 'right'}
+								{text: editor.getLang('wppic_tinymce_plugin.default'), value: ''},
+								{text: editor.getLang('wppic_tinymce_plugin.center'), value: 'center'},
+								{text: editor.getLang('wppic_tinymce_plugin.left'), value: 'left'},
+								{text: editor.getLang('wppic_tinymce_plugin.right'), value: 'right'}
 							]
 						},
 						{
 							type: 'textbox',
 							name: 'containerid',
-							label: 'Custom container ID',
+							label: editor.getLang('wppic_tinymce_plugin.containerid'),
 							value: ''
 						},
 						{
 							type: 'textbox',
 							name: 'margin',
-							label: 'Custom container margin (15px 0)',
+							label: editor.getLang('wppic_tinymce_plugin.margin'),
 							value: ''
 						},
 						{
 							type: 'listbox',
 							name: 'clear',
-							label: 'Clear container float',
+							label: editor.getLang('wppic_tinymce_plugin.clear'),
 							'values': [
-								{text: 'Do not specify', value: ''},
-								{text: 'before', value: 'before'},
-								{text: 'after', value: 'after'}
+								{text: editor.getLang('wppic_tinymce_plugin.default'), value: ''},
+								{text: editor.getLang('wppic_tinymce_plugin.before'), value: 'before'},
+								{text: editor.getLang('wppic_tinymce_plugin.after'), value: 'after'}
 							]
 						},
 						{
 							type: 'textbox',
 							name: 'expiration',
-							label: 'Cache duration in minutes (num. only)',
+							label: editor.getLang('wppic_tinymce_plugin.expiration'),
 							value: ''
 						},
 						{
 							type: 'listbox',
 							name: 'ajax',
-							label: 'Load data async. with AJAX',
+							label: editor.getLang('wppic_tinymce_plugin.ajax'),
 							'values': [
-								{text: 'Do not specify', value: ''},
-								{text: 'no', value: 'no'},
-								{text: 'yes', value: 'yes'}
+								{text: editor.getLang('wppic_tinymce_plugin.default'), value: ''},
+								{text: editor.getLang('wppic_tinymce_plugin.no'), value: 'no'},
+								{text: editor.getLang('wppic_tinymce_plugin.yes'), value: 'yes'}
 							]
 						},
 						{
 							type: 'textbox',
 							name: 'custom',
-							label: 'Single value to output',
+							label: editor.getLang('wppic_tinymce_plugin.custom'),
 							value: ''
-						}
+						},
 					],
 					onsubmit: function( e ) {
 						if(e.data.slug != ''){
