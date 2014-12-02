@@ -1,7 +1,8 @@
 /**
  * Plugin Name: WP Plugin Info Card by b*web
+ * Plugin URI: http://b-website.com/
  * Author: Brice CAPOBIANCO - b*web
- */
+ */	
 (function() {
 	tinymce.PluginManager.add('wppic_mce_button', function( editor, url ) {
 		editor.addButton( 'wppic_mce_button', {
@@ -11,41 +12,27 @@
 					title: editor.getLang('wppic_tinymce_plugin.title'),
 					body: [
 						{
+							type: 'listbox',
+							name: 'type',
+							label: editor.getLang('wppic_tinymce_plugin.type'),
+							'values': [
+								{text: editor.getLang('wppic_tinymce_plugin.plugin'), value: 'plugin'},
+								{text: editor.getLang('wppic_tinymce_plugin.theme'), value: 'theme'},
+							]
+						},
+						{
 							type: 'textbox',
 							name: 'slug',
+							required: true,
 							label: editor.getLang('wppic_tinymce_plugin.slug'),
 							value: ''
 						},
 						{
 							type: 'textbox',
 							name: 'image',
+							classes : 'wppic-media', //necessary to call the media library
 							label: editor.getLang('wppic_tinymce_plugin.image'),
-							value: ''
-						},
-						{
-							type: 'listbox',
-							name: 'logo',
-							label: editor.getLang('wppic_tinymce_plugin.logo'),
-							'values': [
-								{text: editor.getLang('wppic_tinymce_plugin.default'), value: ''},
-								{text: editor.getLang('wppic_tinymce_plugin.no_logo'), value: 'no'},
-								{text: 'svg', value: 'svg'},
-								{text: '128×128.jpg', value: '128×128.jpg'},
-								{text: '256×256.jpg', value: '256×256.jpg'},
-								{text: '128×128.png', value: '128×128.png'},
-								{text: '256×256.png', value: '256×256.png'}
-							]
-						},
-						{
-							type: 'listbox',
-							name: 'banner',
-							label: editor.getLang('wppic_tinymce_plugin.banner'),
-							'values': [
-								{text: editor.getLang('wppic_tinymce_plugin.default'), value: ''},
-								{text: editor.getLang('wppic_tinymce_plugin.no_banner'), value: 'no'},
-								{text: 'jpg', value: 'jpg'},
-								{text: 'png', value: 'png'}
-							]
+							value: '',							
 						},
 						{
 							type: 'listbox',
@@ -104,19 +91,18 @@
 						},
 					],
 					onsubmit: function( e ) {
+						if(e.data.type != ''){
+							e.data.type = 'type="' + e.data.type + '" ';
+						}
 						if(e.data.slug != ''){
 							e.data.slug = 'slug="' + e.data.slug + '" ';
 						} else {
-							e.data.slug = 'slug="wp-plugin-info-card" ';
+							editor.windowManager.alert(editor.getLang('wppic_tinymce_plugin.emptyslug'));
+							e.stopPropagation();
+                            e.preventDefault();
 						}
 						if(e.data.image != ''){
 							e.data.image = 'image="' + e.data.image + '" ';
-						}
-						if(e.data.logo != ''){
-							e.data.logo = 'logo="' + e.data.logo + '" ';
-						}
-						if(e.data.banner != ''){
-							e.data.banner = 'banner="' + e.data.banner + '" ';
 						}
 						if(e.data.align != ''){
 							e.data.align = 'align="' + e.data.align + '" ';
@@ -139,21 +125,23 @@
 						if(e.data.custom != ''){
 							e.data.custom = 'custom="' + e.data.custom + '" ';
 						}
-						editor.insertContent( 
-							'[wp-pic '
-								+ e.data.slug
-								+ e.data.image
-								+ e.data.logo
-								+ e.data.banner
-								+ e.data.align
-								+ e.data.containerid
-								+ e.data.margin
-								+ e.data.clear
-								+ e.data.expiration
-								+ e.data.ajax
-								+ e.data.custom
-							+ ']'
-						);
+						
+						if(e.data.slug != ''){
+							editor.insertContent( 
+								'[wp-pic '
+									+ e.data.type
+									+ e.data.slug
+									+ e.data.image
+									+ e.data.align
+									+ e.data.containerid
+									+ e.data.margin
+									+ e.data.clear
+									+ e.data.expiration
+									+ e.data.ajax
+									+ e.data.custom
+								+ ']'
+							);
+						};
 					}
 				});
 			}
