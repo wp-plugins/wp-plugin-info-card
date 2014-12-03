@@ -1,32 +1,5 @@
 <?php
-	//Fix for requiered version with extra info : WP 3.9, BP 2.1+
-	if(is_numeric($wppic_data->requires)){
-		$wppic_data->requires = 'WP ' . $wppic_data->requires . '+';
-	}
-		
-	//Icon URL
-	$screenshotUrl = '';
-	$bgImage = '';
-	if ( !empty( $wppic_data->screenshot_url ) ) {
-		$screenshotUrl = $wppic_data->screenshot_url;
-	}
-	if( !empty($image) ){
-		$bgImage = 'style="background-image:  none, url(' . $image . '), url(' . WPPIC_URL . '/img/wp-pic-sprite.png);"';
-	} else {
-		if( empty($screenshotUrl) ){
-			$bgImage = 'style="background-image:  url(' . WPPIC_URL . '/img/wp-pic-sprite.png);"';
-		} else {
-			$bgImage = 'style="background-image:  none, url(https:' . esc_attr( $screenshotUrl ) . '), url(' . WPPIC_URL . '/img/wp-pic-sprite.png);"';
-		}
-	}
-
-	//Theme banner (screenshot)
-	$banner = '';
-	if ( !empty( $wppic_data->screenshot_url ) ) {
-		$banner = 'style="background-image: url(https:' . esc_attr( $wppic_data->screenshot_url ) . ');"';
-	}
-
-//Start template
+//Start theme template
 ?>
 	<div class="wp-pic-flip" <?php echo $ajaxFadeIn ?>>
 		<div class="wp-pic-face wp-pic-front">
@@ -57,7 +30,7 @@
 				</div>
 				<a class="wp-pic-wporg" href="<?php echo $wppic_data->url ?>" target="_blank" title="<?php _e('WordPress.org Theme Page', 'wppic-translate') ?>"><?php _e('WordPress.org Theme Page', 'wppic-translate') ?></a>
 			</div>
-			<div class="wp-pic-asset-bg" <?php echo $banner ?>>
+			<div class="wp-pic-asset-bg" <?php echo $bgImage ?>>
 				<div class="wp-pic-asset-bg-title"><span><?php echo $wppic_data->name ?></span></div>
 			</div>
 			<div class="wp-pic-goback" title="<?php _e('Back', 'wppic-translate') ?>"><span></span></div>
