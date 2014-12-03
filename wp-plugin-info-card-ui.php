@@ -9,11 +9,12 @@ function wppic_add_mce_button() {
 	
 	if ( 'true' == get_user_option( 'rich_editing' ) ) {
 		
-		add_filter( 'mce_external_plugins', 'wppic_add_tinymce_plugin' );
+		add_filter( 'mce_external_plugins', 'wppic_tinymce_plugin' );
 		add_filter( 'mce_buttons', 'wppic_register_mce_button' );
 		
 		// Load stylesheet for tinyMCE button only
 		wp_enqueue_style( 'wppic-admin-css', WPPIC_URL . 'css/wppic-admin-style.css', array(), NULL, NULL);
+		wp_enqueue_script( 'wppic-ui-scripts', WPPIC_URL . 'js/wppic-ui-scripts.js', array( 'jquery' ),  NULL);
 		
 	}
 	
@@ -22,16 +23,26 @@ add_action('admin_head', 'wppic_add_mce_button');
 
 
 /***************************************************************
+ * Load plugin translation for - TinyMCE API
+ ***************************************************************/ 
+function wppic_add_tinymce_lang( $arr ){
+    $arr[] = plugin_dir_path( __FILE__ ) . 'wp-plugin-info-card-ui-lang.php';
+    return $arr;
+}
+add_filter( 'mce_external_languages', 'wppic_add_tinymce_lang', 10, 1 );
+
+
+/***************************************************************
  * Load custom js options - TinyMCE API
  ***************************************************************/ 
-function wppic_add_tinymce_plugin( $plugin_array ) {
-	$plugin_array['wppic_mce_button'] = WPPIC_URL . '/js/wppic-mce-ui.js';
+function wppic_tinymce_plugin( $plugin_array ) {
+	$plugin_array['wppic_mce_button'] = WPPIC_URL . 'js/wppic-ui-mce.js';
 	return $plugin_array;
 }
 
 
 /***************************************************************
- * Register new button in the editor
+ * Register new standard button in the editor
  ***************************************************************/ 
 function wppic_register_mce_button( $buttons ) {
 	array_push( $buttons, 'wppic_mce_button' );

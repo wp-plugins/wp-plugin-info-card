@@ -1,7 +1,8 @@
 /**
  * Plugin Name: WP Plugin Info Card by b*web
+ * Plugin URI: http://b-website.com/
  * Author: Brice CAPOBIANCO - b*web
- */
+ */	
 jQuery(document).ready(function($) {
 	
 	// fadeIn on page load (prevent css
@@ -48,10 +49,9 @@ jQuery(document).ready(function($) {
 			var $this = $(this);
 			var data = {
 				'action': 'async_wppic_shortcode_content',
+				'type': $this.data('type'),
 				'slug': $this.data('slug'),
 				'image': $this.data('image'),
-				'logo': $this.data('logo'),
-				'banner': $this.data('banner'),
 				'expiration': $this.data('expiration'),
 			};
 			$.post(wppicAjax.ajaxurl, data, function(response) {

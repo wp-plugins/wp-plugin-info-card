@@ -2,10 +2,11 @@
 /**
  * Plugin Name: WP Plugin Info Card by b*web
  * Plugin URI: http://b-website.com/wp-plugin-info-card-for-wordpress
- * Description: WP Plugin Info Card displays plugins identity cards in a beautiful box with a smooth rotation effect using WP Plugin API. Dashboard widget included.
+ * Description: WP Plugin Info Card displays plugins & themes identity cards in a beautiful box with a smooth rotation effect using WordPress.org Plugin API & WordPress.org Theme API. Dashboard widget included.
  * Author: Brice CAPOBIANCO
  * Author URI: http://b-website.com/
- * Version: 1.6.1.1
+ * Version: 2.0.1
+ * Domain Path: /langs
  * Text Domain: wppic-translate
  */
 
@@ -13,13 +14,13 @@
 /***************************************************************
  * SECURITY : Exit if accessed directly
 ***************************************************************/
-if ( !function_exists('add_action') ) {
-    header('Status: 403 Forbidden');
-    header('HTTP/1.1 403 Forbidden');
+if ( !function_exists( 'add_action' ) ) {
+    header( 'Status: 403 Forbidden' );
+    header( 'HTTP/1.1 403 Forbidden' );
     exit();
 }
 
-if ( !defined('ABSPATH') ) {
+if ( !defined( 'ABSPATH' ) ) {
 	exit;
 }
 
@@ -27,22 +28,22 @@ if ( !defined('ABSPATH') ) {
 /***************************************************************
  * Define constants
  ***************************************************************/
-if ( !defined('WPPIC_PATH') ) {
+if ( !defined('WPPIC_PATH' ) ) {
 	define( 'WPPIC_PATH', plugin_dir_path( __FILE__ ) ); 
 }
-if ( !defined('WPPIC_URL') ) {
+if ( !defined('WPPIC_URL' ) ) {
 	define( 'WPPIC_URL', plugin_dir_url( __FILE__ ) ); 
 }
-if ( !defined('WPPIC_BASE') ) {
-	define( 'WPPIC_BASE', plugin_basename(__FILE__) ); 
+if ( !defined('WPPIC_BASE' ) ) {
+	define( 'WPPIC_BASE', plugin_basename( __FILE__ ) ); 
 }
-if ( !defined('WPPIC_NAME') ) {
+if ( !defined('WPPIC_NAME' ) ) {
 	define( 'WPPIC_NAME', 'WP Plugin Info' ); 
 }
-if ( !defined('WPPIC_NAME_FULL') ) {
+if ( !defined('WPPIC_NAME_FULL' ) ) {
 	define( 'WPPIC_NAME_FULL', 'WP Plugin Info Card by b*web' ); 
 }
-if ( !defined('WPPIC_ID') ) {
+if ( !defined('WPPIC_ID' ) ) {
 	define( 'WPPIC_ID', 'wp-plugin-info-card' ); 
 }
 
@@ -50,8 +51,8 @@ if ( !defined('WPPIC_ID') ) {
 /***************************************************************
  * Load plugin files
  ***************************************************************/
-$wppicFiles = array('api','shortcode','template','widget','ui');
-foreach($wppicFiles as $wppicFile){
+$wppicFiles = array( 'api','shortcode','admin','widget','ui' );
+foreach( $wppicFiles as $wppicFile ){
 	require_once( WPPIC_PATH . 'wp-plugin-info-card-' . $wppicFile . '.php' );
 }
 
@@ -59,24 +60,23 @@ foreach($wppicFiles as $wppicFile){
 /***************************************************************
  * Load plugin textdomain
  ***************************************************************/
-if (!function_exists('wppic_load_textdomain')) {
+if ( !function_exists( 'wppic_load_textdomain' ) ) {
 	function wppic_load_textdomain() {
 		$path = dirname(plugin_basename( __FILE__ )) . '/langs/';
-		$loaded = load_plugin_textdomain( 'wppic-translate', false, $path);
+		$loaded = load_plugin_textdomain( 'wppic-translate', false, $path );
 	}
-	add_action('init', 'wppic_load_textdomain');
+	add_action( 'init', 'wppic_load_textdomain' );
 }
 
 
 /***************************************************************
- * Add settings link on extentions page
+ * Add settings link on plugin list page
  ***************************************************************/
-function wppic_settings_link($links) { 
-  $settings_link = '<a href="admin.php?page='.WPPIC_ID.'">' . __('Settings', 'wppic-translate') . '</a>'; 
-  array_push($links, $settings_link); 
+function wppic_settings_link( $links ) { 
+  $links[] = '<a href="admin.php?page='.WPPIC_ID.'">' . __( 'Settings', 'wppic-translate' ) . '</a>'; 
   return $links; 
 }
-add_filter("plugin_action_links_".WPPIC_BASE, 'wppic_settings_link' );
+add_filter( 'plugin_action_links_'.WPPIC_BASE, 'wppic_settings_link' );
 
 
 /***************************************************************
@@ -85,10 +85,10 @@ add_filter("plugin_action_links_".WPPIC_BASE, 'wppic_settings_link' );
 if ( ! function_exists( 'wppic_meta_links' ) ) {
 	function wppic_meta_links( $links, $file ) {
 		if ( strpos( $file, 'wp-plugin-info-card.php' ) !== false ) {
-			$links[0] = '<a href="http://b-website.com/" target="_blank"><img src="' . WPPIC_URL . 'img/icon-bweb.png" style="margin-bottom: -4px;" alt="b*web"/></a>&nbsp;&nbsp;'. $links[0];
-			$links = array_merge( $links, array( '<a href="http://b-website.com/wp-plugin-info-card-for-wordpress" target="_blank" title="'. __( 'Documentation and examples', 'an-translate' ) .'"><strong style="color:#db3939">'. __( 'Documentation and examples', 'an-translate' ) .'</strong></a>' ) );
-			$links = array_merge( $links, array( '<a href="http://b-website.com/category/plugins" target="_blank" title="'. __( 'More b*web Plugins', 'an-translate' ) .'">'. __( 'More b*web Plugins', 'an-translate' ) .'</a>' ) );
-			$links = array_merge( $links, array( '<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=7Z6YVM63739Y8" target="_blank" title="'. __( 'Donate', 'an-translate' ) .'"><strong>'. __( 'Donate', 'an-translate' ) .'</strong></a>' ) );
+			$links[0] = '<a href="http://b-website.com/" target="_blank"><img src="' . WPPIC_URL . 'img/icon-bweb.svg" style="margin-bottom: -4px; width: 18px;" alt="b*web"/></a>&nbsp;&nbsp;'. $links[0];
+			$links[] = '<a href="http://b-website.com/wp-plugin-info-card-for-wordpress" target="_blank" title="'. __( 'Documentation and examples', 'wppic-translate' ) .'"><strong style="color:#db3939">'. __( 'Documentation and examples', 'wppic-translate' ) .'</strong></a>';
+			$links[] = '<a href="http://b-website.com/category/plugins" target="_blank" title="'. __( 'More b*web Plugins', 'wppic-translate' ) .'">'. __( 'More b*web Plugins', 'wppic-translate' ) .'</a>';
+			$links[] = '<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=7Z6YVM63739Y8" target="_blank" title="'. __( 'Donate', 'wppic-translate' ) .'"><strong>'. __( 'Donate', 'wppic-translate' ) .'</strong></a>';
 		}
 		return $links;
 	}
@@ -107,7 +107,7 @@ function wppic_add_favicon() {
 	$favicon_url = WPPIC_URL . 'img/wppic.svg';
 	echo '<link rel="shortcut icon" href="' . $favicon_url . '" />';
 }
-add_action('admin_head', 'wppic_add_favicon');
+add_action( 'admin_head', 'wppic_add_favicon' );
 
 
 /***************************************************************
@@ -122,20 +122,27 @@ function wppic_delete_transients(){
 		WHERE option_name LIKE '_transient_wppic_%'"
 	);
 	foreach($wppic_transients as $singleTransient){
-		delete_transient(str_replace("_transient_", "", $singleTransient->name));
+		delete_transient( str_replace( "_transient_", "", $singleTransient->name ) );
 	}
 }
 
 
 /***************************************************************
- * Cron to purge all plugin transients every day
- * If user has installed the plugin before cron was added, he should 
- * deactivate it then reactivate it.
+ * Cron to purge all plugin transients every weeks
  ***************************************************************/
-function wppic_cron_activation() {
-	wp_schedule_event( current_time( 'timestamp' ), 'daily', 'wppic_daily_cron');
+function wppic_add_weekly( $schedules ) {
+	$schedules[ 'wppic-weekly' ] = array(
+		'interval' => 604800,
+		'display' => __( 'Once Weekly' )
+	);
+	return $schedules;
 }
-add_action('wppic_daily_cron', 'wppic_delete_transients');
+add_filter( 'cron_schedules', 'wppic_add_weekly' ); 
+
+function wppic_cron_activation() {
+	wp_schedule_event( current_time( 'timestamp' ), 'wppic-weekly', 'wppic_daily_cron' );
+}
+add_action( 'wppic_daily_cron', 'wppic_delete_transients' );
 
 
 /***************************************************************
@@ -143,7 +150,7 @@ add_action('wppic_daily_cron', 'wppic_delete_transients');
  ***************************************************************/
 function wppic_uninstall() {
 	//deactivate cron
-	wp_clear_scheduled_hook('wppic_daily_cron');
+	wp_clear_scheduled_hook( 'wppic_daily_cron' );
 	//Purge transients
 	wppic_delete_transients();
 	// Remove option from DB
@@ -152,9 +159,9 @@ function wppic_uninstall() {
 
 
 //Hooks for install
-if (function_exists('register_uninstall_hook')) {
-	register_activation_hook(__FILE__, 'wppic_cron_activation');
+if (function_exists( 'register_uninstall_hook' ) ) {
+	register_activation_hook( __FILE__, 'wppic_cron_activation' );
 	
-	register_uninstall_hook(__FILE__, 'wppic_uninstall');
-	register_uninstall_hook(__FILE__, 'wppic_cron_deactivation');
+	register_uninstall_hook( __FILE__, 'wppic_uninstall' );
+	register_uninstall_hook( __FILE__, 'wppic_cron_deactivation' );
 }
