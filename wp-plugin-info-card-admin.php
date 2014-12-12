@@ -43,7 +43,7 @@ function wppic_register_settings() {
 		WPPIC_ID . 'options'
 	);
 	add_settings_field(
-		'wppic-list-widget',
+		'wppic-color-scheme',
 		__('Color scheme', 'wppic-translate'), 
 		'wppic_color_scheme',
 		WPPIC_ID . 'options',
@@ -71,19 +71,13 @@ function wppic_register_settings() {
 		'wppic_list'
 	);
 	add_settings_field(
-		'wppic-plugin-list-form',
-		__('List of plugins to display', 'wppic-translate'), 
-		'wppic_plugin_list_form',
+		'wppic-list-form',
+		__('List of items to display', 'wppic-translate'), 
+		'wppic_list_form',
 		WPPIC_ID . 'widget',
 		'wppic_list'
 	);
-	add_settings_field(
-		'wppic-theme-list-form',
-		__('List of themes to display', 'wppic-translate'), 
-		'wppic_theme_list_form',
-		WPPIC_ID . 'widget',
-		'wppic_list'
-	);
+
 }
 add_action( 'admin_init', 'wppic_register_settings' );
 
@@ -142,6 +136,10 @@ function wppic_settings_page() {
 							<pre> [wp-pic slug="adblock-notify-by-bweb" align="right" margin="0 0 0 20px" containerid="download-sexion" ajax="yes"] </pre>
 						</p>
 						<p class="documentation"><a href="http://b-website.com/wp-plugin-info-card-for-wordpress" target="_blank" title="'. __( 'Documentation and examples', 'wppic-translate' ) .'">'. __( 'Documentation and examples', 'wppic-translate' ) .' <span class="dashicons dashicons-external"></span></a></p>
+						<p class="wppic-cache-clear">
+							<button class="wppic-cache-clear-button first button button-primary" data-success="' . __('Cache was successfully cleared', 'wppic-translate') . '" data-error="' . __('Something went wrong', 'wppic-translate') . '">' . __('Empty all cache', 'wppic-translate') . '</button>
+							<span class="wppic-cache-clear-loader" style="display: none; background-image: url(' . admin_url() . 'images/spinner-2x.gif);"></span>
+						</p>
 					 </div>
 				</div>
 			</div>';
@@ -243,38 +241,35 @@ function wppic_list_ajax() {
 
 
 /***************************************************************
- * Dashoboard widget plugin list
+ * Dashboard widget plugin list 
  ***************************************************************/
-function wppic_plugin_list_form() {
+function wppic_list_form() {
+	
+	$wppicListForm = array();
+	$wppicListForm = apply_filters( 'wppic_add_list_form', $wppicListForm );	
 	$wppicSettings = get_option('wppic_settings');
-        $content = '<td>';
-            $content .= '<button class="wppic-add-fields">' . __('Add a plugin', 'wppic-translate') . '</button><input type="text" name="wppic-add" class="wppic-add"  value="">';
-            $content .= '<ul id="wppic-plugin-list" class="wppic-list plugins">';
-					if(!empty($wppicSettings['list'])){
-						foreach($wppicSettings['list'] as $item){
-							$content .= '<li class="wppic-dd"><input type="text" name="wppic_settings[list][]"  value="' . $item . '"><span class="wppic-remove-field" title="remove"></span></li>';
+	
+	$content = '<td>';	
+	
+	if( !empty ( $wppicListForm ) ){
+		foreach ( $wppicListForm as $wppicItemForm ){
+			$content .= '<div class="form-list">';
+				$content .= '<button class="button wppic-add-fields" data-type="' . $wppicItemForm[0] . '">' . $wppicItemForm[1] . '</button><input type="text" name="wppic-add" class="wppic-add"  value="">';
+				$content .= '<ul id="wppic-' . $wppicItemForm[0] . '" class="wppic-list">';
+						if(!empty($wppicSettings[ $wppicItemForm[0] ])){
+							foreach($wppicSettings[ $wppicItemForm[0] ] as $item){
+								$content .= '<li class="wppic-dd"><input type="text" name="wppic_settings[' . $wppicItemForm[0] . '][]"  value="' . $item . '"><span class="wppic-remove-field" title="remove"></span></li>';
+							}
 						}
-					}
-            $content .= '</ul>';
-            $content .= '<p>' . __('Please refer to the plugin URL on wordpress.org to determine its slug', 'wppic-translate') . ': <i> https://wordpress.org/plugins/THE-SLUG/</i><p>';               
-        $content .= '</td>';
+				$content .= '</ul>';
+				$content .= '<p>' . $wppicItemForm[2] . ': <i>' . $wppicItemForm[3] . '</i><p>';               
+			$content .= '</div>';
+		}
+	}
+	
+	$content .= '</td>';
 	echo $content;
-}
-
-function wppic_theme_list_form() {
-	$wppicSettings = get_option('wppic_settings');
-        $content = '<td>';
-            $content .= '<button class="wppic-add-fields">' . __('Add a theme', 'wppic-translate') . '</button><input type="text" name="wppic-add" class="wppic-add"  value="">';
-            $content .= '<ul id="wppic-theme-list" class="wppic-list themes">';
-					if(!empty($wppicSettings['theme-list'])){
-						foreach($wppicSettings['theme-list'] as $item){
-							$content .= '<li class="wppic-dd"><input type="text" name="wppic_settings[theme-list][]"  value="' . $item . '"><span class="wppic-remove-field" title="remove"></span></li>';
-						}
-					}
-            $content .= '</ul>';
-            $content .= '<p>' . __('Please refer to the theme URL on wordpress.org to determine its slug', 'wppic-translate') . ': <i> https://wordpress.org/themes/THE-SLUG/</i><p>';               
-        $content .= '</td>';
-	echo $content;
+	
 }
 
 
@@ -282,29 +277,31 @@ function wppic_theme_list_form() {
  * Form validator
  ***************************************************************/
 function wppic_validate($input) {
-	if(!empty($input['list'])){
+	if( isset( $input['list'] ) && !empty( $input['list'] ) ){
 		
-		$list = array(
-			array('list', __('is not a valid plugin name format. This key has been deleted.', 'wppic-translate')), 
-			array('theme-list', __('is not a valid theme name format. This key has been deleted.', 'wppic-translate')), 
-		);
+		$validationList = array();
+		$validationList = apply_filters( 'wppic_add_list_valdiation', $validationList );
 		
-		foreach($list as $element){
-			//remove duplicate 
-			$input[$element[0]] = array_unique($input[$element[0]]);
-	
-			foreach($input[$element[0]] as $key=>$item){
-				if(!preg_match('/^[a-z][-a-z0-9]*$/', $item)) {
-					if(!empty ($item)){
-						add_settings_error(
-							'wppic-admin-notice',
-							'',
-							'<i>"' . $item . '"</i> ' . $element[1],
-							'error'
-						);
+		foreach($validationList as $element){		
+			if( isset( $input[$element[0]] ) && !empty( $input[$element[0]] ) ){
+				
+				//remove duplicate 
+				$input[$element[0]] = array_unique($input[$element[0]]);
+		
+				foreach($input[$element[0]] as $key=>$item){
+					if(!preg_match($element[2], $item)) {
+						if(!empty ($item)){
+							add_settings_error(
+								'wppic-admin-notice',
+								'',
+								'<i>"' . $item . '"</i> ' . $element[1],
+								'error'
+							);
+						}
+						unset($input[$element[0]][$key]);
 					}
-					unset($input[$element[0]][$key]);
 				}
+				
 			}
 		}
 	}
@@ -330,17 +327,18 @@ function wppic_plugins_about() {
         <a class="wppic-button wppic-pluginSupport" href="https://wordpress.org/support/plugin/wp-plugin-info-card" target="_blank">' . __('Support', 'wppic-translate') . '</a>
         <a class="wppic-button wppic-pluginRate" href="https://wordpress.org/support/view/plugin-reviews/wp-plugin-info-card#postform" target="_blank">' . __('Give me five!', 'wppic-translate') . '</a>
         <a class="wppic-button wppic-pluginContact" href="http://b-website.com/contact" target="_blank">' . __('Any suggestions?', 'wppic-translate') . '</a>
+        <a class="wppic-button wppic-pluginDonate" href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=7Z6YVM63739Y8" target="_blank">' . __('Donate', 'wppic-translate') . '</a>
     </div>
-    
-	<div id="wppic-donate">
-        ' . __('Did you like it? If so, please consider making a donation.', 'wppic-translate') . '
-		<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
-		<input type="hidden" name="cmd" value="_s-xclick">
-		<input type="hidden" name="hosted_button_id" value="SVR5SERD3468E">
-		<input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif" border="0" name="submit" alt="' . __('PayPal - The safer, easier way to pay online!', 'wppic-translate') . '">
-		<img alt="" border="0" src="https://www.paypalobjects.com/fr_FR/i/scr/pixel.gif" width="1" height="1">
-		</form>
-	</div>
+
 	';
 	return $content;
 }
+
+
+/***************************************************************
+ * Clear plugin transients with ajax
+ ***************************************************************/
+function wppic_clear_cache() {
+	wppic_delete_transients();
+}
+add_action( 'wp_ajax_async_wppic_clear_cache', 'wppic_clear_cache' );

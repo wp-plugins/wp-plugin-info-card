@@ -3,11 +3,13 @@
  * Plugin URI: http://b-website.com/
  * Author: Brice CAPOBIANCO - b*web
  */	
+ 
 (function() {
 	tinymce.PluginManager.add('wppic_mce_button', function( editor, url ) {
 		editor.addButton( 'wppic_mce_button', {
 			icon: 'wppic-icon',
 			onclick: function() {
+				
 				editor.windowManager.open( {
 					title: editor.getLang('wppic_tinymce_plugin.title'),
 					body: [
@@ -15,10 +17,7 @@
 							type: 'listbox',
 							name: 'type',
 							label: editor.getLang('wppic_tinymce_plugin.type'),
-							'values': [
-								{text: editor.getLang('wppic_tinymce_plugin.plugin'), value: 'plugin'},
-								{text: editor.getLang('wppic_tinymce_plugin.theme'), value: 'theme'},
-							]
+							'values': wppicMceList.types
 						},
 						{
 							type: 'textbox',
