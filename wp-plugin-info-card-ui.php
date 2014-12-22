@@ -13,8 +13,24 @@ function wppic_add_mce_button() {
 		add_filter( 'mce_buttons', 'wppic_register_mce_button' );
 		
 		// Load stylesheet for tinyMCE button only
-		wp_enqueue_style( 'wppic-admin-css', WPPIC_URL . 'css/wppic-admin-style.css', array(), NULL, NULL);
-		wp_enqueue_script( 'wppic-ui-scripts', WPPIC_URL . 'js/wppic-ui-scripts.js', array( 'jquery' ),  NULL);
+		wp_enqueue_style( 'wppic-admin-css', WPPIC_URL . 'css/wppic-admin-style.css', array(), NULL, NULL );
+		wp_enqueue_script( 'wppic-ui-scripts', WPPIC_URL . 'js/wppic-ui-scripts.js', array( 'jquery' ),  NULL );
+
+		//Define additionnal hookable MCE parameters
+		$mceAddParam = array(
+				'types' => array(),
+				'layouts' => array(
+					array( 'text' => __('Card (default)', 'wppic-translate'), 'value' => '' ),
+					array( 'text' => __('Large', 'wppic-translate'), 'value' => 'large' )
+				)
+
+			);
+		$mceAddParam = apply_filters( 'wppic_add_mce_type', $mceAddParam );
+		$mceAddParam = json_encode( $mceAddParam );
+		
+		echo '<script>// <![CDATA[
+		  var wppicMceList = '. $mceAddParam .';
+		// ]]></script>';
 		
 	}
 	

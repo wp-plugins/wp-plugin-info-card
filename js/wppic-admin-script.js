@@ -7,28 +7,24 @@ jQuery(document).ready(function($) {
 
 	//Color scheme preview
 	$('select#wppic-color-scheme').on('change', function() {
-		$('.wp-pic').attr('class', 'wp-pic ' + $(this).val() );
+		$('.wp-pic').attr('class', 'wp-pic plugin ' + $(this).val() );
 	});
   
 	//Creat fields on the fly and reorder via drag & drop
 	var wrapper         = '.wppic-list';	 		//Fields wrapper
-	var add_button      = $(".wppic-add-fields"); 	//Add button ID
+	var add_button      = $('.wppic-add-fields'); 	//Add button ID
 	var add_input     	= '.wppic-add'; 			//Fields list
 	var field_remove    = 'wppic-remove-field';		//Remove item
 
 
 	add_button.click(function(e){ //add button
 		e.preventDefault();
-		currentWrapper = $(this).parents('td').find(wrapper);
-		currentInput = $(this).parents('td').find(add_input);
+		currentWrapper = $(this).parents('.form-list').find(wrapper);
+		currentInput = $(this).parents('.form-list').find(add_input);
 
-		if(currentWrapper.hasClass('themes')){
-			list = 'theme-list';
-		} else {
-			list = 'list';
-		}
+		type = $(this).data('type');
 
-		$(this).parents('td').find(wrapper).append('<li class="wppic-dd ui-state-default" draggable="true"><input type="text" name="wppic_settings[' + list + '][]" value="' + currentInput.val() + '" /><span class="' + field_remove + '" title="remove"></span></li>'); //add input box
+		$(this).parents('.form-list').find(wrapper).append('<li class="wppic-dd ui-state-default" draggable="true"><input type="text" name="wppic_settings[' + type + '][]" value="' + currentInput.val() + '" /><span class="' + field_remove + '" title="remove"></span></li>'); //add input box
 		currentInput.val('').focus();
 	});
 	
@@ -68,7 +64,7 @@ jQuery(document).ready(function($) {
 			//ajax request and callback
 			$.each(dataList, function( index, value ){
 				var data = {
-					'action': 'wppic_ajax_widget',
+					'action': 'wppic_widget_render',
 					'async': false,
 					'wppic-type': dataType,
 					'wppic-list': value
@@ -101,5 +97,35 @@ jQuery(document).ready(function($) {
 		});
 		
 	}
-				
+	
+	//Ajax clear cache
+	if ($('.wppic-cache-clear-button.first').length > 0){
+
+		$('.wppic-cache-clear-button.first').live("click", function(){
+			$(this).removeClass('first');
+			$('.wppic-cache-clear-loader').show();
+			
+			$.ajax({
+				url: ajaxurl, 
+				data: {
+					'action': 'async_wppic_clear_cache',
+				}, 
+				success: function(response) {
+					var defaultText = $('.wppic-cache-clear-button').html();
+					$('.wppic-cache-clear-loader').hide();
+					$('.wppic-cache-clear-button').removeClass('button-primary').attr("disabled", "disabled").html($('.wppic-cache-clear-button').data('success'));
+					setTimeout(function(){ 
+						$('.wppic-cache-clear-button').addClass('button-primary').attr("disabled", false).html(defaultText);
+					}, 3000);
+				},
+				error: function(response){
+					$('.wppic-cache-clear-loader').hide();
+					$('.wppic-cache-clear-button').removeClass('button-primary').attr("disabled", "disabled").html($('.wppic-cache-clear-button').data('error'));
+				}
+			});
+			
+		});
+		
+	}
+
 });
