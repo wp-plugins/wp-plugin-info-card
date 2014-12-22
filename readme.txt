@@ -109,8 +109,10 @@ Yes, it is compatible with most recent browsers, except for Opera (but IE10+ wor
 3. Dashboard widget
 4. Shortcode builder
 5. Shortcode button
-6. Another example with a theme (back of the card, a plugin with a custom icon, a plugin without icon)
-
+6. Another example with a theme (back of the card), a plugin with a custom icon, a plugin without icon (default WorPress logo)
+7. Theme with the large layout
+8. Plugin with the large layout
+9. Plugin with the large layout in the sidebar
 
 == Changelog ==
 
@@ -128,7 +130,8 @@ Yes, it is compatible with most recent browsers, except for Opera (but IE10+ wor
 * Better scripts enqueuing (new action)
 * New option to force scripts enqueuing
 * Tested on WP 4.1 with success!
-
+* New screenshots
+* readme.txt update
 
 = 2.1 =
 * Many hooks added
