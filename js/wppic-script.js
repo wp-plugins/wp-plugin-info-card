@@ -6,7 +6,7 @@
 jQuery(document).ready(function($) {
 	
 	// fadeIn on page load
-	$('.wp-pic .wp-pic-flip').fadeIn(600);
+	$('.wp-pic > div').fadeIn(600);
 	
 	$('.wp-pic').delegate('.wp-pic-flip', 'mouseover', function() {
 		$('.wp-pic-flip').each(function(){
@@ -53,10 +53,11 @@ jQuery(document).ready(function($) {
 				'slug': $this.data('slug'),
 				'image': $this.data('image'),
 				'expiration': $this.data('expiration'),
+				'layout': $this.data('layout'),
 			};
 			$.post(wppicAjax.ajaxurl, data, function(response) {
 				$this.append(response);
-				$this.find('.wp-pic-flip').fadeIn(600, function() {
+				$this.find('div').fadeIn(600, function() {
 					$this.find('.wp-pic-body-loading').remove();
 				});
 			});

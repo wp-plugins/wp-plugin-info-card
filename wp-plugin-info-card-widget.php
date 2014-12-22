@@ -84,7 +84,7 @@ function wppic_widgets() {
 	if( !$listState ) {
 
 		$content .= '<div class="wp-pic-item" style="display:block;">';
-		$content .= '<span class="wp-pic-no-item">' . __('Nothing found, please go to WP Plugin Info Card', 'wppic-translate') . ' <a href="admin.php?page=' . WPPIC_ID . '">' . __('Settings', 'wppic-translate') . '</a> ' . __('and add some items.', 'wppic-translate') . '</span>';
+		$content .= '<span class="wp-pic-no-item"><a href="admin.php?page=' . WPPIC_ID . '">' . __('Nothing found, please add at least one item in the WP Plugin Info Card settings page.', 'wppic-translate') . '</a></span>';
 		$content .= '</div>';
 		
 	}
@@ -113,7 +113,7 @@ function wppic_widget_render($type=NULL, $slugs=NULL){
 
 	if(!empty($slugs)) {
 		foreach($slugs as $slug){
-			$wppic_plugin_data = wppic_api_parser($type, $slug, 5, true);
+			$wppic_plugin_data = wppic_api_parser($type, $slug, '5', true);
 
 			if(!empty($wppic_plugin_data->name)){
 				

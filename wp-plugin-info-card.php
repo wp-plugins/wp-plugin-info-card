@@ -5,7 +5,7 @@
  * Description: WP Plugin Info Card displays plugins & themes identity cards in a beautiful box with a smooth rotation effect using WordPress.org Plugin API & WordPress.org Theme API. Dashboard widget included.
  * Author: Brice CAPOBIANCO
  * Author URI: http://b-website.com/
- * Version: 2.1
+ * Version: 2.2
  * Domain Path: /langs
  * Text Domain: wppic-translate
  */
@@ -38,7 +38,7 @@ if ( !defined('WPPIC_BASE' ) ) {
 	define( 'WPPIC_BASE', plugin_basename( __FILE__ ) ); 
 }
 if ( !defined('WPPIC_NAME' ) ) {
-	define( 'WPPIC_NAME', 'WP Plugin Info' ); 
+	define( 'WPPIC_NAME', 'WP Plugin Info Card' ); 
 }
 if ( !defined('WPPIC_NAME_FULL' ) ) {
 	define( 'WPPIC_NAME_FULL', 'WP Plugin Info Card by b*web' ); 
@@ -61,7 +61,7 @@ foreach( $wppicFiles as $wppicFile ){
  * Load plugin textdomain
  ***************************************************************/
 function wppic_load_textdomain() {
-	$path = dirname(plugin_basename( __FILE__ )) . '/langs/';
+	$path = dirname( plugin_basename( __FILE__ ) ) . '/langs/';
 	$loaded = load_plugin_textdomain( 'wppic-translate', false, $path );
 }
 add_action( 'init', 'wppic_load_textdomain' );
@@ -71,10 +71,10 @@ add_action( 'init', 'wppic_load_textdomain' );
  * Add settings link on plugin list page
  ***************************************************************/
 function wppic_settings_link( $links ) { 
-  $links[] = '<a href="admin.php?page='.WPPIC_ID.'">' . __( 'Settings', 'wppic-translate' ) . '</a>'; 
+  $links[] = '<a href="' . admin_url( 'options-general.php?page=' . WPPIC_ID ) . '" title="'. __( 'WP Plugin Info Card Settings', 'wppic-translate' ) .'">' . __( 'Settings', 'wppic-translate' ) . '</a>'; 
   return $links; 
 }
-add_filter( 'plugin_action_links_'.WPPIC_BASE, 'wppic_settings_link' );
+add_filter( 'plugin_action_links_' . WPPIC_BASE, 'wppic_settings_link' );
 
 
 /***************************************************************
@@ -84,7 +84,7 @@ function wppic_meta_links( $links, $file ) {
 	if ( strpos( $file, 'wp-plugin-info-card.php' ) !== false ) {
 		$links[0] = '<a href="http://b-website.com/" target="_blank"><img src="' . WPPIC_URL . 'img/icon-bweb.svg" style="margin-bottom: -4px; width: 18px;" alt="b*web"/></a>&nbsp;&nbsp;'. $links[0];
 		$links[] = '<a href="http://b-website.com/wp-plugin-info-card-for-wordpress" target="_blank" title="'. __( 'Documentation and examples', 'wppic-translate' ) .'"><strong style="color:#db3939">'. __( 'Documentation and examples', 'wppic-translate' ) .'</strong></a>';
-		$links[] = '<a href="http://b-website.com/category/plugins" target="_blank" title="'. __( 'More b*web Plugins', 'wppic-translate' ) .'">'. __( 'More b*web Plugins', 'wppic-translate' ) .'</a>';
+		$links[] = '<a href="http://b-website.com/category/plugins" target="_blank" title="'. __( 'More plugins by b*web', 'wppic-translate' ) .'">'. __( 'More plugins by b*web', 'wppic-translate' ) .'</a>';
 		$links[] = '<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=7Z6YVM63739Y8" target="_blank" title="'. __( 'Donate', 'wppic-translate' ) .'"><strong>'. __( 'Donate', 'wppic-translate' ) .'</strong></a>';
 	}
 	return $links;
@@ -97,7 +97,7 @@ add_filter( 'plugin_row_meta', 'wppic_meta_links', 10, 2 );
  ***************************************************************/
 function wppic_add_favicon() {
 	$screen = get_current_screen();
-	if ( $screen->id != 'toplevel_page_'. WPPIC_ID )
+	if ( $screen->id != 'toplevel_page_' . WPPIC_ID )
 		return;
 	
 	$favicon_url = WPPIC_URL . 'img/wppic.svg';

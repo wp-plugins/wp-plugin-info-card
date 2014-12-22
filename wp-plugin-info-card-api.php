@@ -2,28 +2,27 @@
 /***************************************************************
  * Fetching plugin data through WordPress Plugin API
  ***************************************************************/
-function wppic_api_parser($type, $slug, $expiration = 720, $widget = NULL){		
+function wppic_api_parser( $type, $slug, $expiration = 720, $widget = NULL ){		
 
-	if($widget == true){
+	if( $widget == true ){
 		$widget = 'widget_';
-		$expiration = 10;
 	} else {
 		$widget = '';
 	}
 	
-	$wppic_data = get_transient( 'wppic_'. $widget . $type . '_' . preg_replace('/\-/', '_', $slug) );
+	$wppic_data = get_transient( 'wppic_'. $widget . $type . '_' . preg_replace( '/\-/', '_', $slug ) );
 	
-	//check if expiration is numeric, only digit char
-	if(empty($expiration) || !ctype_digit($expiration))
+	//check if $expiration is numeric, only digit char
+	if( empty($expiration) || !ctype_digit($expiration))
 		$expiration = 720;
 		
 	if ( false === $wppic_data || empty( $wppic_data ) ) {	
-		
+				
 		$wppic_data = false;
-		$wppic_data = apply_filters('wppic_add_api_parser', $wppic_data, $type, $slug );
+		$wppic_data = apply_filters( 'wppic_add_api_parser', $wppic_data, $type, $slug );
 		
 		//Transient duration  def:12houres
-		set_transient( 'wppic_'. $widget . $type . '_' . preg_replace('/\-/', '_', $slug), $wppic_data, $expiration*60);
+		set_transient( 'wppic_'. $widget . $type . '_' . preg_replace('/\-/', '_', $slug), $wppic_data, $expiration*60 );
 	}
 	
 	return $wppic_data;

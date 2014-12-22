@@ -1,56 +1,68 @@
 === WP Plugin Info Card ===
 Contributors: briKou
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=7Z6YVM63739Y8
-Tags: API, plugin, card, blog, developper, design, dashboard, shortcode, ajax, WordPress, plugin API, CSS, rotate, flip card, awesome, UX, ui, showcase, theme API, themes, theme, jquery
+Tags: API, plugin, card, blog, developper, design, dashboard, shortcode, ajax, WordPress, plugin API, CSS, rotate, flip card, awesome, UX, ui, showcase, theme API, themes, theme, jquery, Envato
 Requires at least: 3.7
-Tested up to: 4.0
-Stable tag: 2.1
+Tested up to: 4.1
+Stable tag: 2.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
  
-WPPPIC displays plugins & themes data in a beautiful box with a smooth rotation effect using WP Plugin & Theme APIs. Dashboard widget included
+WPPIC displays plugins & themes data in a beautiful box with a smooth rotation effect using WP Plugin & Theme APIs. Dashboard widget included.
 
 == Description ==
 
 = How does it work? =
 
-WP Plugin Info Card allows you to display plugins & themes identity cards in a beautiful box with a smooth 3D rotation effect.
+WP Plugin Info Card lets you display plugins & themes identity cards in a beautiful box with a smooth 3D rotation effect, or in a more large and responsive layout.
 
-It uses WordPress.org plugin API & theme API to fetch data. All you need to do is provide a valid plugin/theme ID (slug name), and then insert the shortcode in any page to make it work at once!
+It uses WordPress.org plugins API & themes API to fetch data. All you need to do is provide a valid plugin/theme ID (slug name), and then insert the shortcode in any page to make it work at once!
 
-This plugin is very light and includes scripts and CSS only if and when required. The shortcode may be added everywhere shortcodes are supported in your theme.
+This plugin is very light and includes scripts and CSS only if and when required (you can force scripts enqueuing in admin settings). The shortcode may be added anywhere shortcodes are supported within your theme.
 
 The plugin also uses WordPress transients to store data returned by the API for 12 hours (720min by default), so your page loading time will not be increased due to too many requests.
 
 The dashboard widget is very easy to set up: you simply add as many plugins and themes as you want in the admin page and they become visible in your dashboard. Fields are added on-the-fly and are sortable via drag-and-drop.
 
+It is perfect to keep track of your own plugins!
+
+This plugin uses the TinyMCE API to improve UI and make inserting shortcodes easier!
+
 
 [CHECK OUT THE DEMO](http://b-website.com/wp-plugin-info-card-for-wordpress "Try It!")
 
+
+* NEW feature (added in 2.2): Layout option added, LARGE template added.
+* NEW feature (added in 2.2): You may now provide a list of slugs (comma-separated) in your shortcode slug parameter, WPPIC will randomly choose one item from the list on each page refresh.
+* NEW Beta feature (added in 2.2): You may now easily overload the plugin rendering. You need to create a new "wppic-templates" folder into your theme folder, then copy the template you want to overload from the WP Plugin Info Card "wppic-templates" folder.
+* NEW Beta feature (added in 2.2): You may now create your own template file. You need to create a new "wppic-templates" folder into your theme folder, then copy the template file "wppic-template-plugin-large.php" or "wppic-template-theme-large.php" from the WP Plugin Info Card '/wppic-templates' folder. Rename the file as "wppic-template-plugin-NEWTEMPLATE.php" or "wppic-template-theme-NEWTEMPLATE.php", edit it as you go, and add your own CSS rules. Finally, call your new template by adding the following parameter in your shortcode: layout="NEWTEMPLATE"
+
+
+
 **Please ask for help or report bugs if anything goes wrong. It is the best way to make the community benefit!**
+
+
 
 = Shortcode parameters =
 
 * **type:** plugin, theme (default: plugin)
 * **slug:** plugin slug name - Please refer to the plugin/theme URL on wordpress.org to determine its slug: https://wordpress.org/plugins/THE-SLUG/
-* **image:** image url to replace WP logo - Best size is 175px X 175px(default: empty)
+* **layout:** template layout to use - Default is "card" so you may leave this parameter empty. Available layouts are: card, large (default: empty)
+* **scheme:** card color scheme: scheme1 to scheme10 (default: default color scheme defined in admin)
+* **image:** image url to replace the default image or logo(default: empty)
 * **align:** center, left, right (default: empty)
 * **containerid:** custom div id, may be used for anchor (default: wp-pic-PLUGIN-NAME)
 * **margin:** custom container margin - eg: "15px 0" (default: empty)
 * **clear:** clear float before or after the card: before, after (default: empty)
 * **expiration:** cache duration in minutes - numeric format only (default: 10)
 * **ajax:** load the plugin data asynchronously with AJAX: yes, no (default: no)
-* **scheme:** card color scheme: scheme1 to scheme10 (default: default color scheme defined in admin)
-* **custom:** value to output : (default: empty)	
+* **custom:** value to display: (default: empty)	
 	* For plugins: url, name, icons, banners, version, author, requires, rating, num_ratings, downloaded, last_updated, download_link	
 	* For themes: url, name, version, author, screenshot_url, rating, num_ratings, downloaded, last_updated, homepage, download_link
 
 
-logo & banner parameters are drepreciated - not needed anymore!
-
-**Plugin is now using the TinyMCE API to improve UI and makes it easy to insert shortcodes!**
-
+logo & banner parameters are dreprecated - not needed anymore!
 
 = Examples =
 
@@ -58,6 +70,8 @@ The slug is the only required parameter for plugin. You have to set the "type" p
 `[wp-pic slug="wp-plugin-info-card"]`
 
 `[wp-pic type="theme" slug="zerif-lite" align="right" expiration="60" ajax="yes"]`
+
+`[wp-pic slug="adblock-notify-by-bweb" layout="large" scheme="scheme1" align="right" margin="0 0 0 20px" containerid="download-sexion" ajax="yes"]`
 
 `[wp-pic slug="wp-plugin-info-card" custom="name" ] has been downloaded [wp-pic slug="wp-plugin-info-card" custom="downloaded" ] times!`
 
@@ -83,7 +97,7 @@ Become a translator and send me your translation! [Contact-me](http://b-website.
 
 == Frequently Asked Questions ==
 
-= Is it cross-browser compatible? =
+= Is the card-flipping effect cross-browser compatible? =
 
 Yes, it is compatible with most recent browsers, except for Opera (but IE10+ works!)
 
@@ -100,14 +114,32 @@ Yes, it is compatible with most recent browsers, except for Opera (but IE10+ wor
 
 == Changelog ==
 
+= 2.2 =
+* Total re-factoring of the plugin core files and structures
+* Many hooks added
+* CSS updates and fixes
+* Translation update
+* PHP fixes
+* Fixed issue on Widget cache duration (5min)
+* Random slug from slugs list (comma-separated)
+* Large layout template added
+* Color scheme and layout parameters added to WYSIWYG UI
+* Custom template layout support
+* Better scripts enqueuing (new action)
+* New option to force scripts enqueuing
+* Tested on WP 4.1 with success!
+
+
 = 2.1 =
 * Many hooks added
 * More clean code and template render
-* Clear cache button added in admin
+* Clear cache button in admin
 * CSS updates and fixes
 * Translation update
 * PHP fixes
 * Remove ugly paypal donate button in admin
+* Random slug from slugs list (comma-separated)
+* Large layout template added
 
 = 2.0.1 =
 * SVG logo in admin menu (base64 encoded)
@@ -164,7 +196,7 @@ Yes, it is compatible with most recent browsers, except for Opera (but IE10+ wor
 * readme.txt update + admin page documentation update
 
 = 1.5 =
-* Shortcode can now be displayed everywhere in the page (content/widget) because JS & CSS are loaded via a global var.
+* Shortcode may now be displayed everywhere in the page (content/widget) because JS & CSS are loaded via a global var.
 * Ajaxify dashboard widget.
 * Fix bug on saving empty plugin list with deactivated dashboard widget
 * New param added to specify transient life time
@@ -195,7 +227,7 @@ Yes, it is compatible with most recent browsers, except for Opera (but IE10+ wor
 == Upgrade Notice ==
 
 = 1.5 =
-* If you have installed the plugin before version 1.5 you have to deactivate it then reactivate it to register the cron job which will purge the plugin's transients everyday.
+* If you have installed the plugin before version 1.5 you have to deactivate it then reactivate it in order to register the cron job which will purge the plugin transients everyday.
 
 = 1.0 =
 * First release.

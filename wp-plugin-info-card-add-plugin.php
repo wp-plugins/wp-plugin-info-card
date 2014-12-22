@@ -52,46 +52,19 @@ function wppic_plugin_template($content, $data){
 	$type = $data[0];
 	$wppic_data = $data[1];
 	$image = $data[2];
+	$layout = '-' . $data[3];
 	
 	if ( $type == 'plugin') {
 
-		//Fix for requiered version with extra info : WP 3.9, BP 2.1+
-		if(is_numeric($wppic_data->requires)){
-			$wppic_data->requires = 'WP ' . $wppic_data->requires . '+';
-		}
-			
-		//Icon URL
-		if ( !empty( $wppic_data->icons['svg'] ) ) {
-			$icon = $wppic_data->icons['svg'];
-		} elseif ( !empty( $wppic_data->icons['2x'] ) ) {
-			$icon = $wppic_data->icons['2x'];
-		} elseif ( !empty( $wppic_data->icons['1x'] ) ) {
-			$icon = $wppic_data->icons['1x'];
-		} else {
-			$icon = $wppic_data->icons['default'];
-		}
-		
-		if( !empty($image) ){
-			$bgImage = 'style="background-image: url(' . $image . ');"';
-		} else if( isset($icon) ) {
-			$bgImage = 'style="background-image: url(https:' . esc_attr( $icon ) . ');"';
-		} else {
-			$bgImage = 'data="no-image"';
-		}
-	
-		//Plugin banner
-		$banner = '';
-		if ( !empty( $wppic_data->banners['low'] ) ) {
-			$banner = 'style="background-image: url(https:' . esc_attr( $wppic_data->banners['low'] ) . ');"';
-		}
-		
 		//load custom user template if exists
+		$WPPICtemplatefile = '/wppic-templates/wppic-template-plugin';
 		ob_start();
-		$WPPICtemplatefile = '/wppic-templates/wppic-template-plugin.php';
-		if ( file_exists(get_template_directory() . $WPPICtemplatefile)) { 
-			include(get_template_directory() . $WPPICtemplatefile); 
+		if ( file_exists( get_stylesheet_directory() . $WPPICtemplatefile .  $layout . '.php' ) ) { 
+			include( get_stylesheet_directory() . $WPPICtemplatefile .  $layout . '.php' ); 
+		} else if ( file_exists(WPPIC_PATH . $WPPICtemplatefile .  $layout . '.php' ) ) { 
+			include( WPPIC_PATH . $WPPICtemplatefile .  $layout . '.php' ); 
 		} else {
-			include(WPPIC_PATH . $WPPICtemplatefile); 
+			include( WPPIC_PATH . $WPPICtemplatefile . '.php' ); 
 		}
 		$content .= ob_get_clean();
 

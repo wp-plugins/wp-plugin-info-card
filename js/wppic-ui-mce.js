@@ -27,6 +27,31 @@
 							value: ''
 						},
 						{
+							type: 'listbox',
+							name: 'layout',
+							label: editor.getLang('wppic_tinymce_plugin.layout'),
+							'values': wppicMceList.layouts
+						},
+						{
+							type: 'listbox',
+							name: 'scheme',
+							label: editor.getLang('wppic_tinymce_plugin.scheme'),
+							'values': [
+								{text: editor.getLang('wppic_tinymce_plugin.default'), value: ''},
+								{text: editor.getLang('wppic_tinymce_plugin.defaultscheme'), value: 'default'},
+								{text: 'scheme1', value: 'scheme1'},
+								{text: 'scheme2', value: 'scheme2'},
+								{text: 'scheme3', value: 'scheme3'},
+								{text: 'scheme4', value: 'scheme4'},
+								{text: 'scheme5', value: 'scheme5'},
+								{text: 'scheme6', value: 'scheme6'},
+								{text: 'scheme7', value: 'scheme7'},
+								{text: 'scheme8', value: 'scheme8'},
+								{text: 'scheme9', value: 'scheme9'},
+								{text: 'scheme10', value: 'scheme10'}
+							]
+						},
+						{
 							type: 'textbox',
 							name: 'image',
 							classes : 'wppic-media', //necessary to call the media library
@@ -100,6 +125,12 @@
 							e.stopPropagation();
                             e.preventDefault();
 						}
+						if(e.data.layout != ''){
+							e.data.layout = 'layout="' + e.data.layout + '" ';
+						}
+						if(e.data.scheme != ''){
+							e.data.scheme = 'scheme="' + e.data.scheme + '" ';
+						}
 						if(e.data.image != ''){
 							e.data.image = 'image="' + e.data.image + '" ';
 						}
@@ -130,6 +161,8 @@
 								'[wp-pic '
 									+ e.data.type
 									+ e.data.slug
+									+ e.data.layout
+									+ e.data.scheme
 									+ e.data.image
 									+ e.data.align
 									+ e.data.containerid

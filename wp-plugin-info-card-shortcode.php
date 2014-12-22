@@ -1,31 +1,44 @@
 <?php
 /***************************************************************
- * Enqueue Scripts when shortcode is in page
+ * Register default plugin scripts
  ***************************************************************/
 function wppic_register_sripts() {
-	wp_register_style( 'wppic-style', WPPIC_URL . 'css/wppic-style.css', NULL, NULL);
-	wp_register_script( 'wppic-script', WPPIC_URL . 'js/wppic-script.min.js', array( 'jquery' ),  NULL, true);
+	wp_enqueue_style( 'wppic-style', WPPIC_URL . 'css/wppic-style.css', NULL, NULL );
+	wp_enqueue_script( 'wppic-script', WPPIC_URL . 'js/wppic-script.min.js', array( 'jquery' ),  NULL, true );
 }
+add_action( 'wppic_enqueue_scripts', 'wppic_register_sripts' );
 
+
+/***************************************************************
+ * Enqueue Scripts action hook
+ ***************************************************************/
 function wppic_print_sripts() {
-	global $wppicSripts;
-	if ( ! $wppicSripts )
-		return;
+	
+	$wppicAjax = '<script>// <![CDATA[ 
+	var wppicAjax = { ajaxurl : "'.admin_url( 'admin-ajax.php' ).'" };
+	 // ]]></script>';
 
 	
-	if ($wppicSripts == 'ajax'){
-		echo '<script>// <![CDATA[
-			  var wppicAjax = { ajaxurl : "'.admin_url('admin-ajax.php').'" };
-		 // ]]></script>';
+	$wppicSettings = get_option('wppic_settings');
+	if( isset( $wppicSettings['enqueue'] ) && $wppicSettings['enqueue'] == true ){
+
+		echo $wppicAjax;
+		do_action( 'wppic_enqueue_scripts' );
+	
+	} else {
+		
+		//Enqueue Scripts when shortcode is in page
+		global $wppicSripts;
+		if ( ! $wppicSripts )
+			return;
+		
+		echo $wppicAjax;
+		do_action( 'wppic_enqueue_scripts' );
+		
 	}
-	
-	wp_print_styles('wppic-style');
-	wp_print_scripts('wppic-script');
-
 
 }
-add_action('init', 'wppic_register_sripts');
-add_action('wp_footer', 'wppic_print_sripts');
+add_action( 'wp_footer', 'wppic_print_sripts' );
 
 
 /***************************************************************
@@ -45,18 +58,15 @@ function wppic_shortcode_function( $atts, $content="" ) {
 		"expiration" 	=> '',	//transient duration in minutes - 0 for never expires
 		"ajax" 			=> '',	//load plugin data async whith ajax: yes|no (default: no)
 		"scheme" 		=> '',	//color scheme : default|scheme1->scheme10 (default: empty)
+		"layout" 		=> '',	//card | flat
 		"custom" 		=> '',	//value to print : url|name|version|author|requires|rating|num_ratings|downloaded|last_updated|download_link
 	), $atts));
 	
 	//Global var to enqueue scripts + ajax param if is set to yes
 	global $wppicSripts;
-	$addClass = '';
-	
-	if($ajax == 'yes'){
-		$wppicSripts = 'ajax';
-	} else {
-		$wppicSripts = true;
-	}
+	$wppicSripts = true;
+
+	$addClass = array();
 			
 	//Remove unnecessary spaces
 	$type = trim($type);
@@ -67,13 +77,26 @@ function wppic_shortcode_function( $atts, $content="" ) {
 	$clear = trim($clear);
 	$expiration = trim($expiration);
 	$ajax = trim($ajax);
+	$scheme = trim($scheme);
+	$layout = trim($layout);
 	$custom = trim($custom);
+
+	if( empty( $layout ) )
+		$layout = 'card';
+		
+	$addClass[] = $layout;
+	
+	//Random slug: comma-separated list
+	if (strpos($slug,',') !== false) {
+		$slug = explode(',',$slug);
+		$slug = $slug[array_rand($slug)];
+	}
 
 	//For old plugin versions
 	if(empty($type)){
 		$type = 'plugin';
 	}
-	$addClass .= ' ' . $type;
+	$addClass[] = $type;
 	
 	if(!empty($custom)){
 
@@ -87,11 +110,11 @@ function wppic_shortcode_function( $atts, $content="" ) {
 		
 	} else {
 		
-		//Ajax requiered data
+		//Ajax required data
 		$ajaxData = '';
 		if($ajax == 'yes'){
-			$addClass .= ' wp-pic-ajax';
-			$ajaxData = 'data-type="' . $type . '" data-slug="' . $slug . '" data-image="' . $image . '" data-expiration="' . $expiration . '" ';
+			$addClass[] = 'wp-pic-ajax';
+			$ajaxData = 'data-type="' . $type . '" data-slug="' . $slug . '" data-image="' . $image . '" data-expiration="' . $expiration . '"  data-layout="' . $layout . '" ';
 		}
 
 		//Align card
@@ -130,8 +153,7 @@ function wppic_shortcode_function( $atts, $content="" ) {
 				$scheme = '';
 			}
 		}
-		$addClass .= ' ' . $scheme;
-
+		$addClass[] = $scheme;
 
 		//Output
 		if($clear == 'before')
@@ -141,10 +163,10 @@ function wppic_shortcode_function( $atts, $content="" ) {
 		$content .= '<div class="wp-pic-center">';
 		
 		//Data attribute for ajax call
-		$content .= '<div class="wp-pic ' . $addClass . '" ' . $containerid . $style . $ajaxData .' >';
+		$content .= '<div class="wp-pic ' . implode(' ',$addClass) . '" ' . $containerid . $style . $ajaxData .' >';
 
 		if($ajax != 'yes'){
-			$content .= wppic_shortcode_content($type, $slug, $image, $expiration);
+			$content .= wppic_shortcode_content($type, $slug, $image, $expiration, $layout);
 		} else {
 			$content .= '<div class="wp-pic-body-loading"><div class="signal"></div></div>';
 		}
@@ -170,7 +192,7 @@ add_shortcode( 'wp-pic', 'wppic_shortcode_function' );
 /***************************************************************
  * Content shortcode function
  ***************************************************************/
-function wppic_shortcode_content($type=NULL, $slug=NULL, $image=NULL, $expiration=NULL){
+function wppic_shortcode_content($type=NULL, $slug=NULL, $image=NULL, $expiration=NULL, $layout=NULL){
 	
 	if(!empty($_POST['type'])){
 		$type = $_POST['type'];
@@ -184,6 +206,9 @@ function wppic_shortcode_content($type=NULL, $slug=NULL, $image=NULL, $expiratio
 	if(!empty($_POST['expiration'])){
 		$expiration = $_POST['expiration'];
 	} 
+	if(!empty($_POST['layout'])){
+		$layout = $_POST['layout'];
+	} 
 
 	$wppic_data = wppic_api_parser($type, $slug, $expiration);
 		
@@ -192,7 +217,7 @@ function wppic_shortcode_content($type=NULL, $slug=NULL, $image=NULL, $expiratio
 	if(empty($wppic_data->name)){
 		
 		$error = '<div class="wp-pic-flip" style="display: none;">';
-			$error .= '<div class="wp-pic-face wp-pic-front">';
+			$error .= '<div class="wp-pic-face wp-pic-front error">';
 
 				$error .=  '<span class="wp-pic-no-plugin">' . __('Item not found:', 'wppic-translate') . '</br><i>"' . $slug . '"</i></br>' . __('does not exist.', 'wppic-translate') . '</span>';
 				$error .=  	'<div class="monster-wrapper">
@@ -220,7 +245,7 @@ function wppic_shortcode_content($type=NULL, $slug=NULL, $image=NULL, $expiratio
 	
 	//Load theme or plugin template
 	$content = '';	
-	$content = apply_filters('wppic_add_template', $content, array($type, $wppic_data, $image) );
+	$content = apply_filters('wppic_add_template', $content, array($type, $wppic_data, $image, $layout) );
 	
 	
 	if(!empty($_POST['slug'])) {

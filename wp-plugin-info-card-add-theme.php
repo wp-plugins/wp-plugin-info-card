@@ -10,7 +10,7 @@ add_filter( 'wppic_add_list_valdiation', 'wppic_theme_list_valdiation' );
 /***************************************************************
  * Fetching themes data with WordPress.org Theme API
  ***************************************************************/
-function wppic_theme_api_parser($wppic_data, $type, $slug ){
+function wppic_theme_api_parser( $wppic_data, $type, $slug ){
 
 	if ( $type == 'theme') {
 
@@ -46,33 +46,27 @@ function wppic_theme_api_parser($wppic_data, $type, $slug ){
 /***************************************************************
  * Theme shortcode template prepare
  ***************************************************************/
-function wppic_theme_template($content, $data){
+function wppic_theme_template( $content, $data ){
 	
 	$type = $data[0];
 	$wppic_data = $data[1];
 	$image = $data[2];
-	
+	$layout = '-' . $data[3];
+
 	if ( $type == 'theme') {
 
-		//ScreenShot URL
-		if( !empty($image) ){
-			$bgImage = 'style="background-image: url(' . $image . ');"';
-		} else if( !empty( $wppic_data->screenshot_url ) ){
-			$bgImage = 'style="background-image: url(https:' . esc_attr( $wppic_data->screenshot_url ) . ');"';
-		} else {
-			$bgImage = 'data="no-image"';
-		}
-
 		//load custom user template if exists
+		$WPPICtemplatefile = '/wppic-templates/wppic-template-theme';
 		ob_start();
-		$WPPICtemplatefile = '/wppic-templates/wppic-template-theme.php';
-		if ( file_exists( get_template_directory() . $WPPICtemplatefile ) ) { 
-			include_once( get_template_directory() . $WPPICtemplatefile ); 
+		if ( file_exists( get_stylesheet_directory() . $WPPICtemplatefile .  $layout . '.php' ) ) { 
+			include( get_stylesheet_directory() . $WPPICtemplatefile .  $layout . '.php' ); 
+		} else if ( file_exists(WPPIC_PATH . $WPPICtemplatefile .  $layout . '.php' ) ) { 
+			include( WPPIC_PATH . $WPPICtemplatefile .  $layout . '.php' ); 
 		} else {
-			include_once( WPPIC_PATH . $WPPICtemplatefile ); 
+			include( WPPIC_PATH . $WPPICtemplatefile . '.php' ); 
 		}
-		$content .= ob_get_clean();
-	
+		$content .= ob_get_clean();	
+		
 	}
 	
 	return $content;
@@ -93,7 +87,7 @@ function wppic_theme_mce_type( $parameters ){
  * Theme input option list
  ***************************************************************/
 function wppic_theme_list_form( $parameters ){
-	$parameters[] = array('theme-list', __('Add a theme', 'wppic-translate'), __('Please refer to the theme URL on wordpress.org to determine its slug', 'wppic-translate'), 'https://wordpress.org/themes/<strong>THE-SLUG</strong>/' );
+	$parameters[] = array( 'theme-list', __('Add a theme', 'wppic-translate'), __('Please refer to the theme URL on wordpress.org to determine its slug', 'wppic-translate'), 'https://wordpress.org/themes/<strong>THE-SLUG</strong>/' );
 	return $parameters;
 }
 
@@ -102,7 +96,7 @@ function wppic_theme_list_form( $parameters ){
  * Theme input validation
  ***************************************************************/
 function wppic_theme_list_valdiation( $parameters ){
-	$parameters[] = array('theme-list', __('is not a valid theme name format. This key has been deleted.', 'wppic-translate'), '/^[a-z0-9\-]+$/');
+	$parameters[] = array( 'theme-list', __('is not a valid theme name format. This key has been deleted.', 'wppic-translate'), '/^[a-z0-9\-]+$/' );
 	return $parameters;
 }
 

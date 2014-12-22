@@ -16,9 +16,14 @@ function wppic_add_mce_button() {
 		wp_enqueue_style( 'wppic-admin-css', WPPIC_URL . 'css/wppic-admin-style.css', array(), NULL, NULL );
 		wp_enqueue_script( 'wppic-ui-scripts', WPPIC_URL . 'js/wppic-ui-scripts.js', array( 'jquery' ),  NULL );
 
-		//Define the available types list
+		//Define additionnal hookable MCE parameters
 		$mceAddParam = array(
-				'types' => array()
+				'types' => array(),
+				'layouts' => array(
+					array( 'text' => __('Card (default)', 'wppic-translate'), 'value' => '' ),
+					array( 'text' => __('Large', 'wppic-translate'), 'value' => 'large' )
+				)
+
 			);
 		$mceAddParam = apply_filters( 'wppic_add_mce_type', $mceAddParam );
 		$mceAddParam = json_encode( $mceAddParam );

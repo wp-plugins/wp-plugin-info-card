@@ -17,12 +17,13 @@ function wppic_admin_css() {
  * Create admin page menu
  ***************************************************************/
 function wppic_create_menu() {
-	$admin_page = add_menu_page(WPPIC_NAME_FULL, WPPIC_NAME, 'manage_options', WPPIC_ID, 'wppic_settings_page','data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz48IURPQ1RZUEUgc3ZnIFBVQkxJQyAiLS8vVzNDLy9EVEQgU1ZHIDEuMS8vRU4iICJodHRwOi8vd3d3LnczLm9yZy9HcmFwaGljcy9TVkcvMS4xL0RURC9zdmcxMS5kdGQiPjxzdmcgdmVyc2lvbj0iMS4xIiBpZD0iQ2FscXVlXzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4IiB3aWR0aD0iODUwLjM5cHgiIGhlaWdodD0iODUwLjM5cHgiIHZpZXdCb3g9IjAgMCA4NTAuMzkgODUwLjM5IiBlbmFibGUtYmFja2dyb3VuZD0ibmV3IDAgMCA4NTAuMzkgODUwLjM5IiB4bWw6c3BhY2U9InByZXNlcnZlIj48cGF0aCBmaWxsPSIjREIzOTM5IiBkPSJNNDI1LjE5NSwyQzE5MC4zNjYsMiwwLDE5MS45MTgsMCw0MjYuMTk1QzAsNjYwLjQ3MiwxOTAuMzY2LDg1MC4zOSw0MjUuMTk1LDg1MC4zOWMyMzQuODI4LDAsNDI1LjE5NS0xODkuOTE4LDQyNS4xOTUtNDI0LjE5NUM4NTAuMzksMTkxLjkxOCw2NjAuMDIzLDIsNDI1LjE5NSwyeiBNNjYyLjQwOSw0NzYuMzAybC0yLjYyNCw0LjUzM0w1NTkuMjk2LDY1NC40NTFsNzguNjU0LDQ1LjUyNWwtMjI4LjEwOCwxMDUuOUwzODguMDQ2LDU1NS4zM2w3OC42NTMsNDUuNTIzbDY5LjM5MS0xMTkuODg3bC0yMzkuMzU0LTAuMzAzbC05NC45MjUtMC4zMzdsLTI4Ljc1LTAuMDMybC0wLjA0MS0wLjA3aDBsLTI0LjM2MS00Mi4zMDNsMjguMTExLTQ4LjU2M2wxMDkuNjM1LTE4OS40MTlsLTc4LjY1My00NS41MjRMNDM1Ljg1OSw0OC41MTRsMjEuNzk3LDI1MC41NDZsLTc4LjY1NC00NS41MjVsLTY5LjM5MSwxMTkuODg3bDIzOS4zNTMsMC4zMDNsMTIzLjY3NiwwLjM3bDE2LjU3MSwyOC43NzJsNy44MzEsMTMuNTk2TDY2Mi40MDksNDc2LjMwMnoiLz48L3N2Zz4=');
-	
+
+	$admin_page = add_options_page( WPPIC_NAME_FULL, WPPIC_NAME, 'manage_options', WPPIC_ID,  'wppic_settings_page' );
+
 	//Enqueue sripts and style
 	add_action( 'admin_print_scripts-' . $admin_page, 'wppic_admin_scripts' );
 	add_action( 'admin_print_styles-' . $admin_page, 'wppic_admin_css' );
-	
+
 }
 add_action('admin_menu', 'wppic_create_menu');
 
@@ -46,6 +47,13 @@ function wppic_register_settings() {
 		'wppic-color-scheme',
 		__('Color scheme', 'wppic-translate'), 
 		'wppic_color_scheme',
+		WPPIC_ID . 'options',
+		'wppic_options'
+	);
+	add_settings_field(
+		'wppic-enqueue',
+		__('Force enqueuing CSS & JS', 'wppic-translate'), 
+		'wppic_enqueue',
 		WPPIC_ID . 'options',
 		'wppic_options'
 	);
@@ -117,14 +125,16 @@ function wppic_settings_page() {
 						<ul>
 							<li><strong>type:</strong> plugin, theme - ' . __('(default: plugin)', 'wppic-translate') . '</li>
 							<li><strong>slug:</strong> ' . __('plugin slug name - Please refer to the plugin URL on wordpress.org to determine its slug: https://wordpress.org/plugins/THE-SLUG/', 'wppic-translate') . '</li>
-							<li><strong>image:</strong> ' . __('image url to replace WP logo (default: empty)', 'wppic-translate') . '</li>
+							<li><strong>layout:</strong> ' . __('template layout to use - Default is "card" so you may leave this parameter empty. Available layouts are: card, large (default: empty)', 'wppic-translate') . '</li>
+							<li><strong>scheme:</strong> ' . __('card color scheme: scheme1 through scheme10 (default: default color scheme defined in admin)', 'wppic-translate') . '</li>
+							<li><strong>image:</strong> ' . __('Image URL to override default WP logo (default: empty)', 'wppic-translate') . '</li>
 							<li><strong>align:</strong> center, left, right ' . __('(default: empty)', 'wppic-translate') . '</li>
 							<li><strong>containerid:</strong> ' . __('custom div id, may be used for anchor (default: wp-pic-PLUGIN-NAME)', 'wppic-translate') . '</li>
 							<li><strong>margin:</strong> ' . __('custom container margin - eg: "15px 0" (default: empty)', 'wppic-translate') . '</li>
 							<li><strong>clear:</strong> ' . __('clear float before or after the card: before, after (default: empty', 'wppic-translate') . '</li>
 							<li><strong>expiration:</strong> ' . __('cache duration in minutes - numeric format only (default: 720)', 'wppic-translate') . '</li>
 							<li><strong>ajax: (BETA)</strong> ' . __('load the plugin data asynchronously with AJAX: yes, no (default: no)', 'wppic-translate') . '</li>
-							<li><strong>custom:</strong> ' . __('value to print: (default: empty)', 'wppic-translate') . ' 
+							<li><strong>custom:</strong> ' . __('value to display: (default: empty)', 'wppic-translate') . ' 
 								<ul>
 									<li>&nbsp;&nbsp;&nbsp;&nbsp;- ' . __('For plugins:', 'wppic-translate') . ' <i>url, name, icons, banners, version, author, requires, rating, num_ratings, downloaded, last_updated, download_link</i></li>
 									<li>&nbsp;&nbsp;&nbsp;&nbsp;- ' . __('For themes:', 'wppic-translate') . ' <i>url, name, version, author, screenshot_url, rating, num_ratings, downloaded, last_updated, homepage, download_link</i></li>
@@ -133,7 +143,7 @@ function wppic_settings_page() {
 						</ul>
 						<p>&nbsp;</p>
 						<p>
-							<pre> [wp-pic slug="adblock-notify-by-bweb" align="right" margin="0 0 0 20px" containerid="download-sexion" ajax="yes"] </pre>
+							<pre> [wp-pic slug="adblock-notify-by-bweb" layout="large" scheme="scheme1" align="right" margin="0 0 0 20px" containerid="download-sexion" ajax="yes"] </pre>
 						</p>
 						<p class="documentation"><a href="http://b-website.com/wp-plugin-info-card-for-wordpress" target="_blank" title="'. __( 'Documentation and examples', 'wppic-translate' ) .'">'. __( 'Documentation and examples', 'wppic-translate' ) .' <span class="dashicons dashicons-external"></span></a></p>
 						<p class="wppic-cache-clear">
@@ -148,7 +158,7 @@ function wppic_settings_page() {
 				<?php settings_fields('wppic_settings') ?>
 				<div class="meta-box-sortabless">
 					<div id="wppic-form" class="postbox">
-						<h3 class="hndle"><span><?php  _e('Shortcode options', 'wppic-translate') ?></span></h3>
+						<h3 class="hndle"><span><?php  _e('General options', 'wppic-translate') ?></span></h3>
 						<div class="inside">
                             <table class="form-table">
                                 <tr valign="top">
@@ -180,7 +190,7 @@ function wppic_settings_page() {
 
 
 /***************************************************************
- * Dashboard widget activation
+ * Color Scheme dropdown
  ***************************************************************/
 function wppic_color_scheme() {
 	$wppicSettings = get_option('wppic_settings');
@@ -207,6 +217,23 @@ function wppic_color_scheme() {
 
 
 /***************************************************************
+ * Force scripts enqueuing
+ ***************************************************************/
+function wppic_enqueue() {
+	$wppicSettings = get_option('wppic_settings');
+	$content = '<td>';
+		$content .= '<input type="checkbox" id="wppic-enqueue" name="wppic_settings[enqueue]"  value="1" ';
+		if( isset($wppicSettings['enqueue']) ) {
+			$content .= checked( 1, $wppicSettings['enqueue'], false );
+		}
+		$content .= '/>';
+		$content .= '<label for="wppic-enqueue">' . __('By default the plugin enqueues scripts (JS & CSS) only for pages containing the shortcode. If you wish to force scripts enqueuing, check this box.', 'wppic-translate') . '</label>';
+	$content .= '</td>';
+	echo $content;
+}
+
+
+/***************************************************************
  * Dashboard widget activation
  ***************************************************************/
 function wppic_list_widget() {
@@ -217,7 +244,7 @@ function wppic_list_widget() {
 			$content .= checked( 1, $wppicSettings['widget'], false );
 		}
 		$content .= '/>';
-		$content .= '<label for="wppic-widget">' . __('Help: Don\'t forget to open the dashboard option panel (top right) to insert it on your dashboard.', 'wppic-translate') . '</label>';
+		$content .= '<label for="wppic-widget">' . __('Help: Don\'t forget to open the dashboard option panel (top right) to display it on your dashboard.', 'wppic-translate') . '</label>';
 	$content .= '</td>';
 	echo $content;
 }
@@ -262,7 +289,7 @@ function wppic_list_form() {
 							}
 						}
 				$content .= '</ul>';
-				$content .= '<p>' . $wppicItemForm[2] . ': <i>' . $wppicItemForm[3] . '</i><p>';               
+				$content .= '<p>' . $wppicItemForm[2] . ' - <i>' . $wppicItemForm[3] . '</i> -<p>';               
 			$content .= '</div>';
 		}
 	}
@@ -305,12 +332,6 @@ function wppic_validate($input) {
 			}
 		}
 	}
-	add_settings_error(
-		'wppic-admin-notice',
-		'',
-		__('Options saved', 'wppic-translate'),
-		'updated'
-	);
 	return $input;
 }
 
@@ -321,12 +342,12 @@ function wppic_validate($input) {
 function wppic_plugins_about() {
 	$content ='
     <div id="wppic-about-list">
-        <a class="wppic-button wppic-pluginHome" href="http://b-website.com/wp-plugin-info-card-for-wordpress" target="_blank">' . __('Plugin home page', 'wppic-translate') . '</a>
-        <a class="wppic-button wppic-pluginOther" href="http://b-website.com/category/plugins" target="_blank">' . __('My other plugins', 'wppic-translate') . '</a>
+        <a class="wppic-button wppic-pluginHome" href="http://b-website.com/wp-plugin-info-card-for-wordpress" target="_blank">' . __('Plugin homepage', 'wppic-translate') . '</a>
+        <a class="wppic-button wppic-pluginOther" href="http://b-website.com/category/plugins" target="_blank">' . __('More plugins by b*web', 'wppic-translate') . '</a>
         <a class="wppic-button wppic-pluginPage" href="https://wordpress.org/plugins/wp-plugin-info-card/" target="_blank">WordPress.org</a>
         <a class="wppic-button wppic-pluginSupport" href="https://wordpress.org/support/plugin/wp-plugin-info-card" target="_blank">' . __('Support', 'wppic-translate') . '</a>
         <a class="wppic-button wppic-pluginRate" href="https://wordpress.org/support/view/plugin-reviews/wp-plugin-info-card#postform" target="_blank">' . __('Give me five!', 'wppic-translate') . '</a>
-        <a class="wppic-button wppic-pluginContact" href="http://b-website.com/contact" target="_blank">' . __('Any suggestions?', 'wppic-translate') . '</a>
+        <a class="wppic-button wppic-pluginContact" href="http://b-website.com/contact" target="_blank">' . __('Any suggestion?', 'wppic-translate') . '</a>
         <a class="wppic-button wppic-pluginDonate" href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=7Z6YVM63739Y8" target="_blank">' . __('Donate', 'wppic-translate') . '</a>
     </div>
 
