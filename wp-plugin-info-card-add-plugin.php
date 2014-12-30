@@ -5,6 +5,7 @@ add_filter( 'wppic_add_mce_type', 'wppic_plugin_mce_type' );
 add_filter( 'wppic_add_list_form', 'wppic_plugin_list_form' );
 add_filter( 'wppic_add_widget_type', 'wppic_plugin_widget_type' );
 add_filter( 'wppic_add_list_valdiation', 'wppic_plugin_list_valdiation' );
+add_filter( 'wppic_add_widget_item', 'wppic_plugin_widget_item', 9, 3 );
 
 
 /***************************************************************
@@ -12,7 +13,7 @@ add_filter( 'wppic_add_list_valdiation', 'wppic_plugin_list_valdiation' );
  ***************************************************************/
 function wppic_plugin_api_parser($wppic_data, $type, $slug ){
 
-	if ( $type == 'plugin') {
+	if ( $type == 'plugin' ) {
 		
 		require_once(ABSPATH . 'wp-admin/includes/plugin-install.php');
 		$plugin_info = $api = plugins_api( 'plugin_information', array(
@@ -108,4 +109,25 @@ function wppic_plugin_list_valdiation( $parameters ){
 function wppic_plugin_widget_type( $parameters ){
 	$parameters[] = array( 'plugin', 'list', __('Plugins', 'wppic-translate') );
 	return $parameters;
+}
+
+/***************************************************************
+ * Theme widget item render
+ ***************************************************************/
+function wppic_plugin_widget_item( $content, $wppic_plugin_data, $type ){
+	if( $type == 'plugin' ){
+		$content .= '<div class="wp-pic-item ' . $slug . '">';
+		$content .= '<a class="wp-pic-widget-name" href="' . $wppic_plugin_data->url . '" target="_blank" title="' . __('WordPress.org Plugin Page', 'wppic-translate') . '">' . $wppic_plugin_data->name .'</a>';
+		$content .= '<span class="wp-pic-widget-rating"><span>' . __('Ratings:', 'wppic-translate') . '</span> ' . $wppic_plugin_data->rating .'%';
+		if( !empty( $wppic_plugin_data->num_ratings ) )
+			$content .= ' (' . $wppic_plugin_data->num_ratings . ' votes)';
+		$content .= '</span>';
+		$content .= '<span class="wp-pic-widget-downloaded"><span>' . __('Downloads:', 'wppic-translate') . '</span> ' . $wppic_plugin_data->downloaded .'</span>';
+		$content .= '<p class="wp-pic-widget-updated"><span>' . __('Last Updated:', 'wppic-translate') . '</span> ' . $wppic_plugin_data->last_updated;
+		if( !empty( $wppic_plugin_data->version ) )
+			$content .= ' (v.' . $wppic_plugin_data->version .')';
+		$content .= '</p>';
+		$content .= '</div>';
+	}
+	return $content;
 }
