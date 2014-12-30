@@ -116,19 +116,10 @@ function wppic_widget_render($type=NULL, $slugs=NULL){
 			$wppic_plugin_data = wppic_api_parser($type, $slug, '5', true);
 
 			if(!empty($wppic_plugin_data->name)){
-				
-				$content .= '<div class="wp-pic-item ' . $slug . '">';
-				$content .= '<a class="wp-pic-widget-name" href="' . $wppic_plugin_data->url . '" target="_blank" title="' . __('WordPress.org Plugin Page', 'wppic-translate') . '">' . $wppic_plugin_data->name .'</a>';
-				$content .= '<span class="wp-pic-widget-rating"><span>' . __('Ratings:', 'wppic-translate') . '</span> ' . $wppic_plugin_data->rating .'%';
-				if( !empty( $wppic_plugin_data->num_ratings ) )
-					$content .= ' (' . $wppic_plugin_data->num_ratings . ' votes)';
-				$content .= '</span>';
-				$content .= '<span class="wp-pic-widget-downloaded"><span>' . __('Downloads:', 'wppic-translate') . '</span> ' . $wppic_plugin_data->downloaded .'</span>';
-				$content .= '<p class="wp-pic-widget-updated"><span>' . __('Last Updated:', 'wppic-translate') . '</span> ' . $wppic_plugin_data->last_updated;
-				if( !empty( $wppic_plugin_data->version ) )
-					$content .= ' (v.' . $wppic_plugin_data->version .')';
-				$content .= '</p>';
-				$content .= '</div>';
+
+
+				$content = apply_filters( 'wppic_add_widget_item', $content, $wppic_plugin_data, $type );	
+
 			
 			} else {
 				
