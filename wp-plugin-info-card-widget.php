@@ -18,7 +18,7 @@ function wppic_widget_enqueue($hook) {
  ***************************************************************/ 
 if (!function_exists('wppic_dashboard_widgets')) {
 	function wppic_add_dashboard_widgets() {
-		$wppicSettings = get_option('wppic_settings');
+		global 	$wppicSettings;
 		if( isset($wppicSettings['widget'] ) && $wppicSettings['widget'] == true ){
 			wp_add_dashboard_widget('wppic-dashboard-widget','<img src="' . WPPIC_URL . 'img/wppic.svg" class="wppic-logo" alt="b*web" style="display:none"/>&nbsp;&nbsp;' . WPPIC_NAME . ' board', 'wppic_widgets');
 			add_action( 'admin_enqueue_scripts', 'wppic_widget_enqueue' );
@@ -32,11 +32,10 @@ add_action('wp_dashboard_setup', 'wppic_add_dashboard_widgets');
  * Dashboard Widget function 
  ***************************************************************/  
 function wppic_widgets() {
-	
+	global 	$wppicSettings;
 	$listState = false;
 	$ajaxClass = '';
 
-	$wppicSettings = get_option('wppic_settings');
 	if( isset($wppicSettings['ajax']) && $wppicSettings['ajax'] == true )
 		$ajaxClass = 'ajax-call';
 	
@@ -116,19 +115,10 @@ function wppic_widget_render($type=NULL, $slugs=NULL){
 			$wppic_plugin_data = wppic_api_parser($type, $slug, '5', true);
 
 			if(!empty($wppic_plugin_data->name)){
-				
-				$content .= '<div class="wp-pic-item ' . $slug . '">';
-				$content .= '<a class="wp-pic-widget-name" href="' . $wppic_plugin_data->url . '" target="_blank" title="' . __('WordPress.org Plugin Page', 'wppic-translate') . '">' . $wppic_plugin_data->name .'</a>';
-				$content .= '<span class="wp-pic-widget-rating"><span>' . __('Ratings:', 'wppic-translate') . '</span> ' . $wppic_plugin_data->rating .'%';
-				if( !empty( $wppic_plugin_data->num_ratings ) )
-					$content .= ' (' . $wppic_plugin_data->num_ratings . ' votes)';
-				$content .= '</span>';
-				$content .= '<span class="wp-pic-widget-downloaded"><span>' . __('Downloads:', 'wppic-translate') . '</span> ' . $wppic_plugin_data->downloaded .'</span>';
-				$content .= '<p class="wp-pic-widget-updated"><span>' . __('Last Updated:', 'wppic-translate') . '</span> ' . $wppic_plugin_data->last_updated;
-				if( !empty( $wppic_plugin_data->version ) )
-					$content .= ' (v.' . $wppic_plugin_data->version .')';
-				$content .= '</p>';
-				$content .= '</div>';
+
+
+				$content = apply_filters( 'wppic_add_widget_item', $content, $wppic_plugin_data, $type );	
+
 			
 			} else {
 				

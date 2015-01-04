@@ -53,9 +53,14 @@ function wppic_register_settings() {
 	add_settings_field(
 		'wppic-enqueue',
 		__('Force enqueuing CSS & JS', 'wppic-translate'), 
-		'wppic_enqueue',
+		'wppic_checkbox',
 		WPPIC_ID . 'options',
-		'wppic_options'
+		'wppic_options',
+		array(
+            'id' 	=> 'wppic-enqueue',
+            'name' 	=> 'enqueue',
+			'label' => __('By default the plugin enqueues scripts (JS & CSS) only for pages containing the shortcode. If you wish to force scripts enqueuing, check this box.', 'wppic-translate')
+        ) 
 	);
 
 	add_settings_section(
@@ -67,16 +72,26 @@ function wppic_register_settings() {
 	add_settings_field(
 		'wppic-list-widget',
 		__('Enable dashboard widget', 'wppic-translate'), 
-		'wppic_list_widget',
+		'wppic_checkbox',
 		WPPIC_ID . 'widget',
-		'wppic_list'
+		'wppic_list',
+		array(
+            'id' 	=> 'wppic-widget',
+            'name' 	=> 'widget',
+			'label' => __('Help: Don\'t forget to open the dashboard option panel (top right) to display it on your dashboard.', 'wppic-translate')
+        ) 
 	);
 	add_settings_field(
 		'wppic-list-ajax',
 		__('Ajaxify dashboard widget', 'wppic-translate'), 
-		'wppic_list_ajax',
+		'wppic_checkbox',
 		WPPIC_ID . 'widget',
-		'wppic_list'
+		'wppic_list',
+		array(
+            'id' 	=> 'wppic-ajax',
+            'name' 	=> 'ajax',
+			'label' => __('Will load the data asynchronously with AJAX.', 'wppic-translate')
+        ) 
 	);
 	add_settings_field(
 		'wppic-list-form',
@@ -91,21 +106,12 @@ add_action( 'admin_init', 'wppic_register_settings' );
 
 
 /***************************************************************
- * Admin Notice
- ***************************************************************/
-function wppic_notices_action() {
-    settings_errors( 'wppic-admin-notice' );
-}
-add_action( 'admin_notices', 'wppic_notices_action' );
-
-
-/***************************************************************
  * Admin page structure	
  ***************************************************************/
 function wppic_settings_page() {
+	global 	$wppicSettings;
 	
 	//Get default card color shceme
-	$wppicSettings = get_option('wppic_settings');
 	$scheme = $wppicSettings['colorscheme'];
 	if(	$scheme == 'default'){
 		$scheme = '';
@@ -181,6 +187,7 @@ function wppic_settings_page() {
                             <?php submit_button() ?>
 						</div>
 					</div>
+
 				</div>
 			</form> 
 		</div>
@@ -193,7 +200,7 @@ function wppic_settings_page() {
  * Color Scheme dropdown
  ***************************************************************/
 function wppic_color_scheme() {
-	$wppicSettings = get_option('wppic_settings');
+	global 	$wppicSettings;
 	$scheme = $wppicSettings['colorscheme'];
 	
 	$content = '<td>';
@@ -217,51 +224,17 @@ function wppic_color_scheme() {
 
 
 /***************************************************************
- * Force scripts enqueuing
+ * Checkbox input
  ***************************************************************/
-function wppic_enqueue() {
-	$wppicSettings = get_option('wppic_settings');
+function wppic_checkbox( $args ) {
+	global 	$wppicSettings;
 	$content = '<td>';
-		$content .= '<input type="checkbox" id="wppic-enqueue" name="wppic_settings[enqueue]"  value="1" ';
-		if( isset($wppicSettings['enqueue']) ) {
-			$content .= checked( 1, $wppicSettings['enqueue'], false );
+		$content .= '<input type="checkbox" id="' . $args[ 'id' ] . '" name="wppic_settings[' . $args[ 'name' ] . ']"  value="1" ';
+		if( isset($wppicSettings[ $args[ 'name' ] ] ) ) {
+			$content .= checked( 1, $wppicSettings[ $args[ 'name' ] ], false );
 		}
 		$content .= '/>';
-		$content .= '<label for="wppic-enqueue">' . __('By default the plugin enqueues scripts (JS & CSS) only for pages containing the shortcode. If you wish to force scripts enqueuing, check this box.', 'wppic-translate') . '</label>';
-	$content .= '</td>';
-	echo $content;
-}
-
-
-/***************************************************************
- * Dashboard widget activation
- ***************************************************************/
-function wppic_list_widget() {
-	$wppicSettings = get_option('wppic_settings');
-	$content = '<td>';
-		$content .= '<input type="checkbox" id="wppic-widget" name="wppic_settings[widget]"  value="1" ';
-		if( isset($wppicSettings['widget']) ) {
-			$content .= checked( 1, $wppicSettings['widget'], false );
-		}
-		$content .= '/>';
-		$content .= '<label for="wppic-widget">' . __('Help: Don\'t forget to open the dashboard option panel (top right) to display it on your dashboard.', 'wppic-translate') . '</label>';
-	$content .= '</td>';
-	echo $content;
-}
-
-
-/***************************************************************
- * Dashboard widget Ajaxify
- ***************************************************************/
-function wppic_list_ajax() {
-	$wppicSettings = get_option('wppic_settings');
-	$content = '<td>';
-		$content .= '<input type="checkbox" id="wppic-ajax" name="wppic_settings[ajax]"  value="1" ';
-		if( isset($wppicSettings['ajax']) ) {
-			$content .= checked( 1, $wppicSettings['ajax'], false );
-		}
-		$content .= '/>';
-		$content .= '<label for="wppic-ajax">' . __('Will load the data asynchronously with AJAX.', 'wppic-translate') . '</label>';
+		$content .= '<label for="' . $args[ 'id' ] . '">' . $args[ 'label' ] . '</label>';
 	$content .= '</td>';
 	echo $content;
 }
@@ -271,10 +244,9 @@ function wppic_list_ajax() {
  * Dashboard widget plugin list 
  ***************************************************************/
 function wppic_list_form() {
-	
+	global 	$wppicSettings;
 	$wppicListForm = array();
 	$wppicListForm = apply_filters( 'wppic_add_list_form', $wppicListForm );	
-	$wppicSettings = get_option('wppic_settings');
 	
 	$content = '<td>';	
 	
