@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: API, plugin, card, blog, developper, design, dashboard, shortcode, ajax, WordPress, plugin API, CSS, rotate, flip card, awesome, UX, ui, showcase, theme API, themes, theme, jquery, Envato
 Requires at least: 3.7
 Tested up to: 4.1
-Stable tag: 2.2.1
+Stable tag: 2.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -93,7 +93,7 @@ Become a translator and send me your translation! [Contact-me](http://b-website.
 == Installation ==
 
 1. Upload and activate the plugin (or install it through the WP admin console)
-2. Click on the "WP Plugin Info" menu
+2. Click on the "WP Plugin Info Card" sub-menu
 3. Follow instructions, every option is documented ;-)
 
 == Frequently Asked Questions ==
@@ -116,6 +116,12 @@ Yes, it is compatible with most recent browsers, except for Opera (but IE10+ wor
 9. Plugin with the large layout in the sidebar
 
 == Changelog ==
+
+= 2.3 =
+* PHP fixes on admin error
+* Better performance - options stored in a global var (less db requests)
+* Relief of admin page functions (more maintainable)
+* FR Translation fixes - backslash issues
 
 = 2.2.1 =
 * New hook added

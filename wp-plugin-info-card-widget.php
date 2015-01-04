@@ -18,7 +18,7 @@ function wppic_widget_enqueue($hook) {
  ***************************************************************/ 
 if (!function_exists('wppic_dashboard_widgets')) {
 	function wppic_add_dashboard_widgets() {
-		$wppicSettings = get_option('wppic_settings');
+		global 	$wppicSettings;
 		if( isset($wppicSettings['widget'] ) && $wppicSettings['widget'] == true ){
 			wp_add_dashboard_widget('wppic-dashboard-widget','<img src="' . WPPIC_URL . 'img/wppic.svg" class="wppic-logo" alt="b*web" style="display:none"/>&nbsp;&nbsp;' . WPPIC_NAME . ' board', 'wppic_widgets');
 			add_action( 'admin_enqueue_scripts', 'wppic_widget_enqueue' );
@@ -32,11 +32,10 @@ add_action('wp_dashboard_setup', 'wppic_add_dashboard_widgets');
  * Dashboard Widget function 
  ***************************************************************/  
 function wppic_widgets() {
-	
+	global 	$wppicSettings;
 	$listState = false;
 	$ajaxClass = '';
 
-	$wppicSettings = get_option('wppic_settings');
 	if( isset($wppicSettings['ajax']) && $wppicSettings['ajax'] == true )
 		$ajaxClass = 'ajax-call';
 	

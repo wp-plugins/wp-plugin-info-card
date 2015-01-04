@@ -13,13 +13,12 @@ add_action( 'wppic_enqueue_scripts', 'wppic_register_sripts' );
  * Enqueue Scripts action hook
  ***************************************************************/
 function wppic_print_sripts() {
+	global 	$wppicSettings;
 	
 	$wppicAjax = '<script>// <![CDATA[ 
 	var wppicAjax = { ajaxurl : "'.admin_url( 'admin-ajax.php' ).'" };
 	 // ]]></script>';
 
-	
-	$wppicSettings = get_option('wppic_settings');
 	if( isset( $wppicSettings['enqueue'] ) && $wppicSettings['enqueue'] == true ){
 
 		echo $wppicAjax;
@@ -45,7 +44,7 @@ add_action( 'wp_footer', 'wppic_print_sripts' );
  * Main shortcode function
  ***************************************************************/
 function wppic_shortcode_function( $atts, $content="" ) {
-	
+
 	//Retrieve & extract shorcode parameters
 	extract(shortcode_atts(array(  
 		"type"			=> '',	//plugin | theme
@@ -62,6 +61,8 @@ function wppic_shortcode_function( $atts, $content="" ) {
 		"custom" 		=> '',	//value to print : url|name|version|author|requires|rating|num_ratings|downloaded|last_updated|download_link
 	), $atts));
 	
+	global 	$wppicSettings;
+
 	//Global var to enqueue scripts + ajax param if is set to yes
 	global $wppicSripts;
 	$wppicSripts = true;
@@ -147,7 +148,6 @@ function wppic_shortcode_function( $atts, $content="" ) {
 
 		//Color scheme
 		if(empty($scheme)){
-			$wppicSettings = get_option('wppic_settings');
 			$scheme = $wppicSettings['colorscheme'];
 			if(	$scheme == 'default'){
 				$scheme = '';
