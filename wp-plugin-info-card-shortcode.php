@@ -3,7 +3,7 @@
  * Register default plugin scripts
  ***************************************************************/
 function wppic_register_sripts() {
-	wp_enqueue_style( 'wppic-style', WPPIC_URL . 'css/wppic-style.css', NULL, NULL );
+	wp_enqueue_style( 'wppic-style', WPPIC_URL . 'css/wppic-style.min.css', NULL, NULL );
 	wp_enqueue_script( 'wppic-script', WPPIC_URL . 'js/wppic-script.min.js', array( 'jquery' ),  NULL, true );
 }
 add_action( 'wppic_enqueue_scripts', 'wppic_register_sripts' );
