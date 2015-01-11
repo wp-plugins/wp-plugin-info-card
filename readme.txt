@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: API, plugin, card, blog, developper, design, dashboard, shortcode, ajax, WordPress, plugin API, CSS, rotate, flip card, awesome, UX, ui, showcase, theme API, themes, theme, jquery, Envato
 Requires at least: 3.7
 Tested up to: 4.1
-Stable tag: 2.3
+Stable tag: 2.3.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -116,6 +116,13 @@ Yes, it is compatible with most recent browsers, except for Opera (but IE10+ wor
 9. Plugin with the large layout in the sidebar
 
 == Changelog ==
+
+= 2.3.1 =
+* Minor PHP improvements
+* Check if Memcache is loaded to prevent unncessary db requests during transients purge
+* Template update - differents links added on icons
+* Remove logo from meta
+* Minor CSS updates
 
 = 2.3 =
 * PHP fixes on admin error

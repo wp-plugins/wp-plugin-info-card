@@ -5,7 +5,7 @@
  * Description: WP Plugin Info Card displays plugins & themes identity cards in a beautiful box with a smooth rotation effect using WordPress.org Plugin API & WordPress.org Theme API. Dashboard widget included.
  * Author: Brice CAPOBIANCO
  * Author URI: http://b-website.com/
- * Version: 2.3
+ * Version: 2.3.1
  * Domain Path: /langs
  * Text Domain: wppic-translate
  */
@@ -14,12 +14,6 @@
 /***************************************************************
  * SECURITY : Exit if accessed directly
 ***************************************************************/
-if ( !function_exists( 'add_action' ) ) {
-    header( 'Status: 403 Forbidden' );
-    header( 'HTTP/1.1 403 Forbidden' );
-    exit();
-}
-
 if ( !defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -69,7 +63,7 @@ foreach( $wppicFiles as $wppicFile ){
  ***************************************************************/
 function wppic_load_textdomain() {
 	$path = dirname( plugin_basename( __FILE__ ) ) . '/langs/';
-	$loaded = load_plugin_textdomain( 'wppic-translate', false, $path );
+	load_plugin_textdomain( 'wppic-translate', false, $path );
 }
 add_action( 'init', 'wppic_load_textdomain' );
 
@@ -88,11 +82,10 @@ add_filter( 'plugin_action_links_' . WPPIC_BASE, 'wppic_settings_link' );
  * Add custom meta link on plugin list page
  ***************************************************************/
 function wppic_meta_links( $links, $file ) {
-	if ( strpos( $file, 'wp-plugin-info-card.php' ) !== false ) {
-		$links[0] = '<a href="http://b-website.com/" target="_blank"><img src="' . WPPIC_URL . 'img/icon-bweb.svg" style="margin-bottom: -4px; width: 18px;" alt="b*web"/></a>&nbsp;&nbsp;'. $links[0];
-		$links[] = '<a href="http://b-website.com/wp-plugin-info-card-for-wordpress" target="_blank" title="'. __( 'Documentation and examples', 'wppic-translate' ) .'"><strong style="color:#db3939">'. __( 'Documentation and examples', 'wppic-translate' ) .'</strong></a>';
+	if ( $file === 'wp-plugin-info-card/wp-plugin-info-card.php' ) {
+		$links[] = '<a href="http://b-website.com/wp-plugin-info-card-for-wordpress" target="_blank" title="'. __( 'Documentation and examples', 'wppic-translate' ) .'"><strong>'. __( 'Documentation and examples', 'wppic-translate' ) .'</strong></a>';
 		$links[] = '<a href="http://b-website.com/category/plugins" target="_blank" title="'. __( 'More plugins by b*web', 'wppic-translate' ) .'">'. __( 'More plugins by b*web', 'wppic-translate' ) .'</a>';
-		$links[] = '<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=7Z6YVM63739Y8" target="_blank" title="'. __( 'Donate', 'wppic-translate' ) .'"><strong>'. __( 'Donate', 'wppic-translate' ) .'</strong></a>';
+		$links[] = '<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=7Z6YVM63739Y8" target="_blank" title="' . __( 'Donate to this plugin &#187;' ) . '"><strong>' . __( 'Donate to this plugin &#187;' ) . '</strong></a>';
 	}
 	return $links;
 }
@@ -118,13 +111,14 @@ add_action( 'admin_head', 'wppic_add_favicon' );
  ***************************************************************/
 function wppic_delete_transients(){
 	global $wpdb;
-	$array = array();
+	if( extension_loaded( 'Memcache' ) )
+		return;
 	$wppic_transients = $wpdb->get_results(
 		"SELECT option_name AS name,
 		option_value AS value FROM $wpdb->options 
 		WHERE option_name LIKE '_transient_wppic_%'"
 	);
-	foreach($wppic_transients as $singleTransient){
+	foreach( ( array ) $wppic_transients as $singleTransient ){
 		delete_transient( str_replace( "_transient_", "", $singleTransient->name ) );
 	}
 }
