@@ -112,12 +112,12 @@ function wppic_widget_render($type=NULL, $slugs=NULL){
 
 	if(!empty($slugs)) {
 		foreach($slugs as $slug){
-			$wppic_plugin_data = wppic_api_parser($type, $slug, '5', true);
+			$wppic_data = wppic_api_parser($type, $slug, '5', true);
 
-			if(!empty($wppic_plugin_data->name)){
+			if(!empty($wppic_data->name)){
 
 
-				$content = apply_filters( 'wppic_add_widget_item', $content, $wppic_plugin_data, $type );	
+				$content = apply_filters( 'wppic_add_widget_item', $content, $wppic_data, $type );	
 
 			
 			} else {

@@ -5,7 +5,7 @@
  * Description: WP Plugin Info Card displays plugins & themes identity cards in a beautiful box with a smooth rotation effect using WordPress.org Plugin API & WordPress.org Theme API. Dashboard widget included.
  * Author: Brice CAPOBIANCO
  * Author URI: http://b-website.com/
- * Version: 2.3.1
+ * Version: 2.3.2
  * Domain Path: /langs
  * Text Domain: wppic-translate
  */
@@ -47,6 +47,9 @@ if ( !defined('WPPIC_ID' ) ) {
  ***************************************************************/
 global 	$wppicSettings;
 $wppicSettings = get_option('wppic_settings');
+
+global 	$wppicDateFormat;
+$wppicDateFormat = get_option('date_format');
 
 
 /***************************************************************

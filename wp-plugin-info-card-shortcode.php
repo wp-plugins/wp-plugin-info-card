@@ -243,6 +243,10 @@ function wppic_shortcode_content($type=NULL, $slug=NULL, $image=NULL, $expiratio
 		
 	}
 	
+	//Date format Internationalizion
+	global 	$wppicDateFormat;
+	$wppic_data->last_updated = date_i18n( $wppicDateFormat, strtotime( $wppic_data->last_updated ) );
+
 	//Load theme or plugin template
 	$content = '';	
 	$content = apply_filters('wppic_add_template', $content, array($type, $wppic_data, $image, $layout) );
