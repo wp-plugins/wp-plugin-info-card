@@ -1,5 +1,13 @@
 <?php
 /***************************************************************
+ * SECURITY : Exit if accessed directly
+***************************************************************/
+if ( !defined( 'ABSPATH' ) ) {
+	die( 'Direct acces not allowed!' );
+}
+
+
+/***************************************************************
  * Enqueue style on dashboard if widget is activated
  * Action is call during widget registration
  ***************************************************************/ 

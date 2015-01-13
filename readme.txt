@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: API, plugin, card, blog, developper, design, dashboard, shortcode, ajax, WordPress, plugin API, CSS, rotate, flip card, awesome, UX, ui, showcase, theme API, themes, theme, jquery, Envato
 Requires at least: 3.7
 Tested up to: 4.1
-Stable tag: 2.3.2
+Stable tag: 2.3.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -117,6 +117,11 @@ Yes, it is compatible with most recent browsers, except for Opera (but IE10+ wor
 
 == Changelog ==
 
+= 2.3.3 =
+* Minor security improvements
+* Minor CSS fix on dashboard widget
+* Purge transients on plugin activation/updates
+
 = 2.3.2 =
 * Fix date format on dashboard widget
 * Date internationalization
@@ -155,6 +160,7 @@ Yes, it is compatible with most recent browsers, except for Opera (but IE10+ wor
 * Tested on WP 4.1 with success!
 * New screenshots
 * readme.txt update
+* Special thanks to [Hugh Lashbrooke](https://profiles.wordpress.org/hlashbrooke "Hugh Lashbrooke") for his help in improving the plugin :)
 
 = 2.1 =
 * Many hooks added

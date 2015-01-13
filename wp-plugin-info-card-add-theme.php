@@ -1,4 +1,15 @@
 <?php
+/***************************************************************
+ * SECURITY : Exit if accessed directly
+***************************************************************/
+if ( !defined( 'ABSPATH' ) ) {
+	die( 'Direct acces not allowed!' );
+}
+
+
+/***************************************************************
+ * WPPIC Themes filters
+***************************************************************/
 add_filter( 'wppic_add_api_parser', 'wppic_theme_api_parser', 9, 3 );
 add_filter( 'wppic_add_template', 'wppic_theme_template', 9, 2 );
 add_filter( 'wppic_add_mce_type', 'wppic_theme_mce_type' );
