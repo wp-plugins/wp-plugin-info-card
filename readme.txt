@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: API, plugin, card, blog, developper, design, dashboard, shortcode, ajax, WordPress, plugin API, CSS, rotate, flip card, awesome, UX, ui, showcase, theme API, themes, theme, jquery, Envato
 Requires at least: 3.7
 Tested up to: 4.1
-Stable tag: 2.3.3
+Stable tag: 2.3.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -85,7 +85,8 @@ The slug is the only required parameter for plugin. You have to set the "type" p
 
 * English
 * French
-* Polish [Kuba Mikita](http://www.wpart.pl/ "Kuba Mikita")
+* Polish - Thanks to [Kuba Mikita](http://www.wpart.pl/ "Kuba Mikita")
+* Deutsch - Thanks to [Christian Zumbrunnen](https://profiles.wordpress.org/chzumbrunnen "Christian Zumbrunnen")
 
 Become a translator and send me your translation! [Contact-me](http://b-website.com/contact "Contact")
 
@@ -116,6 +117,9 @@ Yes, it is compatible with most recent browsers, except for Opera (but IE10+ wor
 9. Plugin with the large layout in the sidebar
 
 == Changelog ==
+
+= 2.3.4 =
+* Deutsch translation by [Christian Zumbrunnen](https://profiles.wordpress.org/chzumbrunnen "Christian Zumbrunnen")
 
 = 2.3.3 =
 * Minor security improvements
