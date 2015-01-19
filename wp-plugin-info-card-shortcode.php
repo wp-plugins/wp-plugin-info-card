@@ -1,9 +1,17 @@
 <?php
 /***************************************************************
+ * SECURITY : Exit if accessed directly
+***************************************************************/
+if ( !defined( 'ABSPATH' ) ) {
+	die( 'Direct acces not allowed!' );
+}
+
+
+/***************************************************************
  * Register default plugin scripts
  ***************************************************************/
 function wppic_register_sripts() {
-	wp_enqueue_style( 'wppic-style', WPPIC_URL . 'css/wppic-style.css', NULL, NULL );
+	wp_enqueue_style( 'wppic-style', WPPIC_URL . 'css/wppic-style.min.css', NULL, NULL );
 	wp_enqueue_script( 'wppic-script', WPPIC_URL . 'js/wppic-script.min.js', array( 'jquery' ),  NULL, true );
 }
 add_action( 'wppic_enqueue_scripts', 'wppic_register_sripts' );
@@ -13,13 +21,12 @@ add_action( 'wppic_enqueue_scripts', 'wppic_register_sripts' );
  * Enqueue Scripts action hook
  ***************************************************************/
 function wppic_print_sripts() {
+	global 	$wppicSettings;
 	
 	$wppicAjax = '<script>// <![CDATA[ 
 	var wppicAjax = { ajaxurl : "'.admin_url( 'admin-ajax.php' ).'" };
 	 // ]]></script>';
 
-	
-	$wppicSettings = get_option('wppic_settings');
 	if( isset( $wppicSettings['enqueue'] ) && $wppicSettings['enqueue'] == true ){
 
 		echo $wppicAjax;
@@ -45,7 +52,7 @@ add_action( 'wp_footer', 'wppic_print_sripts' );
  * Main shortcode function
  ***************************************************************/
 function wppic_shortcode_function( $atts, $content="" ) {
-	
+
 	//Retrieve & extract shorcode parameters
 	extract(shortcode_atts(array(  
 		"type"			=> '',	//plugin | theme
@@ -62,6 +69,8 @@ function wppic_shortcode_function( $atts, $content="" ) {
 		"custom" 		=> '',	//value to print : url|name|version|author|requires|rating|num_ratings|downloaded|last_updated|download_link
 	), $atts));
 	
+	global 	$wppicSettings;
+
 	//Global var to enqueue scripts + ajax param if is set to yes
 	global $wppicSripts;
 	$wppicSripts = true;
@@ -147,7 +156,6 @@ function wppic_shortcode_function( $atts, $content="" ) {
 
 		//Color scheme
 		if(empty($scheme)){
-			$wppicSettings = get_option('wppic_settings');
 			$scheme = $wppicSettings['colorscheme'];
 			if(	$scheme == 'default'){
 				$scheme = '';
@@ -243,6 +251,10 @@ function wppic_shortcode_content($type=NULL, $slug=NULL, $image=NULL, $expiratio
 		
 	}
 	
+	//Date format Internationalizion
+	global 	$wppicDateFormat;
+	$wppic_data->last_updated = date_i18n( $wppicDateFormat, strtotime( $wppic_data->last_updated ) );
+
 	//Load theme or plugin template
 	$content = '';	
 	$content = apply_filters('wppic_add_template', $content, array($type, $wppic_data, $image, $layout) );

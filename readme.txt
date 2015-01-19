@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: API, plugin, card, blog, developper, design, dashboard, shortcode, ajax, WordPress, plugin API, CSS, rotate, flip card, awesome, UX, ui, showcase, theme API, themes, theme, jquery, Envato
 Requires at least: 3.7
 Tested up to: 4.1
-Stable tag: 2.2
+Stable tag: 2.3.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -12,6 +12,9 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 WPPIC displays plugins & themes data in a beautiful box with a smooth rotation effect using WP Plugin & Theme APIs. Dashboard widget included.
 
 == Description ==
+
+[PREMIUM ADD-ON - WP Envato Affiliate Card](http://b-website.com/wp-envato-affiliate-card-powered-envato-market-api "WP Envato Affiliate Card")
+
 
 = How does it work? =
 
@@ -30,9 +33,6 @@ It is perfect to keep track of your own plugins!
 This plugin uses the TinyMCE API to improve UI and make inserting shortcodes easier!
 
 
-[CHECK OUT THE DEMO](http://b-website.com/wp-plugin-info-card-for-wordpress "Try It!")
-
-
 * NEW feature (added in 2.2): Layout option added, LARGE template added.
 * NEW feature (added in 2.2): You may now provide a list of slugs (comma-separated) in your shortcode slug parameter, WPPIC will randomly choose one item from the list on each page refresh.
 * NEW Beta feature (added in 2.2): You may now easily overload the plugin rendering. You need to create a new "wppic-templates" folder into your theme folder, then copy the template you want to overload from the WP Plugin Info Card "wppic-templates" folder.
@@ -42,6 +42,7 @@ This plugin uses the TinyMCE API to improve UI and make inserting shortcodes eas
 
 **Please ask for help or report bugs if anything goes wrong. It is the best way to make the community benefit!**
 
+[CHECK OUT THE DEMO](http://b-website.com/wp-plugin-info-card-for-wordpress "Try It!")
 
 
 = Shortcode parameters =
@@ -84,7 +85,8 @@ The slug is the only required parameter for plugin. You have to set the "type" p
 
 * English
 * French
-* Polish [Kuba Mikita](http://www.wpart.pl/ "Kuba Mikita")
+* Polish - Thanks to [Kuba Mikita](http://www.wpart.pl/ "Kuba Mikita")
+* Deutsch - Thanks to [Christian Zumbrunnen](https://profiles.wordpress.org/chzumbrunnen "Christian Zumbrunnen")
 
 Become a translator and send me your translation! [Contact-me](http://b-website.com/contact "Contact")
 
@@ -92,7 +94,7 @@ Become a translator and send me your translation! [Contact-me](http://b-website.
 == Installation ==
 
 1. Upload and activate the plugin (or install it through the WP admin console)
-2. Click on the "WP Plugin Info" menu
+2. Click on the "WP Plugin Info Card" sub-menu
 3. Follow instructions, every option is documented ;-)
 
 == Frequently Asked Questions ==
@@ -116,6 +118,36 @@ Yes, it is compatible with most recent browsers, except for Opera (but IE10+ wor
 
 == Changelog ==
 
+= 2.3.4 =
+* Deutsch translation by [Christian Zumbrunnen](https://profiles.wordpress.org/chzumbrunnen "Christian Zumbrunnen")
+
+= 2.3.3 =
+* Minor security improvements
+* Minor CSS fix on dashboard widget
+* Purge transients on plugin activation/updates
+
+= 2.3.2 =
+* Fix date format on dashboard widget
+* Date internationalization
+* Templates update for better date support
+
+= 2.3.1 =
+* Minor PHP improvements
+* Check if Memcache is loaded to prevent unncessary db request during transients purge
+* Template update - differents links added on icons
+* Remove logo from meta
+* Minor CSS updates
+
+= 2.3 =
+* PHP fixes on admin error
+* Better performance - options stored in a global var (less db requests)
+* Relief of admin page functions (more maintainable)
+* FR Translation fixes - backslash issues
+
+= 2.2.1 =
+* New hook added
+* readme.txt update
+
 = 2.2 =
 * Total re-factoring of the plugin core files and structures
 * Many hooks added
@@ -132,6 +164,7 @@ Yes, it is compatible with most recent browsers, except for Opera (but IE10+ wor
 * Tested on WP 4.1 with success!
 * New screenshots
 * readme.txt update
+* Special thanks to [Hugh Lashbrooke](https://profiles.wordpress.org/hlashbrooke "Hugh Lashbrooke") for his help in improving the plugin :)
 
 = 2.1 =
 * Many hooks added
