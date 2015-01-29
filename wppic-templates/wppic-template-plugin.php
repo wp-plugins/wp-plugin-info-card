@@ -57,7 +57,7 @@ if ( !empty( $wppic_data->banners['low'] ) ) {
 				</a>
 			</div>
 			<div class="wp-pic-download">
-				<span><?php _e('Download', 'wppic-translate') ?></span>
+				<span><?php _e('More info', 'wppic-translate') ?></span>
 			</div>
 		</div>
 	</div>

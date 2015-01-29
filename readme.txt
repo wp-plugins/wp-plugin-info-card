@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: API, plugin, card, blog, developper, design, dashboard, shortcode, ajax, WordPress, plugin API, CSS, rotate, flip card, awesome, UX, ui, showcase, theme API, themes, theme, jquery, Envato
 Requires at least: 3.7
 Tested up to: 4.1
-Stable tag: 2.3.4
+Stable tag: 2.3.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -65,6 +65,7 @@ This plugin uses the TinyMCE API to improve UI and make inserting shortcodes eas
 
 logo & banner parameters are dreprecated - not needed anymore!
 
+
 = Examples =
 
 The slug is the only required parameter for plugin. You have to set the "type" parameter for themes : type="theme"
@@ -117,6 +118,10 @@ Yes, it is compatible with most recent browsers, except for Opera (but IE10+ wor
 9. Plugin with the large layout in the sidebar
 
 == Changelog ==
+
+= 2.3.5 =
+* Change "Download" into "More info" on card layout
+* Translations update
 
 = 2.3.4 =
 * Deutsch translation by [Christian Zumbrunnen](https://profiles.wordpress.org/chzumbrunnen "Christian Zumbrunnen")

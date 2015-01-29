@@ -1,9 +1,9 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: WP Plugin Info Card by b*web v2.3.3\n"
+"Project-Id-Version: WP Plugin Info Card by b*web v2.3.4\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2015-01-14 11:52:30+0000\n"
+"PO-Revision-Date: 2015-01-29 21:08:24+0000\n"
 "Last-Translator: switchplus-admin <christian.zumbrunnen@switchplus.ch>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -543,12 +543,6 @@ msgstr "Heruntergeladen"
 msgid "Requires"
 msgstr "Benötigt"
 
-#: wppic-templates/wppic-template-plugin.php:60
-#: wppic-templates/wppic-template-theme.php:40
-#@ wppic-translate
-msgid "Download"
-msgstr "Herunterladen"
-
 #: wppic-templates/wppic-template-plugin.php:86
 #: wppic-templates/wppic-template-theme.php:66
 #@ wppic-translate
@@ -578,6 +572,12 @@ msgstr "Theme Vorschau"
 #. translators: plugin header field 'Version'
 #: wp-plugin-info-card.php:0
 #@ wppic-translate
-msgid "2.3.3"
-msgstr "2.3.3"
+msgid "2.3.5"
+msgstr ""
+
+#: wppic-templates/wppic-template-plugin.php:60
+#: wppic-templates/wppic-template-theme.php:40
+#@ wppic-translate
+msgid "More info"
+msgstr "Weitere Informationen"
 
