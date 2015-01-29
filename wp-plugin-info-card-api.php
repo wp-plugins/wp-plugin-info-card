@@ -1,5 +1,13 @@
 <?php
 /***************************************************************
+ * SECURITY : Exit if accessed directly
+***************************************************************/
+if ( !defined( 'ABSPATH' ) ) {
+	die( 'Direct acces not allowed!' );
+}
+
+
+/***************************************************************
  * Fetching plugin data through WordPress Plugin API
  ***************************************************************/
 function wppic_api_parser( $type, $slug, $expiration = 720, $widget = NULL ){		
