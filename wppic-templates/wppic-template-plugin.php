@@ -46,12 +46,18 @@ if ( !empty( $wppic_data->banners['low'] ) ) {
 		<p class="wp-pic-author"><?php _e('Author(s):', 'wppic-translate') ?> <?php echo $wppic_data->author ?></p>
 		<div class="wp-pic-bottom">
 			<div class="wp-pic-bar">
-				<span class="wp-pic-rating"><?php echo $wppic_data->rating ?>%<em><?php _e('Ratings', 'wppic-translate') ?></em></span>
-				<span class="wp-pic-downloaded"><?php echo $wppic_data->downloaded ?><em><?php _e('Downloads', 'wppic-translate') ?></em></span>
-				<span class="wp-pic-requires"><?php echo $wppic_data->requires ?><em><?php _e('Requires', 'wppic-translate') ?></em></span>
+				<a href="https://wordpress.org/support/view/plugin-reviews/<?php echo $wppic_data->slug ?>" class="wp-pic-rating" target="_blank" title="<?php _e('Ratings', 'wppic-translate') ?>">
+					<?php echo $wppic_data->rating ?>%<em><?php _e('Ratings', 'wppic-translate') ?></em>
+				</a>
+				<a href="<?php echo $wppic_data->download_link ?>" class="wp-pic-downloaded" target="_blank" title="<?php _e('Direct download', 'wppic-translate') ?>">
+					<?php echo $wppic_data->downloaded ?><em><?php _e('Downloads', 'wppic-translate') ?></em>
+				</a>
+				<a href="<?php echo $wppic_data->url ?>" class="wp-pic-requires" target="_blank" title="<?php _e('WordPress.org Plugin Page', 'wppic-translate') ?>">
+					<?php echo $wppic_data->requires ?><em><?php _e('Requires', 'wppic-translate') ?></em>
+				</a>
 			</div>
 			<div class="wp-pic-download">
-				<span><?php _e('Download', 'wppic-translate') ?></span>
+				<span><?php _e('More info', 'wppic-translate') ?></span>
 			</div>
 		</div>
 	</div>
@@ -62,9 +68,15 @@ if ( !empty( $wppic_data->banners['low'] ) ) {
 		<p class="wp-pic-updated"><span><?php _e('Last Updated:', 'wppic-translate') ?></span> <?php echo $wppic_data->last_updated ?></p>
 		<div class="wp-pic-bottom">
 			<div class="wp-pic-bar">
-				<span class="wp-pic-rating"><?php echo $wppic_data->rating ?>%<em><?php _e('Ratings', 'wppic-translate') ?></em></span>
-				<span class="wp-pic-downloaded"><?php echo $wppic_data->downloaded ?><em><?php _e('Downloads', 'wppic-translate') ?></em></span>
-				<span class="wp-pic-requires"><?php echo $wppic_data->requires ?><em><?php _e('Requires', 'wppic-translate') ?></em></span>
+				<a href="https://wordpress.org/support/view/plugin-reviews/<?php echo $wppic_data->slug ?>" class="wp-pic-rating" target="_blank" title="<?php _e('Ratings', 'wppic-translate') ?>">
+					<?php echo $wppic_data->rating ?>%<em><?php _e('Ratings', 'wppic-translate') ?></em>
+				</a>
+				<a href="<?php echo $wppic_data->download_link ?>" class="wp-pic-downloaded" target="_blank" title="<?php _e('Direct download', 'wppic-translate') ?>">
+					<?php echo $wppic_data->downloaded ?><em><?php _e('Downloads', 'wppic-translate') ?></em>
+				</a>
+				<a href="<?php echo $wppic_data->url ?>" class="wp-pic-requires" target="_blank" title="<?php _e('WordPress.org Plugin Page', 'wppic-translate') ?>">
+					<?php echo $wppic_data->requires ?><em><?php _e('Requires', 'wppic-translate') ?></em>
+				</a>
 			</div>
 			<a class="wp-pic-page" href="<?php echo $wppic_data->url ?>" target="_blank" title="<?php _e('WordPress.org Plugin Page', 'wppic-translate') ?>"><?php _e('WordPress.org Plugin Page', 'wppic-translate') ?></a>
 		</div>
