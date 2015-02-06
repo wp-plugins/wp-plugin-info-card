@@ -5,7 +5,8 @@
  */		
 @import url("./wppic-style.min.css");
 i.mce-i-wppic-icon {
-  background-image: url('../img/wppic.svg');
+	background-image:  url('../img/wppic.png');
+	background-image:  none, url('../img/wppic.svg'), url('../img/wppic.png');
 }
 .mce-wppic-media {
 	padding-right: 25px;
