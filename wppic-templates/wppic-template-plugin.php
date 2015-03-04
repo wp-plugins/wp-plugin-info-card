@@ -84,6 +84,7 @@ if ( !empty( $wppic_data->banners['low'] ) ) {
 			<span class="wp-pic-asset-bg-title"><span><?php echo $wppic_data->name ?></span></span>
 		</a>
 		<div class="wp-pic-goback" title="<?php _e('Back', 'wppic-translate') ?>"><span></span></div>
+		<?php echo $wppic_data->credit ?>
 	</div>
 </div>
 <?php //end of template

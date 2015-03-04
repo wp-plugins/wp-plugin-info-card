@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: API, plugin, card, blog, developper, design, dashboard, shortcode, ajax, WordPress, plugin API, CSS, rotate, flip card, awesome, UX, ui, showcase, theme API, themes, theme, jquery, Envato
 Requires at least: 3.7
 Tested up to: 4.1
-Stable tag: 2.3.6
+Stable tag: 2.3.7
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -117,7 +117,14 @@ Yes, it is compatible with most recent browsers, except for Opera (but IE10+ wor
 8. Plugin with the large layout
 9. Plugin with the large layout in the sidebar
 
+
 == Changelog ==
+
+= 2.3.7 =
+* French translation updated
+* New option added to ask for displaying the credit on cards.
+* Security issue fix thanks to [Julio Potier](https://profiles.wordpress.org/juliobox "Julio Potier") :)
+
 
 = 2.3.6 =
 * Minor CSS fix - max-with 100% for large layout image

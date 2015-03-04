@@ -22,7 +22,7 @@ add_filter( 'wppic_add_widget_item', 'wppic_plugin_widget_item', 9, 3 );
 /***************************************************************
  * Fetching plugins data with WordPress.org Plugin API
  ***************************************************************/
-function wppic_plugin_api_parser($wppic_data, $type, $slug ){
+function wppic_plugin_api_parser( $wppic_data, $type, $slug ){
 
 	if ( $type == 'plugin' ) {
 		
@@ -59,14 +59,14 @@ function wppic_plugin_api_parser($wppic_data, $type, $slug ){
 /***************************************************************
  * Plugin shortcode template prepare
  ***************************************************************/
-function wppic_plugin_template($content, $data){
+function wppic_plugin_template( $content, $data ){
 	
 	$type = $data[0];
 	$wppic_data = $data[1];
 	$image = $data[2];
 	$layout = '-' . $data[3];
 	
-	if ( $type == 'plugin') {
+	if ( $type == 'plugin' ) {
 
 		//load custom user template if exists
 		$WPPICtemplatefile = '/wppic-templates/wppic-template-plugin';
@@ -100,7 +100,13 @@ function wppic_plugin_mce_type( $parameters ){
  * Plugin input option list
  ***************************************************************/
 function wppic_plugin_list_form( $parameters ){
-	$parameters[] = array('list', __('Add a plugin', 'wppic-translate'), __('Please refer to the plugin URL on wordpress.org to determine its slug', 'wppic-translate'), 'https://wordpress.org/plugins/<strong>THE-SLUG</strong>/' );
+	$parameters[] = array( 
+		'list',
+		__('Add a plugin', 'wppic-translate'),
+		__('Please refer to the plugin URL on wordpress.org to determine its slug',
+		'wppic-translate'),
+		'https://wordpress.org/plugins/<strong>THE-SLUG</strong>/'
+	);
 	return $parameters;
 }
 
@@ -109,7 +115,7 @@ function wppic_plugin_list_form( $parameters ){
  * Plugin input validation
  ***************************************************************/
 function wppic_plugin_list_valdiation( $parameters ){
-	$parameters[] = array('list', __('is not a valid plugin name format. This key has been deleted.', 'wppic-translate'), '/^[a-z0-9\-]+$/');
+	$parameters[] = array( 'list', __('is not a valid plugin name format. This key has been deleted.', 'wppic-translate'), '/^[a-z0-9\-]+$/');
 	return $parameters;
 }
 
@@ -127,11 +133,12 @@ function wppic_plugin_widget_type( $parameters ){
  ***************************************************************/
 function wppic_plugin_widget_item( $content, $wppic_data, $type ){
 	if( $type == 'plugin' ){
+		
 		//Date format Internationalizion
 		global 	$wppicDateFormat;
 		$wppic_data->last_updated = date_i18n( $wppicDateFormat, strtotime( $wppic_data->last_updated ) );
 
-		$content .= '<div class="wp-pic-item ' . $slug . '">';
+		$content .= '<div class="wp-pic-item">';
 		$content .= '<a class="wp-pic-widget-name" href="' . $wppic_data->url . '" target="_blank" title="' . __('WordPress.org Plugin Page', 'wppic-translate') . '">' . $wppic_data->name .'</a>';
 		$content .= '<span class="wp-pic-widget-rating"><span>' . __('Ratings:', 'wppic-translate') . '</span> ' . $wppic_data->rating .'%';
 		if( !empty( $wppic_data->num_ratings ) )
@@ -143,6 +150,7 @@ function wppic_plugin_widget_item( $content, $wppic_data, $type ){
 			$content .= ' (v.' . $wppic_data->version .')';
 		$content .= '</p>';
 		$content .= '</div>';
+		
 	}
 	return $content;
 }

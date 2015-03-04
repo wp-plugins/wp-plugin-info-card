@@ -70,6 +70,18 @@ function wppic_register_settings() {
 			'label' => __('By default the plugin enqueues scripts (JS & CSS) only for pages containing the shortcode. If you wish to force scripts enqueuing, check this box.', 'wppic-translate')
         ) 
 	);
+	add_settings_field(
+		'wppic-credit',
+		__('Display a discrete credit', 'wppic-translate'), 
+		'wppic_checkbox',
+		WPPIC_ID . 'options',
+		'wppic_options',
+		array(
+            'id' 	=> 'wppic-credit',
+            'name' 	=> 'credit',
+			'label' => __('If you like this plugin, check this box!', 'wppic-translate')
+        ) 
+	);
 
 	add_settings_section(
 		'wppic_list',

@@ -99,7 +99,12 @@ function wppic_theme_mce_type( $parameters ){
  * Theme input option list
  ***************************************************************/
 function wppic_theme_list_form( $parameters ){
-	$parameters[] = array( 'theme-list', __('Add a theme', 'wppic-translate'), __('Please refer to the theme URL on wordpress.org to determine its slug', 'wppic-translate'), 'https://wordpress.org/themes/<strong>THE-SLUG</strong>/' );
+	$parameters[] = array( 
+		'theme-list', 
+		__('Add a theme', 'wppic-translate'), 
+		__('Please refer to the theme URL on wordpress.org to determine its slug', 'wppic-translate'), 
+		'https://wordpress.org/themes/<strong>THE-SLUG</strong>/'
+	);
 	return $parameters;
 }
 
@@ -127,11 +132,12 @@ function wppic_theme_widget_type( $parameters ){
  ***************************************************************/
 function wppic_theme_widget_item( $content, $wppic_data, $type ){
 	if( $type == 'theme' ){
+		
 		//Date format Internationalizion
 		global 	$wppicDateFormat;
 		$wppic_data->last_updated = date_i18n( $wppicDateFormat, strtotime( $wppic_data->last_updated ) );
 
-		$content .= '<div class="wp-pic-item ' . $slug . '">';
+		$content .= '<div class="wp-pic-item">';
 		$content .= '<a class="wp-pic-widget-name" href="' . $wppic_data->url . '" target="_blank" title="' . __('WordPress.org Plugin Page', 'wppic-translate') . '">' . $wppic_data->name .'</a>';
 		$content .= '<span class="wp-pic-widget-rating"><span>' . __('Ratings:', 'wppic-translate') . '</span> ' . $wppic_data->rating .'%';
 		if( !empty( $wppic_data->num_ratings ) )
@@ -143,6 +149,7 @@ function wppic_theme_widget_item( $content, $wppic_data, $type ){
 			$content .= ' (v.' . $wppic_data->version .')';
 		$content .= '</p>';
 		$content .= '</div>';
+		
 	}
 	return $content;
 }

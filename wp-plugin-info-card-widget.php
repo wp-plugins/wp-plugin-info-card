@@ -11,7 +11,7 @@ if ( !defined( 'ABSPATH' ) ) {
  * Enqueue style on dashboard if widget is activated
  * Action is call during widget registration
  ***************************************************************/ 
-function wppic_widget_enqueue($hook) {
+function wppic_widget_enqueue( $hook ) {
     if ( 'index.php' != $hook ) {
         return;
     }
@@ -24,16 +24,16 @@ function wppic_widget_enqueue($hook) {
 /***************************************************************
  * Register Dashboard Widget
  ***************************************************************/ 
-if (!function_exists('wppic_dashboard_widgets')) {
+if ( !function_exists( 'wppic_dashboard_widgets' ) ) {
 	function wppic_add_dashboard_widgets() {
 		global 	$wppicSettings;
-		if( isset($wppicSettings['widget'] ) && $wppicSettings['widget'] == true ){
-			wp_add_dashboard_widget('wppic-dashboard-widget','<img src="' . WPPIC_URL . 'img/wppic.svg" class="wppic-logo" alt="b*web" style="display:none"/>&nbsp;&nbsp;' . WPPIC_NAME . ' board', 'wppic_widgets');
+		if( isset( $wppicSettings['widget'] ) && $wppicSettings['widget'] == true ){
+			wp_add_dashboard_widget( 'wppic-dashboard-widget', '<img src="' . WPPIC_URL . 'img/wppic.svg" class="wppic-logo" alt="b*web" style="display:none"/>&nbsp;&nbsp;' . WPPIC_NAME . ' board', 'wppic_widgets' );
 			add_action( 'admin_enqueue_scripts', 'wppic_widget_enqueue' );
 		}
 	}
 }
-add_action('wp_dashboard_setup', 'wppic_add_dashboard_widgets');
+add_action( 'wp_dashboard_setup', 'wppic_add_dashboard_widgets' );
 
 
 /***************************************************************
@@ -44,7 +44,7 @@ function wppic_widgets() {
 	$listState = false;
 	$ajaxClass = '';
 
-	if( isset($wppicSettings['ajax']) && $wppicSettings['ajax'] == true )
+	if( isset( $wppicSettings['ajax'] ) && $wppicSettings['ajax'] == true )
 		$ajaxClass = 'ajax-call';
 	
 	
@@ -57,7 +57,7 @@ function wppic_widgets() {
 		
 		$rows = array();
 		
-		if( isset($wppicSettings[$wppicType[1]] ) && !empty($wppicSettings[$wppicType[1]] ) ){
+		if( isset( $wppicSettings[$wppicType[1]] ) && !empty( $wppicSettings[$wppicType[1]] ) ){
 			
 			$listState = true;
 			$otherLists = false;
@@ -68,7 +68,7 @@ function wppic_widgets() {
 			}
 
 			foreach( $rows as $row ){
-				if( isset($wppicSettings[$row] ) && !empty($wppicSettings[$row] ) ){
+				if( isset( $wppicSettings[$row] ) && !empty( $wppicSettings[$row] ) ){
 					$otherLists = true;					
 				}
 			}
@@ -77,7 +77,7 @@ function wppic_widgets() {
 				$content .= '<h4>' . $wppicType[2] . '</h4>';
 			}
 		
-			if( isset($wppicSettings['ajax']) && $wppicSettings['ajax'] == true ){
+			if( isset( $wppicSettings['ajax'] ) && $wppicSettings['ajax'] == true ){
 				$content .= '<div class="wp-pic-loading" style="background-image: url(' . admin_url() . 'images/spinner-2x.gif);" data-type="' . $wppicType[0] . '" data-list="' . htmlspecialchars( json_encode( ( $wppicSettings[$wppicType[1]] ) ), ENT_QUOTES, 'UTF-8' ) . '"></div>';
 			} else {
 				$content .= wppic_widget_render( $wppicType[0], $wppicSettings[$wppicType[1]] );
@@ -106,23 +106,23 @@ function wppic_widgets() {
 /***************************************************************
  * Widget Ajax callback 
  ***************************************************************/  
-function wppic_widget_render($type=NULL, $slugs=NULL){
+function wppic_widget_render( $type=NULL, $slugs=NULL ){
 
 	if( isset( $_POST['wppic-type'] ) && !empty( $_POST['wppic-type'] ) ){
-		$type = $_POST['wppic-type'];
+		$type = esc_html( $_POST['wppic-type'] );
 	} 
 	
 	if( isset( $_POST['wppic-list'] ) && !empty( $_POST['wppic-list'] ) ){
-		$slugs = array($_POST['wppic-list']);
+		$slugs = array( esc_html( $_POST['wppic-list'] ) );
 	} 
 	
 	$content = '';
 
-	if(!empty($slugs)) {
-		foreach($slugs as $slug){
-			$wppic_data = wppic_api_parser($type, $slug, '5', true);
+	if( !empty( $slugs ) ) {
+		foreach( $slugs as $slug){
+			$wppic_data = wppic_api_parser( $type, $slug, '5', true );
 
-			if(!empty($wppic_data->name)){
+			if( !empty( $wppic_data->name ) ){
 
 
 				$content = apply_filters( 'wppic_add_widget_item', $content, $wppic_data, $type );	
@@ -139,7 +139,7 @@ function wppic_widget_render($type=NULL, $slugs=NULL){
 		
 	}
 
-	if(!empty($_POST['wppic-list'])) {
+	if( !empty( $_POST['wppic-list'] ) ) {
 		echo $content;
 		die();	
 	} else {

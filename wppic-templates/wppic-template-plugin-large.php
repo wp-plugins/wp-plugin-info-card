@@ -51,6 +51,7 @@ if ( !empty( $wppic_data->banners['low'] ) ) {
 			<p class="wp-pic-version"><span><?php _e('Current Version:', 'wppic-translate') ?></span> <?php echo $wppic_data->version ?></p>
 			<p class="wp-pic-updated"><span><?php _e('Last Updated:', 'wppic-translate') ?></span> <?php echo $wppic_data->last_updated ?></p>
 			<p><a class="wp-pic-dl-link" href="<?php echo $wppic_data->download_link ?>" title="<?php _e('Direct download', 'wppic-translate') ?>"><?php echo basename($wppic_data->download_link) ?></a></p>
+            <?php echo $wppic_data->credit ?>
 		</div>
 		<div class="wp-pic-half-last">
 			<div class="wp-pic-bottom">
