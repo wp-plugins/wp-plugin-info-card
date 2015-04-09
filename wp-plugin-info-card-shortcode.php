@@ -264,7 +264,7 @@ function wppic_shortcode_content( $type=NULL, $slug=NULL, $image=NULL, $expirati
 	global 	$wppicSettings;
 	$credit = '';
 	if( isset( $wppicSettings['credit'] ) && $wppicSettings['credit'] == true ){
-		$credit .= '<a class="wp-pic-credit" href="http://b-website.com/wp-plugin-info-card-plugin-base-plugin-api-wordpress-org" target="_blank" data-tooltip="';
+		$credit .= '<a class="wp-pic-credit" href="http://b-website.com/wp-plugin-info-card-for-wordpress" target="_blank" data-tooltip="';
 		$credit .= __('This card has been generated with WP Plugin Info Card', 'wppic-translate');
 		$credit .= '"></a>';
 	}

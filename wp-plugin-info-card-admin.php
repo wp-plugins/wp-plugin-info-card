@@ -347,7 +347,7 @@ function wppic_plugins_about() {
 			<a class="wppic-button wppic-pluginOther" href="http://b-website.com/category/plugins" target="_blank">' . __( 'More plugins by b*web', 'wppic-translate' ) . '</a>
 			<a class="wppic-button wppic-pluginPage" href="https://wordpress.org/plugins/wp-plugin-info-card/" target="_blank">WordPress.org</a>
 			<a class="wppic-button wppic-pluginSupport" href="https://wordpress.org/support/plugin/wp-plugin-info-card" target="_blank">' . __( 'Support', 'wppic-translate' ) . '</a>
-			<a class="wppic-button wppic-pluginRate" href="https://wordpress.org/support/view/plugin-reviews/wp-plugin-info-card#postform" target="_blank">' . __( 'Give me five!', 'wppic-translate' ) . '</a>
+			<a class="wppic-button wppic-pluginRate" href="https://wordpress.org/support/view/plugin-reviews/wp-plugin-info-card?rate=5#postform" target="_blank">' . __( 'Give me five!', 'wppic-translate' ) . '</a>
 			<a class="wppic-button wppic-pluginContact" href="http://b-website.com/contact" target="_blank">' . __( 'Any suggestion?', 'wppic-translate' ) . '</a>
 			<a class="wppic-button wppic-pluginDonate" href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=7Z6YVM63739Y8" target="_blank">' . __( 'Donate', 'wppic-translate' ) . '</a>
 		</div>

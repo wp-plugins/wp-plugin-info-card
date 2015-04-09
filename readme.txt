@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: API, plugin, card, blog, developper, design, dashboard, shortcode, ajax, WordPress, plugin API, CSS, rotate, flip card, awesome, UX, ui, showcase, theme API, themes, theme, jquery, Envato
 Requires at least: 3.7
 Tested up to: 4.1
-Stable tag: 2.3.7
+Stable tag: 2.3.8
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -88,6 +88,7 @@ The slug is the only required parameter for plugin. You have to set the "type" p
 * French
 * Polish - Thanks to [Kuba Mikita](http://www.wpart.pl/ "Kuba Mikita")
 * Deutsch - Thanks to [Christian Zumbrunnen](https://profiles.wordpress.org/chzumbrunnen "Christian Zumbrunnen")
+* Serbo-Croatian - Thanks to Andrijana Nikolic from [Web Hosting Geeks](http://webhostinggeeks.com/ "Web Hosting Geeks")
 
 Become a translator and send me your translation! [Contact-me](http://b-website.com/contact "Contact")
 
@@ -119,6 +120,11 @@ Yes, it is compatible with most recent browsers, except for Opera (but IE10+ wor
 
 
 == Changelog ==
+
+= 2.3.8 =
+* Serbo-Croatian translation by Andrijana Nikolic from [Web Hosting Geeks](http://webhostinggeeks.com/ "Web Hosting Geeks")
+* Targeting user appreciation links to 5 stars :)
+* Replace the credit's link target with the plugin's documentation english page
 
 = 2.3.7 =
 * French translation updated
