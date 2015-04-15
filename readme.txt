@@ -3,8 +3,8 @@ Contributors: briKou
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=7Z6YVM63739Y8
 Tags: API, plugin, card, blog, developper, design, dashboard, shortcode, ajax, WordPress, plugin API, CSS, rotate, flip card, awesome, UX, ui, showcase, theme API, themes, theme, jquery, Envato
 Requires at least: 3.7
-Tested up to: 4.1
-Stable tag: 2.3.8
+Tested up to: 4.2
+Stable tag: 2.3.9
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -120,6 +120,13 @@ Yes, it is compatible with most recent browsers, except for Opera (but IE10+ wor
 
 
 == Changelog ==
+
+= 2.3.9 =
+* Fix a PHP warning using is_wp_error if plugin or theme slug does not exists
+* Fix a JS bug on the preview card when changing the color sheme on the fly
+* Minor CSS fix in the admin with WP 4.2 (.card class is now used by the core in admin)
+* Tested on WP 4.2 with success!
+* readme.txt update
 
 = 2.3.8 =
 * Serbo-Croatian translation by Andrijana Nikolic from [Web Hosting Geeks](http://webhostinggeeks.com/ "Web Hosting Geeks")

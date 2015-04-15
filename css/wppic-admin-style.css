@@ -30,6 +30,16 @@ i.mce-i-wppic-icon {
 	line-height: 28px;
 	text-align: center;
 }
+#wppic-admin-page .wp-pic.card {
+  margin-top: 0;
+  padding:0;
+  min-width: auto;
+  max-width: auto;
+  border: none;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  background-color: transperant;
+}
 #wppic-admin-page .wppic-cache-clear-loader{
 	display: inline-block;
 	width:20px;

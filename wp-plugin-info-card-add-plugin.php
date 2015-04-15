@@ -33,21 +33,23 @@ function wppic_plugin_api_parser( $wppic_data, $type, $slug ){
 			'fields' => array( 'sections' => false, 'tags' => false , 'icons' => true, 'banners' => true )
 		) );
 	
-		$wppic_data  = (object) array( 
-			'slug' 			=> $slug,
-			'url' 			=> 'https://wordpress.org/plugins/'.$slug.'/',
-			'name' 			=> $plugin_info->name,
-			'icons' 		=> $plugin_info->icons,
-			'banners' 		=> $plugin_info->banners,
-			'version' 		=> $plugin_info->version,
-			'author' 		=> $plugin_info->author,
-			'requires' 		=> $plugin_info->requires,
-			'rating' 		=> $plugin_info->rating,
-			'num_ratings' 	=> $plugin_info->num_ratings,
-			'downloaded' 	=> number_format($plugin_info->downloaded, 0, ',', ','),
-			'last_updated' 	=> $plugin_info->last_updated,
-			'download_link' => $plugin_info->download_link,
-		);
+		if( !is_wp_error( $plugin_info ) ){
+			$wppic_data  = (object) array( 
+				'slug' 			=> $slug,
+				'url' 			=> 'https://wordpress.org/plugins/'.$slug.'/',
+				'name' 			=> $plugin_info->name,
+				'icons' 		=> $plugin_info->icons,
+				'banners' 		=> $plugin_info->banners,
+				'version' 		=> $plugin_info->version,
+				'author' 		=> $plugin_info->author,
+				'requires' 		=> $plugin_info->requires,
+				'rating' 		=> $plugin_info->rating,
+				'num_ratings' 	=> $plugin_info->num_ratings,
+				'downloaded' 	=> number_format($plugin_info->downloaded, 0, ',', ','),
+				'last_updated' 	=> $plugin_info->last_updated,
+				'download_link' => $plugin_info->download_link,
+			);
+		}
 	
 	}
 	

@@ -33,20 +33,22 @@ function wppic_theme_api_parser( $wppic_data, $type, $slug ){
 			) 
 		);
 
-		$wppic_data  = (object) array( 
-			'slug' 			=> $slug,
-			'url'			=> 'https://wordpress.org/themes/'.$slug.'/',
-			'name' 			=> $theme_info->name,
-			'version' 		=> $theme_info->version,
-			'author' 		=> '<a href="https://profiles.wordpress.org/' . $theme_info->author . '/" target="_blanck" title="' . $theme_info->author . '">' . $theme_info->author . '</a>',
-			'screenshot_url'=> $theme_info->screenshot_url,
-			'rating' 		=> $theme_info->rating,
-			'num_ratings' 	=> $theme_info->num_ratings,
-			'downloaded' 	=> number_format($theme_info->downloaded, 0, ',', ','),
-			'last_updated' 	=> $theme_info->last_updated,
-			'homepage' 		=> $theme_info->homepage,
-			'download_link' => $theme_info->download_link
-		);
+		if( !is_wp_error( $theme_info ) ){
+			$wppic_data  = (object) array( 
+				'slug' 			=> $slug,
+				'url'			=> 'https://wordpress.org/themes/'.$slug.'/',
+				'name' 			=> $theme_info->name,
+				'version' 		=> $theme_info->version,
+				'author' 		=> '<a href="https://profiles.wordpress.org/' . $theme_info->author . '/" target="_blanck" title="' . $theme_info->author . '">' . $theme_info->author . '</a>',
+				'screenshot_url'=> $theme_info->screenshot_url,
+				'rating' 		=> $theme_info->rating,
+				'num_ratings' 	=> $theme_info->num_ratings,
+				'downloaded' 	=> number_format($theme_info->downloaded, 0, ',', ','),
+				'last_updated' 	=> $theme_info->last_updated,
+				'homepage' 		=> $theme_info->homepage,
+				'download_link' => $theme_info->download_link
+			);
+		}
 
 	}
 	

@@ -111,7 +111,7 @@ function wppic_shortcode_function( $atts, $content="" ) {
 
 		$wppic_data = wppic_api_parser( $type, $slug, $expiration );
 		
-		if( empty( $wppic_data->name ) )
+		if( !$wppic_data )
 		return '<strong>' . __('Item not found:', 'wppic-translate') . ' "' . $slug . '" ' . __('does not exist.', 'wppic-translate') . '</strong>';
 	
 		if( !empty( $wppic_data->$custom ) )
@@ -227,7 +227,7 @@ function wppic_shortcode_content( $type=NULL, $slug=NULL, $image=NULL, $expirati
 		
 	
 	//if plugin does not exists
-	if( empty( $wppic_data->name ) ){
+	if( !$wppic_data ){
 		
 		$error = '<div class="wp-pic-flip" style="display: none;">';
 			$error .= '<div class="wp-pic-face wp-pic-front error">';
@@ -247,7 +247,7 @@ function wppic_shortcode_content( $type=NULL, $slug=NULL, $image=NULL, $expirati
 			$error .= '</div>';
 		$error .= '</div>';
 		
-		if(!empty( $_POST['slug'] ) ) {
+		if( !empty( $_POST['slug'] ) ) {
 			echo $error;
 			die();
 		} else {

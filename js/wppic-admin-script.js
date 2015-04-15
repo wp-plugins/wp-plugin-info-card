@@ -7,7 +7,7 @@ jQuery(document).ready(function($) {
 
 	//Color scheme preview
 	$('select#wppic-color-scheme').on('change', function() {
-		$('.wp-pic').attr('class', 'wp-pic plugin ' + $(this).val() );
+		$('.wp-pic').attr('class', 'wp-pic plugin card ' + $(this).val() );
 	});
   
 	//Creat fields on the fly and reorder via drag & drop

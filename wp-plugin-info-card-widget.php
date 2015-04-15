@@ -122,17 +122,15 @@ function wppic_widget_render( $type=NULL, $slugs=NULL ){
 		foreach( $slugs as $slug){
 			$wppic_data = wppic_api_parser( $type, $slug, '5', true );
 
-			if( !empty( $wppic_data->name ) ){
+			if( !$wppic_data ){
 
-
-				$content = apply_filters( 'wppic_add_widget_item', $content, $wppic_data, $type );	
-
-			
-			} else {
-				
 				$content .= '<div class="wp-pic-item ' . $slug . '">';
 				$content .= '<span class="wp-pic-no-item">' . __('Item not found:', 'wppic-translate') . ' "' . $slug . '" ' . __('does not exist.', 'wppic-translate') . '</span>';
 				$content .= '</div>';
+			
+			} else {
+
+				$content = apply_filters( 'wppic_add_widget_item', $content, $wppic_data, $type );	
 				
 			}
 		}
