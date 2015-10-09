@@ -21,8 +21,8 @@ function wppic_add_mce_button() {
 		add_filter( 'mce_buttons', 'wppic_register_mce_button' );
 		
 		// Load stylesheet for tinyMCE button only
-		wp_enqueue_style( 'wppic-admin-css', WPPIC_URL . 'css/wppic-admin-style.css', array(), NULL, NULL );
-		wp_enqueue_script( 'wppic-ui-scripts', WPPIC_URL . 'js/wppic-ui-scripts.js', array( 'jquery' ),  NULL );
+		wp_enqueue_style( 'wppic-admin-css', WPPIC_URL . 'css/wppic-admin-style.css', array(), '2.4.1' );
+		wp_enqueue_script( 'wppic-ui-scripts', WPPIC_URL . 'js/wppic-ui-scripts.js', array( 'jquery' ), '2.4.1' );
 
 		//Define additionnal hookable MCE parameters
 		$mceAddParam = array(

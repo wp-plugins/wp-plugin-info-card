@@ -5,13 +5,13 @@
 jQuery(document).ready(function($) {
 	
 	function wppicMediaLibrary(){
-		$('i.mce-i-wppic-icon').live('click', function(){
+		$(document).on('click', 'i.mce-i-wppic-icon', function(){
 				setTimeout(function() {
 				$('.mce-wppic-media').after( "<span class='mce-wppic-media-button'>+</span>" );
 			}, 100);
 		});
 		
-		$('.mce-wppic-media-button').live('click', function(){
+		$(document).on('click', '.mce-wppic-media-button', function(){
 			var $this = $(this);
 			 var wireframe;
 			 if (wireframe) {
