@@ -22,19 +22,19 @@ add_filter( 'wppic_add_widget_item', 'wppic_plugin_widget_item', 9, 3 );
 /***************************************************************
  * Fetching plugins data with WordPress.org Plugin API
  ***************************************************************/
-function wppic_plugin_api_parser( $wppic_data, $type, $slug ){
+function wppic_plugin_api_parser( $wppic_data, $type, $slug ) {
 
 	if ( $type == 'plugin' ) {
 		
-		require_once(ABSPATH . 'wp-admin/includes/plugin-install.php');
+		require_once( ABSPATH . 'wp-admin/includes/plugin-install.php' );
 		$plugin_info = $api = plugins_api( 'plugin_information', array(
 			'slug' => $slug,
 			'is_ssl' => is_ssl(),
 			'fields' => array( 'sections' => false, 'tags' => false , 'icons' => true, 'banners' => true )
 		) );
 	
-		if( !is_wp_error( $plugin_info ) ){
-			$wppic_data  = (object) array( 
+		if( !is_wp_error( $plugin_info ) ) {
+			$wppic_data = ( object ) array( 
 				'slug' 			=> $slug,
 				'url' 			=> 'https://wordpress.org/plugins/'.$slug.'/',
 				'name' 			=> $plugin_info->name,
@@ -44,24 +44,24 @@ function wppic_plugin_api_parser( $wppic_data, $type, $slug ){
 				'author' 		=> $plugin_info->author,
 				'requires' 		=> $plugin_info->requires,
 				'rating' 		=> $plugin_info->rating,
-				'num_ratings' 	=> $plugin_info->num_ratings,
-				'downloaded' 	=> number_format($plugin_info->downloaded, 0, ',', ','),
-				'last_updated' 	=> $plugin_info->last_updated,
-				'download_link' => $plugin_info->download_link,
+				'num_ratings' 		=> $plugin_info->num_ratings,
+				'downloaded' 		=> number_format( $plugin_info->downloaded, 0, ',', ',' ),
+				'last_updated' 		=> $plugin_info->last_updated,
+				'download_link' 	=> $plugin_info->download_link,
 			);
 		}
-	
+
 	}
-	
+
 	return $wppic_data;
-	
+
 }
 
 
 /***************************************************************
  * Plugin shortcode template prepare
  ***************************************************************/
-function wppic_plugin_template( $content, $data ){
+function wppic_plugin_template( $content, $data ) {
 	
 	$type = $data[0];
 	$wppic_data = $data[1];
@@ -75,7 +75,7 @@ function wppic_plugin_template( $content, $data ){
 		ob_start();
 		if ( file_exists( get_stylesheet_directory() . $WPPICtemplatefile .  $layout . '.php' ) ) { 
 			include( get_stylesheet_directory() . $WPPICtemplatefile .  $layout . '.php' ); 
-		} else if ( file_exists(WPPIC_PATH . $WPPICtemplatefile .  $layout . '.php' ) ) { 
+		} else if ( file_exists( WPPIC_PATH . $WPPICtemplatefile .  $layout . '.php' ) ) { 
 			include( WPPIC_PATH . $WPPICtemplatefile .  $layout . '.php' ); 
 		} else {
 			include( WPPIC_PATH . $WPPICtemplatefile . '.php' ); 
@@ -83,16 +83,16 @@ function wppic_plugin_template( $content, $data ){
 		$content .= ob_get_clean();
 
 	}
-	
+
 	return $content;
-	
+
 }
 
 
 /***************************************************************
  * Add plugin type to mce list
  ***************************************************************/
-function wppic_plugin_mce_type( $parameters ){
+function wppic_plugin_mce_type( $parameters ) {
 	$parameters['types'][] = array( 'text' => 'Plugin', 'value' => 'plugin' );
 	return $parameters;
 }
@@ -117,7 +117,7 @@ function wppic_plugin_list_form( $parameters ){
  * Plugin input validation
  ***************************************************************/
 function wppic_plugin_list_valdiation( $parameters ){
-	$parameters[] = array( 'list', __('is not a valid plugin name format. This key has been deleted.', 'wppic-translate'), '/^[a-z0-9\-]+$/');
+	$parameters[] = array( 'list', __( 'is not a valid plugin name format. This key has been deleted.', 'wppic-translate' ), '/^[a-z0-9\-]+$/' );
 	return $parameters;
 }
 
@@ -125,16 +125,16 @@ function wppic_plugin_list_valdiation( $parameters ){
 /***************************************************************
  * Plugin widget list
  ***************************************************************/
-function wppic_plugin_widget_type( $parameters ){
-	$parameters[] = array( 'plugin', 'list', __('Plugins', 'wppic-translate') );
+function wppic_plugin_widget_type( $parameters ) {
+	$parameters[] = array( 'plugin', 'list', __( 'Plugins', 'wppic-translate') );
 	return $parameters;
 }
 
 /***************************************************************
  * Theme widget item render
  ***************************************************************/
-function wppic_plugin_widget_item( $content, $wppic_data, $type ){
-	if( $type == 'plugin' ){
+function wppic_plugin_widget_item( $content, $wppic_data, $type ) {
+	if( $type == 'plugin' ) {
 		
 		//Date format Internationalizion
 		global 	$wppicDateFormat;
@@ -152,7 +152,7 @@ function wppic_plugin_widget_item( $content, $wppic_data, $type ){
 			$content .= ' (v.' . $wppic_data->version .')';
 		$content .= '</p>';
 		$content .= '</div>';
-		
+
 	}
 	return $content;
 }
